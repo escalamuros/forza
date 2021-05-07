@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "782447283439",
+    "firebase_url": "https://mobilepos-123ab.firebaseio.com",
+    "project_id": "mobilepos-123ab",
+    "storage_bucket": "mobilepos-123ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782447283439:android:197ba99d243c1134429f1a",
+        "android_client_info": {
+          "package_name": "org.escalamuros.forza"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "782447283439-psflla15jhbqgcsc7c1pkgnqh0gaghgo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxJ1lGNlZ1BGEzTB5UUjM-M820SOcnJXc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "782447283439-psflla15jhbqgcsc7c1pkgnqh0gaghgo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "782447283439-1c8qdjah1bk7ae4s50rqomd3c6dachkv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cl.transbank.mobilepos"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
