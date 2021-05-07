@@ -1,0 +1,60 @@
+{
+  "nativescript": {
+    "id": "org.escalamuros.forza",
+    "tns-android": {
+      "version": "6.5.0"
+    },
+    "tns-ios": {
+      "version": "6.5.0"
+    }
+  },
+  "description": "NativeScript Application",
+  "license": "SEE LICENSE IN <your-license-filename>",
+  "repository": "<fill-your-repository-here>",
+  "scripts": {
+    "ngcc": "ngcc --properties es2015 module main --first-only",
+    "postinstall": "npm run ngcc"
+  },
+  "dependencies": {
+    "@angular/animations": "~9.1.0",
+    "@angular/common": "~9.1.0",
+    "@angular/compiler": "~9.1.0",
+    "@angular/core": "~9.1.0",
+    "@angular/forms": "~9.1.0",
+    "@angular/platform-browser": "~9.1.0",
+    "@angular/platform-browser-dynamic": "~9.1.0",
+    "@angular/router": "~9.1.0",
+    "@nativescript/angular": "~9.0.0",
+    "@nativescript/theme": "~2.3.0",
+    "@schematics/angular": "^9.1.8",
+    "istanbul-instrumenter-loader": "^3.0.1",
+    "nativescript-https": "^2.1.0",
+    "nativescript-images-generator-hook": "^3.0.1",
+    "nativescript-plugin-firebase": "^10.6.3",
+    "nativescript-secure-storage": "^2.6.0",
+    "nativescript-unit-test-runner": "^0.7.0",
+    "reflect-metadata": "~0.1.12",
+    "rxjs": "^6.6.0",
+    "tns-core-modules": "~6.5.0",
+    "tslint": "^6.1.2",
+    "zone.js": "~0.10.3"
+  },
+  "devDependencies": {
+    "@angular/cli": "^10.0.4",
+    "@angular/compiler-cli": "~9.1.0",
+    "@nativescript/schematics": "^9.0.0",
+    "@ngtools/webpack": "~9.1.0",
+    "@types/jasmine": "3.5.11",
+    "karma": "5.1.1",
+    "karma-coverage": "^2.0.3",
+    "karma-coverage-istanbul-reporter": "^3.0.3",
+    "karma-jasmine": "3.3.1",
+    "karma-nativescript-launcher": "0.4.0",
+    "karma-webpack": "3.0.5",
+    "nativescript-dev-webpack": "~1.5.0",
+    "node-sass": "^4.14.1",
+    "tns-platform-declarations": "~6.5.0",
+    "typescript": "~3.8.3"
+  },
+  "readme": "NativeScript Application"
+}

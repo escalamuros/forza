@@ -1,0 +1,5 @@
+<StackLayout>
+    <Button text="producto works!" class="btn btn-primary" (tap)="obtenerGatito()"></Button>
+    <Label [text]="saludo$ | async"></Label>
+    <Image [src]="gatito.url" with="100" height="100" ></Image>
+</StackLayout>
