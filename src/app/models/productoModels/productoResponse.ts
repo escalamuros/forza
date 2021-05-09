@@ -1,7 +1,4 @@
 
-export interface producto{
-    id:string
+export interface gato {
     url:string
-    width:string
-    height:string
 }

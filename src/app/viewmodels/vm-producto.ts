@@ -1,13 +1,14 @@
 
-import {producto} from "../models/productoModels/productoResponse";
+import {gato} from "../models/productoModels/productoResponse";
 import {ProductoService} from "../services/producto.service"
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
+import {map} from "rxjs/operators";
 
 @Injectable({providedIn:'root'})
 export class VmProducto {
-    public productos$:Observable<producto>
-    public gato:producto
+    public productos$:Observable<gato>
+    public gato:gato
 
     constructor(private productoService:ProductoService){
     }
@@ -15,16 +16,16 @@ export class VmProducto {
     ngOnInit():void{
     }
 
-    obtenerProductos():Observable<producto>{
-        /*this.productoService.obtenerProductos().subscribe(res=>{
-            console.log(res)})*/
-        this.gato={url:"res://gato",id:"1",width:"1",height:"2"}
+    obtenerGatoLocal():Observable<gato>{
+        this.gato={url:"res://gato"}
         this.productos$=new Observable(subscriber => {subscriber.next(this.gato)})
         return this.productos$
     }
 
-    obtenerHola():Observable<string>{
-        return new Observable<string>(subscriber=>{subscriber.next("hola mundo")})
+    obtenerGatoRemoto():Observable<gato>{
+        this.productos$ = this.productoService.obtenerGatoRemoto().pipe(map<any,gato>(res=>({url:res.url}) ))
+        //return new Observable<gato>(subscriber=>{subscriber.next({url:"hola mundo"})})
+        return this.productos$
     }
 
 

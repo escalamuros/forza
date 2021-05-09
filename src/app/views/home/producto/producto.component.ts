@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import {VmProducto} from "../../../viewmodels/vm-producto";
 import {Observable} from "rxjs";
-import {producto} from "../../../models/productoModels/productoResponse";
+import {gato} from "../../../models/productoModels/productoResponse";
 
 @Component({
   selector: 'ns-producto',
@@ -10,30 +10,24 @@ import {producto} from "../../../models/productoModels/productoResponse";
   styleUrls: ['./producto.component.css']
 })
 export class ProductoComponent implements OnInit {
-    public variable:string
-    saludo$:Observable<string>
-    gatito:producto
+    gatoRemoto$:Observable<gato>
+    gatito:gato
 
     constructor(private vmProducto:VmProducto) { }
 
-  ngOnInit(): void {
-      this.obtenerHola()
-      this.gatito = {
-          id: "",
-          url: "",
-          width: "",
-          height: ""
-      }
-  }
+    ngOnInit(): void {
+        this.gatito = { url: "" }
+        this.obtenerGatoLocal()
+    }
 
-  obtenerHola(){
-      this.saludo$ = this.vmProducto.obtenerHola()
-  }
-
-  obtenerGatito(){
-        this.vmProducto.obtenerProductos().subscribe(res=>{
+    obtenerGatoLocal(){
+        this.vmProducto.obtenerGatoLocal().subscribe(res=>{
             this.gatito=res
         })
-  }
+    }
+
+    obtenerGatoRemoto(){
+        this.gatoRemoto$ = this.vmProducto.obtenerGatoRemoto()
+    }
 
 }
