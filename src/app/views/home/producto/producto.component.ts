@@ -11,23 +11,33 @@ import {gato} from "../../../models/productoModels/productoResponse";
 })
 export class ProductoComponent implements OnInit {
     gatoRemoto$:Observable<gato>
-    gatito:gato
+    gatoLocal:gato
+    temp$:Observable<string>
 
     constructor(private vmProducto:VmProducto) { }
 
     ngOnInit(): void {
-        this.gatito = { url: "" }
+        console.log("[productoComponent]gnInit")
         this.obtenerGatoLocal()
+        this.obtenerHolaMundo()
+    }
+    obtenerHolaMundo():void{
+        this.temp$ = this.vmProducto.obtenerHolaMundo()
     }
 
-    obtenerGatoLocal(){
+    obtenerGatoLocal(): void {
+        console.log("[productoComp]f obtenerGatoLocal")
         this.vmProducto.obtenerGatoLocal().subscribe(res=>{
-            this.gatito=res
+            this.gatoLocal=res
         })
     }
 
-    obtenerGatoRemoto(){
-        this.gatoRemoto$ = this.vmProducto.obtenerGatoRemoto()
+    obtenerGatoRemoto(): void {
+        console.log("[productoComp]f obtenerGatoRemoto")
+        this.vmProducto.obtenerGatoRemoto().subscribe(res=>{
+            console.log("[productoComp] res:",res)
+            this.gatoLocal=res
+        })
     }
 
 }
