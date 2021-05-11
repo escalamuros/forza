@@ -13,4 +13,8 @@ export class ProductoService {
         return this.http.get("https://api.thecatapi.com/v1/images/search")
     }
 
+    obtenerPerroRemoto():void{
+        let url="https://dog.ceo/api/breeds/image/random"
+    }
+
 }
