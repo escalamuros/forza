@@ -17,16 +17,30 @@ export class VmProducto {
     }
 
     obtenerGatoLocal():Observable<gato>{
-        this.gato={url:"res://gato"}
+        console.log("[vmProducto]f obtenerGatoLocal")
+        this.gato= ({url:"res://gato"})
         this.productos$=new Observable(subscriber => {subscriber.next(this.gato)})
         return this.productos$
     }
 
     obtenerGatoRemoto():Observable<gato>{
-        this.productos$ = this.productoService.obtenerGatoRemoto().pipe(map<any,gato>(res=>({url:res.url}) ))
-        //return new Observable<gato>(subscriber=>{subscriber.next({url:"hola mundo"})})
+        console.log("[vmProducto]f obtenerGatoRemoto")
+        this.productos$ = this.productoService.obtenerGatoRemoto()
+            .pipe(
+                map(res => {
+                    console.log("[vmProducto] productoService res:",res)
+                    let basura:string=''
+                    for(let item of res){
+                        if(item.url!== null){basura=item.url}
+                    }
+                    return ({"url":basura})
+                })
+            )
         return this.productos$
     }
 
 
+    obtenerHolaMundo() {
+        return new Observable<string>(subscriber=>{subscriber.next("El primer gato esta en la APP")})
+    }
 }
