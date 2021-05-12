@@ -8,7 +8,6 @@ import { NativeScriptHttpClientModule } from "@nativescript/angular/http-client"
 import { IngresoComponent } from './views/login/ingreso/ingreso.component';
 import { HomeModule } from "./views/home/home.module";
 
-
 @NgModule({
     bootstrap: [
         AppComponent
