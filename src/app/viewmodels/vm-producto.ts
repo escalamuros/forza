@@ -1,13 +1,14 @@
 
-import {producto} from "../models/productoModels/productoResponse";
+import {gato} from "../models/productoModels/productoResponse";
 import {ProductoService} from "../services/producto.service"
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
+import {map} from "rxjs/operators";
 
 @Injectable({providedIn:'root'})
 export class VmProducto {
-    public productos$:Observable<producto>
-    public gato:producto
+    public productos$:Observable<gato>
+    public gato:gato
 
     constructor(private productoService:ProductoService){
     }
@@ -15,17 +16,31 @@ export class VmProducto {
     ngOnInit():void{
     }
 
-    obtenerProductos():Observable<producto>{
-        /*this.productoService.obtenerProductos().subscribe(res=>{
-            console.log(res)})*/
-        this.gato={url:"res://gato",id:"1",width:"1",height:"2"}
+    obtenerGatoLocal():Observable<gato>{
+        console.log("[vmProducto]f obtenerGatoLocal")
+        this.gato= ({url:"res://gato"})
         this.productos$=new Observable(subscriber => {subscriber.next(this.gato)})
         return this.productos$
     }
 
-    obtenerHola():Observable<string>{
-        return new Observable<string>(subscriber=>{subscriber.next("hola mundo")})
+    obtenerGatoRemoto():Observable<gato>{
+        console.log("[vmProducto]f obtenerGatoRemoto")
+        this.productos$ = this.productoService.obtenerGatoRemoto()
+            .pipe(
+                map(res => {
+                    console.log("[vmProducto] productoService res:",res)
+                    let basura:string=''
+                    for(let item of res){
+                        if(item.url!== null){basura=item.url}
+                    }
+                    return ({"url":basura})
+                })
+            )
+        return this.productos$
     }
 
 
+    obtenerHolaMundo() {
+        return new Observable<string>(subscriber=>{subscriber.next("El primer gato esta en la APP")})
+    }
 }

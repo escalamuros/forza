@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import {VmProducto} from "../../../viewmodels/vm-producto";
 import {Observable} from "rxjs";
-import {producto} from "../../../models/productoModels/productoResponse";
+import {gato} from "../../../models/productoModels/productoResponse";
 
 @Component({
   selector: 'ns-producto',
@@ -10,30 +10,34 @@ import {producto} from "../../../models/productoModels/productoResponse";
   styleUrls: ['./producto.component.css']
 })
 export class ProductoComponent implements OnInit {
-    public variable:string
-    saludo$:Observable<string>
-    gatito:producto
+    gatoRemoto$:Observable<gato>
+    gatoLocal:gato
+    temp$:Observable<string>
 
     constructor(private vmProducto:VmProducto) { }
 
-  ngOnInit(): void {
-      this.obtenerHola()
-      this.gatito = {
-          id: "",
-          url: "",
-          width: "",
-          height: ""
-      }
-  }
+    ngOnInit(): void {
+        console.log("[productoComponent]gnInit")
+        this.obtenerGatoLocal()
+        this.obtenerHolaMundo()
+    }
+    obtenerHolaMundo():void{
+        this.temp$ = this.vmProducto.obtenerHolaMundo()
+    }
 
-  obtenerHola(){
-      this.saludo$ = this.vmProducto.obtenerHola()
-  }
-
-  obtenerGatito(){
-        this.vmProducto.obtenerProductos().subscribe(res=>{
-            this.gatito=res
+    obtenerGatoLocal(): void {
+        console.log("[productoComp]f obtenerGatoLocal")
+        this.vmProducto.obtenerGatoLocal().subscribe(res=>{
+            this.gatoLocal=res
         })
-  }
+    }
+
+    obtenerGatoRemoto(): void {
+        console.log("[productoComp]f obtenerGatoRemoto")
+        this.vmProducto.obtenerGatoRemoto().subscribe(res=>{
+            console.log("[productoComp] res:",res)
+            this.gatoLocal=res
+        })
+    }
 
 }
