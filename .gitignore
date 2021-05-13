@@ -2,8 +2,6 @@
 hooks/
 node_modules/
 platforms/
-App_Resources/Android/src/main/res
-App_Resources/iOS
 
 # NativeScript Template
 *.js.map
