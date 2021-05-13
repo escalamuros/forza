@@ -17,4 +17,9 @@ export class ProductoService {
         let url="https://dog.ceo/api/breeds/image/random"
     }
 
+    obtenerZorrrRemoto():void{
+
+    }
+
+
 }
