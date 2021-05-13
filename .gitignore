@@ -10,7 +10,7 @@ App_Resources/iOS
 *.js
 !ngcc.config.js
 !webpack.config.js
-
+!karma.conf.js
 # Logs
 logs
 *.log
