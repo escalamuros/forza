@@ -29,11 +29,16 @@ export class VmProducto {
             .pipe(
                 map(res => {
                     console.log("[vmProducto] productoService res:",res)
-                    let basura:string=''
+                    let gatoTemporal:string=''
                     for(let item of res){
-                        if(item.url!== null){basura=item.url}
+                        if(item.url!== null){
+                            gatoTemporal=item.url
+                        }
                     }
-                    return ({"url":basura})
+                    if(gatoTemporal==''){
+                        gatoTemporal="res://gato"
+                    }
+                    return ({"url":gatoTemporal})
                 })
             )
         return this.productos$
