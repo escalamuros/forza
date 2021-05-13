@@ -17,14 +17,16 @@ export class IngresoComponent implements OnInit {
 
     public _clave: string=""
     public _rut: string=""
-    public _respuesta: string=""
+    public _respuesta: string
 
     constructor(private enrrutador:RouterExtensions,
                 private IngresoViewModel:VmIngreso) {
+        this._respuesta="Aun no ha intentado logear"
+        this._clave="";
+        this._rut="";
     }
 
     ngOnInit(): void {
-        this._respuesta="Aun no ha logeado"
     }
 
     async validarDatos() {
@@ -43,6 +45,8 @@ export class IngresoComponent implements OnInit {
     reimprimir() {
         if(this._respuestaLogin.estado!="ok"){
             this._respuesta="Intentalo de nuevo"
+            this._clave="";
+            this._rut="";
         } else {
             this._respuesta="Wena LARBBBBBBA"
             setTimeout(()=>{
