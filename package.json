@@ -1,11 +1,11 @@
 {
   "nativescript": {
     "id": "org.escalamuros.forza",
-    "tns-android": {
-      "version": "6.5.0"
-    },
     "tns-ios": {
       "version": "6.5.0"
+    },
+    "tns-android": {
+      "version": "6.5.3"
     }
   },
   "description": "NativeScript Application",

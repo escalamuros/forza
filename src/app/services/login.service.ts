@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 
-import {loginPorCredenciales} from "../models/loginModels/loginRequest";
-import {respuestaLogin} from "../models/loginModels/loginResponse";
+import {loginPorCredenciales} from "../interfaces/loginModels/loginRequest";
+import {respuestaLogin} from "../interfaces/loginModels/loginResponse";
 
 @Injectable({providedIn:'root',})
 

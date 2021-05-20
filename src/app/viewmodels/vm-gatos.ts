@@ -1,34 +1,34 @@
 
-import {gato} from "../models/productoModels/productoResponse";
-import {ProductoService} from "../services/producto.service"
+import {gato} from "../interfaces/productoModels/productoResponse";
+import {ApiGatosService} from "../services/api-gatos.service"
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 
 @Injectable({providedIn:'root'})
-export class VmProducto {
+export class VmGatos {
     public productos$:Observable<gato>
     public gato:gato
 
-    constructor(private productoService:ProductoService){
+    constructor(private productoService:ApiGatosService){
     }
 
     ngOnInit():void{
     }
 
     obtenerGatoLocal():Observable<gato>{
-        console.log("[vmProducto]f obtenerGatoLocal")
+        console.log("[VmGatos]f obtenerGatoLocal")
         this.gato= ({url:"res://gato"})
         this.productos$=new Observable(subscriber => {subscriber.next(this.gato)})
         return this.productos$
     }
 
     obtenerGatoRemoto():Observable<gato>{
-        console.log("[vmProducto]f obtenerGatoRemoto")
+        console.log("[VmGatos]f obtenerGatoRemoto")
         this.productos$ = this.productoService.obtenerGatoRemoto()
             .pipe(
                 map(res => {
-                    console.log("[vmProducto] productoService res:",res)
+                    console.log("[VmGatos] api de gatos res:",res)
                     let gatoTemporal:string=''
                     for(let item of res){
                         if(item.url!== null){
@@ -43,7 +43,6 @@ export class VmProducto {
             )
         return this.productos$
     }
-
 
     obtenerHolaMundo() {
         return new Observable<string>(subscriber=>{subscriber.next("El primer gato esta en la APP")})

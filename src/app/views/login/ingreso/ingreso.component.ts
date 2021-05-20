@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { VmIngreso } from "../../../viewmodels/vm-ingreso";
-import {loginPorCredenciales} from "../../../models/loginModels/loginRequest";
-import {respuestaLogin} from "../../../models/loginModels/loginResponse";
+import {loginPorCredenciales} from "../../../interfaces/loginModels/loginRequest";
+import {respuestaLogin} from "../../../interfaces/loginModels/loginResponse";
 import {RouterExtensions} from "@nativescript/angular";
 
 @Component({
