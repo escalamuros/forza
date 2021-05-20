@@ -1,5 +1,5 @@
-import {loginPorCredenciales, loginPorTime} from "../models/loginModels/loginRequest";
-import {respuestaLogin} from "../models/loginModels/loginResponse";
+import {loginPorCredenciales, loginPorTime} from "../interfaces/loginModels/loginRequest";
+import {respuestaLogin} from "../interfaces/loginModels/loginResponse";
 import {loginService} from "../services/login.service"
 import {Injectable} from "@angular/core";
 

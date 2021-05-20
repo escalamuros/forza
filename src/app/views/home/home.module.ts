@@ -1,17 +1,17 @@
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { NativeScriptCommonModule } from '@nativescript/angular';
 import { ResumenComponent } from './resumen/resumen.component';
-import { ProductoComponent } from './producto/producto.component';
+import { GatoComponent } from './gatos/gato.component';
 
 
 
 @NgModule({
-    declarations: [ResumenComponent, ProductoComponent],
+    declarations: [ResumenComponent, GatoComponent],
     imports: [
         NativeScriptCommonModule
     ],
     exports: [
-        ProductoComponent
+        GatoComponent
     ],
     schemas: [NO_ERRORS_SCHEMA]
 })
