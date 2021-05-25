@@ -1,6 +1,6 @@
 <StackLayout>
-    <TextField [(ngModel)]="_rut" editable="true" ></TextField>
-    <TextField [(ngModel)]="_clave" editable="true" secure="true"></TextField>
+    <TextField [(ngModel)]="rut" editable="true" ></TextField>
+    <TextField [(ngModel)]="clave" editable="true" secure="true"></TextField>
     <Button text="ingreso" class="btn btn-primary" (tap)="validarDatos()"></Button>
-    <Label [text]="_respuesta"></Label>
+    <Label [text]="respuesta"></Label>
 </StackLayout>

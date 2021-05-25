@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for app/services/login.service.ts</title>
+    <title>Code coverage report for app/services/api-login.service.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -15,41 +15,41 @@
         }
     </style>
 </head>
-    
+
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">app/services</a> login.service.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">app/services</a> api-login.service.ts</h1>
         <div class='clearfix'>
-            
+
             <div class='fl pad1y space-right2'>
                 <span class="strong">23.81% </span>
                 <span class="quiet">Statements</span>
                 <span class='fraction'>5/21</span>
             </div>
-        
-            
+
+
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
                 <span class='fraction'>0/4</span>
             </div>
-        
-            
+
+
             <div class='fl pad1y space-right2'>
                 <span class="strong">11.11% </span>
                 <span class="quiet">Functions</span>
                 <span class='fraction'>1/9</span>
             </div>
-        
-            
+
+
             <div class='fl pad1y space-right2'>
                 <span class="strong">26.32% </span>
                 <span class="quiet">Lines</span>
                 <span class='fraction'>5/19</span>
             </div>
-        
-            
+
+
         </div>
         <p class="quiet">
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
@@ -128,7 +128,7 @@ import {respuestaLogin} from "../models/loginModels/loginResponse";
 <span class="fstat-no" title="function not covered" ></span>
 @Injecta<span class="cstat-no" title="statement not covered" >ble({providedIn:'root',})<span class="fstat-no" title="function not covered" ></span></span>
 <span class="cstat-no" title="statement not covered" ></span>
-export class<span class="cstat-no" title="statement not covered" > loginService {<span class="fstat-no" title="function not covered" ></span></span>
+export class<span class="cstat-no" title="statement not covered" > apiLoginService {<span class="fstat-no" title="function not covered" ></span></span>
     public _cred<span class="cstat-no" title="statement not covered" >enciales:loginPorCredenciales</span>
     private _res<span class="cstat-no" title="statement not covered" >puesta:respuestaLogin</span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -136,7 +136,7 @@ export class<span class="cstat-no" title="statement not covered" > loginService 
     }<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" ></span></span></span></span></span></span>
 <span class="cstat-no" title="statement not covered" ></span>
     async loginConCreden<span class="cstat-no" title="statement not covered" >ciales(credenciales:log</span>inPorCredenciales):Promise&lt;respuestaLogin&gt;{
-        console.log("[loginService]funcion loginConCredenciales")
+        console.log("[apiLoginService]funcion loginConCredenciales")
         this._credenciales={rut:credenciales.rut,clave:credenciales.clave}
         this.validarCredenciales()
         console.log(this._respuesta)
@@ -144,7 +144,7 @@ export class<span class="cstat-no" title="statement not covered" > loginService 
     }<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ></span>
     validarC<span class="cstat-no" title="statement not covered" >redenciales(){</span>
-        console.log("[loginService]funcion validarCredenciales")
+        console.log("[apiLoginService]funcion validarCredenciales")
         if((this._credenciales.rut=="si")&amp;&amp;(this._credenciales.clave=="no")){
 <span class="cstat-no" title="statement not covered" >            this._respuesta={estado:"ok"}</span>
         }else{
@@ -173,4 +173,3 @@ export class<span class="cstat-no" title="statement not covered" > loginService 
         <script src="../../block-navigation.js"></script>
     </body>
 </html>
-    

@@ -1,7 +1,7 @@
 TN:
-SF:src\app\services\login.service.ts
+SF:src\app\services\api-login.service.ts
 FN:2,(anonymous_0)
-FN:3,loginService
+FN:3,apiLoginService
 FN:5,(anonymous_2)
 FN:6,(anonymous_3)
 FN:8,(anonymous_4)
@@ -12,7 +12,7 @@ FN:20,(anonymous_8)
 FNF:9
 FNH:1
 FNDA:1,(anonymous_0)
-FNDA:0,loginService
+FNDA:0,apiLoginService
 FNDA:0,(anonymous_2)
 FNDA:0,(anonymous_3)
 FNDA:0,(anonymous_4)
