@@ -1,6 +1,6 @@
 <StackLayout>
     <Button text="mostrar mas gatos" class="btn btn-primary" (tap)="obtenerGatoRemoto()" ></Button>
 
-    <Label [text]="temp$ | async"></Label>
+    <Label [text]="temp"></Label>
     <Image [src]="gatoLocal.url" width="100" height="100"></Image>
 </StackLayout>

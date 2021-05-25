@@ -1,16 +1,18 @@
 
-import {gato} from "../interfaces/productoModels/productoResponse";
+import {gato} from "../interfaces/productoModels/productoResponse"
 import {ApiGatosService} from "../services/api-gatos.service"
-import {Injectable} from "@angular/core";
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import {UcGatosService} from "../use_case/gatos/uc-gatos.service"
+import {Injectable} from "@angular/core"
+import {Observable} from "rxjs"
+import {map} from "rxjs/operators"
 
 @Injectable({providedIn:'root'})
 export class VmGatos {
     public productos$:Observable<gato>
     public gato:gato
 
-    constructor(private productoService:ApiGatosService){
+    constructor(private _ucGatosService:UcGatosService,
+        private productoService:ApiGatosService){
     }
 
     ngOnInit():void{
@@ -18,33 +20,24 @@ export class VmGatos {
 
     obtenerGatoLocal():Observable<gato>{
         console.log("[VmGatos]f obtenerGatoLocal")
-        this.gato= ({url:"res://gato"})
+        this.gato= ({"estado":"sin asignar",url:"res://gato"})
         this.productos$=new Observable(subscriber => {subscriber.next(this.gato)})
         return this.productos$
     }
 
     obtenerGatoRemoto():Observable<gato>{
         console.log("[VmGatos]f obtenerGatoRemoto")
-        this.productos$ = this.productoService.obtenerGatoRemoto()
+        this.productos$ = this._ucGatosService.ObtenerGatoDesdeApi()
             .pipe(
-                map(res => {
-                    console.log("[VmGatos] api de gatos res:",res)
-                    let gatoTemporal:string=''
-                    for(let item of res){
-                        if(item.url!== null){
-                            gatoTemporal=item.url
-                        }
+                map(respuesta => {
+                    if(respuesta.estado!== "ok"){
+                        return({estado:"error",url:"res://gato"})
+                    }else{
+                        return respuesta
                     }
-                    if(gatoTemporal==''){
-                        gatoTemporal="res://gato"
-                    }
-                    return ({"url":gatoTemporal})
                 })
             )
         return this.productos$
     }
 
-    obtenerHolaMundo() {
-        return new Observable<string>(subscriber=>{subscriber.next("El primer gato esta en la APP")})
-    }
 }
