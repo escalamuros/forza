@@ -11,6 +11,7 @@ export class ApiGatosService {
     }
 
     obtenerGatoRemoto():Observable<any>{
+        console.log("[APIGatosService]f obtenerGatoRemoto")
         let res:Observable<any>
         res = this.http.get("https://api.thecatapi.com/v1/images/search").pipe(
             catchError(err=>this.errorObtenerGato(err))
@@ -25,7 +26,7 @@ export class ApiGatosService {
         }else{
             console.log("error desconosido en servicio")
         }
-        return of({url:"res://gato"})
+        return of({estado:"error en API",url:""})
     }
 
 

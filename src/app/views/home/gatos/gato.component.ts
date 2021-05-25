@@ -12,17 +12,14 @@ import {gato} from "../../../interfaces/productoModels/productoResponse";
 export class GatoComponent implements OnInit {
     gatoRemoto$:Observable<gato>
     gatoLocal:gato
-    temp$:Observable<string>
+    temp:string
 
     constructor(private vmGatos:VmGatos) { }
 
     ngOnInit(): void {
         console.log("[GatoComponent]gnInit")
         this.obtenerGatoLocal()
-        this.obtenerHolaMundo()
-    }
-    obtenerHolaMundo():void{
-        this.temp$ = this.vmGatos.obtenerHolaMundo()
+        this.temp = "primer Gato esta en la APP"
     }
 
     obtenerGatoLocal(): void {
@@ -34,9 +31,11 @@ export class GatoComponent implements OnInit {
 
     obtenerGatoRemoto(): void {
         console.log("[GatoComponent]f obtenerGatoRemoto")
+        this.temp="cargando"
         this.vmGatos.obtenerGatoRemoto().subscribe(res=>{
             console.log("[GatoComponent] res:",res)
             this.gatoLocal=res
+            this.temp=""
         })
     }
 
