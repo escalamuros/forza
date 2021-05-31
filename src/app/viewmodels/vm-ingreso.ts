@@ -1,13 +1,14 @@
-import {loginPorCredenciales, loginPorTime} from "../interfaces/loginModels/loginRequest";
-import {respuestaLogin} from "../interfaces/loginModels/loginResponse";
-import {loginService} from "../services/login.service"
-import {Injectable} from "@angular/core";
+import {loginPorCredenciales} from "../interfaces/login/loginRequest"
+import {respuestaLogin} from "../interfaces/login/loginResponse"
+
+import {Injectable} from "@angular/core"
+import {UcIngresoService} from "../use_case/ingreso/uc-ingreso.service"
 
 @Injectable({providedIn:'root'})
 export class VmIngreso {
-    public _respuesta:respuestaLogin
+    public respuesta:respuestaLogin
 
-    constructor(private LoginService:loginService){
+    constructor(private _ucIngreso:UcIngresoService){
     }
 
     ngOnInit():void{
@@ -16,10 +17,10 @@ export class VmIngreso {
     async loginPorCredenciales(ingresos:loginPorCredenciales):Promise<respuestaLogin>{
         console.log("[VMIngreso] funcion loginPorCredenciales")
         console.dir(ingresos)
-        this._respuesta= await this.LoginService.loginConCredenciales(ingresos)
+        this.respuesta= await this._ucIngreso.loginPorCredenciales(ingresos)
         console.log("[VMIngreso] respuesta:")
-        console.dir(this._respuesta)
-        return new Promise(async (resolve,reject)=>{resolve(this._respuesta)})
+        console.dir(this.respuesta)
+        return new Promise(async (resolve,reject)=>{resolve(this.respuesta)})
     }
 
 }
