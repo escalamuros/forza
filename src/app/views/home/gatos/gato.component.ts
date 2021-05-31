@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 import {VmGatos} from "../../../viewmodels/vm-gatos";
 import {Observable} from "rxjs";
-import {gato} from "../../../interfaces/productoModels/productoResponse";
+import {gato} from "../../../interfaces/gato/gatoResponse";
 
 @Component({
-  selector: 'ns-producto',
+  selector: 'ns-gato',
   templateUrl: './gato.component.html',
   styleUrls: ['./gato.component.css']
 })

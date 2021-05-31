@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {ApiGatosService} from "../../services/api-gatos.service";
 import {Observable, of} from "rxjs";
-import {gato} from "../../interfaces/productoModels/productoResponse";
+import {gato} from "../../interfaces/gato/gatoResponse";
 import {map} from "rxjs/operators";
 
 @Injectable({

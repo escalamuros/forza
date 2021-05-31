@@ -11,7 +11,7 @@ module.exports = function (config) {
 
 
     // list of files / patterns to load in the browser
-    files: ['src/tests/**/*.ts'],
+    files: ['src/tests/setup.ts','src/tests/**/*.spec.ts'],
 
 
     // list of files to exclude
@@ -28,14 +28,8 @@ module.exports = function (config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress','coverage-istanbul'],
+    reporters: ['progress'],
 
-    //agregando la ruta para covertura de codigo de istambul
-    coverageIstanbulReporter: {
-      dir: require('path').join(__dirname, 'coverage'),
-      reports: ['html', 'lcovonly', 'text-summary'],
-      fixWebpackSourcePaths: true
-    },
 
     // web server port
     port: 9876,
@@ -96,7 +90,6 @@ function setWebpackPreprocessor(config, options) {
         options.preprocessors[file] = [];
       }
       options.preprocessors[file].push('webpack');
-      options.preprocessors[file].push('coverage'); //agregado para istambul
     });
   }
 }
@@ -108,15 +101,6 @@ function setWebpack(config, options) {
     env.sourceMap = config.debugBrk;
     env.appPath = config.appPath;
     options.webpack = require('./webpack.config')(env);
-    //agregado para istanbull coverage
-    options.webpack.module.rules.push(
-        {
-          test: /\.ts$/,
-          use: { loader: 'istanbul-instrumenter-loader', options: { esModules: true } },
-          enforce: 'post'
-        }
-    );
-    //fin
     delete options.webpack.entry;
     delete options.webpack.output.libraryTarget;
     const invalidPluginsForUnitTesting = ["GenerateBundleStarterPlugin", "GenerateNativeScriptEntryPointsPlugin"];

@@ -12,7 +12,7 @@ export class ApiLoginService {
     constructor(){
     }
 
-    async loginPorCredenciales(credenciales:loginPorCredenciales):Promise<respuestaLogin>{
+    async loginCredenciales(credenciales:loginPorCredenciales):Promise<respuestaLogin>{
         console.log("[apiLoginService]funcion loginConCredenciales")
         this.credenciales={rut:credenciales.rut,clave:credenciales.clave}
         this.validarCredenciales()

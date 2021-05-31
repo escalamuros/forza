@@ -8,7 +8,7 @@ platforms/
 *.js
 !ngcc.config.js
 !webpack.config.js
-!karma.conf.js
+!oldkarmaconf.js
 # Logs
 logs
 *.log

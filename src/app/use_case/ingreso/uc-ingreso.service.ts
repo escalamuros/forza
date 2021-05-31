@@ -18,7 +18,7 @@ export class UcIngresoService {
     async loginPorCredenciales(credenciales: loginPorCredenciales): Promise<respuestaLogin> {
         console.log("[UCIngreso] funcion loginPorCredenciales")
         if (this.contador < 4) {
-            this.respuesta = await this._loginService.loginPorCredenciales(credenciales)
+            this.respuesta = await this._loginService.loginCredenciales(credenciales)
             return new Promise(async (resolve, reject) => {
                 resolve(this.respuesta)
             })
