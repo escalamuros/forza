@@ -9,18 +9,18 @@ import {respuestaLogin} from "../app/interfaces/login/loginResponse"
 import {TestBed} from "@angular/core/testing"
 import { nsTestBedAfterEach, nsTestBedBeforeEach, nsTestBedRender} from '@nativescript/angular/testing';
 
-describe("a",()=>{
+describe("Caso de uso Ingreso service",()=>{
     let uc:UcIngresoService
     let api:ApiLoginService
     beforeEach(nsTestBedBeforeEach([],[ApiLoginService]));
     afterEach(nsTestBedAfterEach(false));
-    it("b",()=>{
+    it("Crea el servicio con injeccion de dependencia",()=>{
         api = TestBed.inject(ApiLoginService)
         uc= new UcIngresoService(api)
         expect(uc.contador).toBe(0)
 
     })
-    it("c",()=>{
+    it("Simula respuesta ok en servicio",()=>{
         let entrada:loginPorCredenciales={rut:"1",clave:"2"}
         let respuesta:respuestaLogin
         api = TestBed.inject(ApiLoginService)
@@ -34,7 +34,7 @@ describe("a",()=>{
             }
         )
     })
-    it("d",()=>{
+    it("Simula respuesta nook en servicio",()=>{
         let entrada:loginPorCredenciales={rut:"1",clave:"2"}
         let respuesta:respuestaLogin
         api = TestBed.inject(ApiLoginService)

@@ -14,6 +14,10 @@ export class UcGatosService {
         this.contador=0
   }
 
+  getContador():number{
+        return this.contador;
+  }
+
   ObtenerGatoDesdeApi():Observable<gato>{
         console.log("[UCGatos]f ObtenerGatoDesdeApi")
       let respuesta:Observable<gato>
