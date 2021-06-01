@@ -22,9 +22,6 @@ describe("api gato service",()=>{
         api.obtenerGatoRemoto().subscribe(res=>{
             expect(res.estado).toEqual("error en API")
         })
-        //api = TestBed.inject(ApiGatosService)
-        //uc= new UcGatosService(api)
-        //expect(uc.getContador()).toBe(0)
     })
 })
 describe("Caso de uso gato service",()=>{
@@ -33,7 +30,7 @@ describe("Caso de uso gato service",()=>{
     let httpSpy
     beforeEach(nsTestBedBeforeEach([],[ApiGatosService]));
     afterEach(nsTestBedAfterEach(false));
-    it("Crea el servicio con injeccion de dependencia",()=>{
+    it("Crea el servicio con un mock del httpclient que responde error",()=>{
         httpSpy=jasmine.createSpyObj('HttpClient',['get'])
         api = new ApiGatosService(httpSpy)
         uc = new UcGatosService(api)
@@ -41,40 +38,24 @@ describe("Caso de uso gato service",()=>{
         uc.ObtenerGatoDesdeApi().subscribe(res=>{
             expect(res.estado).toEqual("error")
         })
-        //api = TestBed.inject(ApiGatosService)
-        //uc= new UcGatosService(api)
-        //expect(uc.getContador()).toBe(0)
+    })
+    it("Crea el servicio con un mock del httpclient que responde ok",()=>{
+        httpSpy=jasmine.createSpyObj('HttpClient',['get'])
+        api = new ApiGatosService(httpSpy)
+        uc = new UcGatosService(api)
+        httpSpy.get.and.returnValue(of([{"breeds":[],"id":"cmd","url":"https://cdn2.thecatapi.com/images/cmd.jpg","width":1715,"height":1726}]))
+        uc.ObtenerGatoDesdeApi().subscribe(res=>{
+            expect(res.estado).toEqual("ok")
+        })
+    })
+    it("Crea el servicio con un mock del httpclient que responde ok",()=>{
+        httpSpy=jasmine.createSpyObj('HttpClient',['get'])
+        api = new ApiGatosService(httpSpy)
+        uc = new UcGatosService(api)
+        httpSpy.get.and.returnValue(of([{"breeds":[],"id":"cmd","url":"https://cdn2.thecatapi.com/images/cmd.jpg","width":1715,"height":1726}]))
+        uc.ObtenerGatoDesdeApi().subscribe(res=>{
+            expect(uc.getContador()).toBe(1)
+        })
     })
 })
-
-    /*it("Simula respuesta no ok en servicio",()=>{
-        let respuesta:gato
-        api = TestBed.inject(ApiGatosService)
-        uc= new UcGatosService(api)
-        spyOn(api, 'obtenerGatoRemoto').and.returnValue(
-            of({estado:"error en API",url:""})
-        )
-        uc.ObtenerGatoDesdeApi().subscribe((resp)=>{
-                respuesta=resp
-                expect(respuesta.estado).not.toEqual("ok")
-                //expect(respuesta.url).toEqual("")
-                //expect(uc.getContador()).toBe(1)
-            }
-        )
-    })
-    it("Simula respuesta ok en servicio",()=>{
-        let respuesta:gato
-        api = TestBed.inject(ApiGatosService)
-        uc= new UcGatosService(api)
-        spyOn(api, 'obtenerGatoRemoto').and.returnValue(
-            of([{"breeds":[],"id":"ce5","url":"https://cdn2.thecatapi.com/images/ce5.jpg","width":500,"height":334}])
-        )
-        uc.ObtenerGatoDesdeApi().subscribe((resp)=>{
-                respuesta=resp
-                expect(respuesta.estado).toEqual("ok")
-                //expect(respuesta.url).toEqual("")
-                //expect(uc.getContador()).toBe(1)
-            }
-        )
-    })*/
 
