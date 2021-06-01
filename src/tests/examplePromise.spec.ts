@@ -48,4 +48,41 @@ describe("Caso de uso Ingreso service",()=>{
             }
         )
     })
+    it("Respuesta nook en servicio",()=>{
+        let entrada:loginPorCredenciales={rut:"1",clave:"2"}
+        let respuesta:respuestaLogin
+        api = TestBed.inject(ApiLoginService)
+        uc= new UcIngresoService(api)
+        uc.loginPorCredenciales(entrada).then((resp)=>{
+                respuesta=resp
+                expect(respuesta.estado).toEqual("nook")
+            }
+        )
+    })
+    it("Respuesta ok en servicio",()=>{
+        let entrada:loginPorCredenciales={rut:"si",clave:"no"}
+        let respuesta:respuestaLogin
+        api = TestBed.inject(ApiLoginService)
+        uc= new UcIngresoService(api)
+        uc.loginPorCredenciales(entrada).then((resp)=>{
+                respuesta=resp
+                expect(respuesta.estado).toEqual("ok")
+            }
+        )
+    })
+    it("Respuesta nook en servicio, luego de mas de 4 veces de intento de Login",()=>{
+        let entrada:loginPorCredenciales={rut:"si",clave:"si"}
+        let respuesta:respuestaLogin
+        api = TestBed.inject(ApiLoginService)
+        uc= new UcIngresoService(api)
+        uc.loginPorCredenciales(entrada)
+        uc.loginPorCredenciales(entrada)
+        uc.loginPorCredenciales(entrada)
+        uc.loginPorCredenciales(entrada)
+        uc.loginPorCredenciales(entrada).then((resp)=>{
+                respuesta=resp
+                expect(respuesta.estado).toEqual("nook")
+            }
+        )
+    })
 })
