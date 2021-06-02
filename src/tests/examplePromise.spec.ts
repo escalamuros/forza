@@ -18,7 +18,7 @@ describe("Caso de uso Ingreso service",()=>{
         api = TestBed.inject(ApiLoginService)
         uc= new UcIngresoService(api)
         expect(uc.contador).toBe(0)
-
+        //expect(uc).toBeTruthy()
     })
     it("Simula respuesta ok en servicio",()=>{
         let entrada:loginPorCredenciales={rut:"1",clave:"2"}
@@ -31,6 +31,7 @@ describe("Caso de uso Ingreso service",()=>{
         uc.loginPorCredenciales(entrada).then((resp)=>{
                 respuesta=resp
                 expect(respuesta).toEqual({estado:"ok"})
+                //expect(respuesta.estado).toEqual("ok")
             }
         )
     })
@@ -74,6 +75,8 @@ describe("Caso de uso Ingreso service",()=>{
         let entrada:loginPorCredenciales={rut:"si",clave:"si"}
         let respuesta:respuestaLogin
         api = TestBed.inject(ApiLoginService)
+        spyOn(api,"loginCredenciales").and.returnValue(
+            new Promise(async (resolve,reject)=>{resolve({estado:"nook"})}))
         uc= new UcIngresoService(api)
         uc.loginPorCredenciales(entrada)
         uc.loginPorCredenciales(entrada)
@@ -82,6 +85,7 @@ describe("Caso de uso Ingreso service",()=>{
         uc.loginPorCredenciales(entrada).then((resp)=>{
                 respuesta=resp
                 expect(respuesta.estado).toEqual("nook")
+                expect(uc.contador).toBe(5)
             }
         )
     })

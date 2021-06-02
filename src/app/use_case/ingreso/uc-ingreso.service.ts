@@ -20,6 +20,7 @@ export class UcIngresoService {
         if (this.contador < 4) {
             this.respuesta = await this._loginService.loginCredenciales(credenciales)
             return new Promise(async (resolve, reject) => {
+                this.contador=this.contador+1
                 resolve(this.respuesta)
             })
         } else {
