@@ -1,11 +1,12 @@
 
 export interface respuestaLogin{
-    estado:string;
+    estado:string
+    segmento?:string
 }
 
 export interface usuario{
-    rut:string;
-    nombre:string;
-    apellido:string;
-    email:string;
+    rut:string
+    nombre:string
+    apellido:string
+    email:string
 }

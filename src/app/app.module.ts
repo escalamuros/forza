@@ -5,8 +5,8 @@ import { AppComponent } from "./app.component";
 import { NativeScriptFormsModule } from "@nativescript/angular";
 import { NativeScriptHttpClientModule } from "@nativescript/angular/http-client";
 
-import { IngresoComponent } from './views/login/ingreso/ingreso.component';
-import { HomeModule } from "./views/home/home.module";
+import { IngresoComponent } from './presentacion/login/ingreso/ingreso.component';
+import { HomeModule } from "./presentacion/home/home.module";
 
 @NgModule({
     bootstrap: [

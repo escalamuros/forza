@@ -35,7 +35,6 @@ export class IngresoComponent implements OnInit {
             rut:this.rut,
             clave:this.clave}
         this.respuestaLogin = await this._ingresoViewModel.loginPorCredenciales(this.credenciales)
-        this.respuesta = this.respuestaLogin.estado
         this.reimprimir()
     }
 
@@ -47,8 +46,13 @@ export class IngresoComponent implements OnInit {
         } else {
             this.respuesta="Wena LARBBBBBBA"
             setTimeout(()=>{
-                this._enrrutador.navigate(["resumen"])},2000)
+                this.redirigePorSegmento()
+            },2000)
         }
+    }
 
+    redirigePorSegmento():void{
+        if(this.respuestaLogin.segmento === 'user'){this._enrrutador.navigate(["resumen"])}
+        else if(this.respuestaLogin.segmento === 'admin'){this._enrrutador.navigate(["resumen_admin"])}
     }
 }

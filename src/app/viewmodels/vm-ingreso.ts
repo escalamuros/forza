@@ -2,16 +2,13 @@ import {loginPorCredenciales} from "../interfaces/login/loginRequest"
 import {respuestaLogin} from "../interfaces/login/loginResponse"
 
 import {Injectable} from "@angular/core"
-import {UcIngresoService} from "../use_case/ingreso/uc-ingreso.service"
+import {UcIngresoService} from "../aplicacion/casos de uso/login/ingreso/uc-ingreso.service"
 
 @Injectable({providedIn:'root'})
 export class VmIngreso {
     public respuesta:respuestaLogin
 
     constructor(private _ucIngreso:UcIngresoService){
-    }
-
-    ngOnInit():void{
     }
 
     async loginPorCredenciales(ingresos:loginPorCredenciales):Promise<respuestaLogin>{

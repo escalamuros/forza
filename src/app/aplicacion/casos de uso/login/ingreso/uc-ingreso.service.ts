@@ -1,8 +1,8 @@
-import {loginPorCredenciales} from "../../interfaces/login/loginRequest";
-import {respuestaLogin} from "../../interfaces/login/loginResponse";
+import {loginPorCredenciales} from "../../../../interfaces/login/loginRequest";
+import {respuestaLogin} from "../../../../interfaces/login/loginResponse";
 
 import {Injectable} from '@angular/core';
-import {ApiLoginService} from "../../services/api-login.service";
+import {ApiLoginService} from "../../../../dominio/servicios/api-login.service";
 
 @Injectable({
     providedIn: 'root'

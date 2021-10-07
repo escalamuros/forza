@@ -1,6 +1,6 @@
 
 import {gato} from "../interfaces/gato/gatoResponse"
-import {ApiGatosService} from "../services/api-gatos.service"
+import {ApiGatosService} from "../dominio/servicios/api-gatos.service"
 import {UcGatosService} from "../use_case/gatos/uc-gatos.service"
 import {Injectable} from "@angular/core"
 import {Observable} from "rxjs"

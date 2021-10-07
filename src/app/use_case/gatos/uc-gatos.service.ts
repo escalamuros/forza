@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {ApiGatosService} from "../../services/api-gatos.service";
+import {ApiGatosService} from "../../dominio/servicios/api-gatos.service";
 import {Observable, of} from "rxjs";
 import {gato} from "../../interfaces/gato/gatoResponse";
 import {map} from "rxjs/operators";
@@ -19,7 +19,7 @@ export class UcGatosService {
   }
 
   ObtenerGatoDesdeApi():Observable<gato>{
-        console.log("[UCGatos]f ObtenerGatoDesdeApi")
+        console.log("[UCGatos]f ObtenerGatoDesdeApi,contador:"+this.contador)
       let respuesta:Observable<gato>
       if(this.contador<10){
           respuesta= this._apiGatos.obtenerGatoRemoto().pipe(
