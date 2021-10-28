@@ -2,7 +2,11 @@
 hooks/
 node_modules/
 platforms/
-
+#recursos de imagenes para plataforma
+App_Resources/Android/src/
+App_Resources/iOS/Assets.xcassets/
+#firma de android
+org_escalamuros_forza.jks
 # NativeScript Template
 *.js.map
 *.js

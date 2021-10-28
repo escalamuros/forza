@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { VmIngreso } from "../../../viewmodels/vm-ingreso";
-import {loginPorCredenciales} from "../../../interfaces/login/loginRequest";
-import {respuestaLogin} from "../../../interfaces/login/loginResponse";
+import { UcIngresoService } from "../../../aplicacion/casos de uso/login/ingreso/uc-ingreso.service";
+import {loginPorCredenciales} from "../../../dominio/interfaces/login/loginRequest";
+import {respuestaLogin} from "../../../dominio/interfaces/login/loginResponse";
 import {RouterExtensions} from "@nativescript/angular";
 
 @Component({
@@ -18,41 +18,59 @@ export class IngresoComponent implements OnInit {
     public clave: string=""
     public rut: string=""
     public respuesta: string
+    public bloquearAcciones:boolean
+    public tiempoInicio:Date
+    public tiempoFin:Date
 
     constructor(private _enrrutador:RouterExtensions,
-                private _ingresoViewModel:VmIngreso) {
+                private _cuIngreso:UcIngresoService) {
         this.respuesta="Aun no ha intentado logear"
         this.clave="";
         this.rut="";
     }
 
     ngOnInit(): void {
+        console.log("[IngresoComponent] funcion ngOnInit")
+        this.bloquearAcciones=false
     }
 
-    async validarDatos() {
-        console.log("[IngresoComponent]funcion validarDatos")
-        this.credenciales={
-            rut:this.rut,
-            clave:this.clave}
-        this.respuestaLogin = await this._ingresoViewModel.loginPorCredenciales(this.credenciales)
-        this.reimprimir()
+    validarDatos() {
+        console.log("[IngresoComponent] funcion validarDatos")
+        if(this.bloquearAcciones){}else{
+            this.bloquearAcciones=true
+            this.respuesta="logeando ..."
+            this.tiempoInicio=new Date()
+            this.credenciales={
+                rut:this.rut,
+                clave:this.clave}
+            this._cuIngreso.loginPorCredenciales(this.credenciales).subscribe(resp=>{
+                console.log("[IngresoComponent]respuesta:" + JSON.stringify(resp))
+                this.tiempoFin=new Date()
+                this.respuestaLogin=resp
+                this.reimprimir()
+            })
+        }
+
     }
 
     reimprimir() {
+        console.log("[IngresoComponent]funcion reimprimir")
         if(this.respuestaLogin.estado!="ok"){
             this.respuesta="Intentalo de nuevo"
             this.clave="";
             this.rut="";
         } else {
-            this.respuesta="Wena LARBBBBBBA"
-            setTimeout(()=>{
+            let dif= this.tiempoFin.getTime() - this.tiempoInicio.getTime()
+            this.respuesta="Login OK en "+dif+" milisegundos"
+            this.bloquearAcciones=false
+            /*setTimeout(()=>{
                 this.redirigePorSegmento()
-            },2000)
+            },5000)*/
         }
     }
 
     redirigePorSegmento():void{
         if(this.respuestaLogin.segmento === 'user'){this._enrrutador.navigate(["resumen"])}
-        else if(this.respuestaLogin.segmento === 'admin'){this._enrrutador.navigate(["resumen_admin"])}
+        else if(this.respuestaLogin.segmento === 'admin'){this._enrrutador.navigate(["resumen-admin"])}
     }
 }

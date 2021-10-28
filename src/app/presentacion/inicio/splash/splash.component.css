@@ -1,1 +1,4 @@
 /* Add mobile styles for the component here.  */
+.pantalla{ background-color: #008800}
+.pantalla--texto{ color: aliceblue; font-size: 18}
+.pantalla--subtexto{ color: aliceblue; font-size: 12}

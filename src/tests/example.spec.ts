@@ -23,6 +23,7 @@ describe("A suite 3", function() {
         expect(true).toBe(false);
     });
 });
+
 class ItemsComponent{
     constructor() {
     }
