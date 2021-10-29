@@ -121,7 +121,13 @@ export class ApiLoginService {
         } else {
             let respuesta$=new Observable(observer=>{
                 const url = rutasLogin.updateContext
-                const body = "customerId="+agrupado.customerId+"&lo=es_CL&cs=SS&time=1544581079034"
+                const customerId=agrupado.customerId
+                const body = {
+                    customerId,
+                    lo:'es_CL',
+                    cs:'SS',
+                    time:'1544581079034'
+                }
                 const httpOptions = {
                     headers: {
                         Authorization: "Bearer " + agrupado.accessToken,
