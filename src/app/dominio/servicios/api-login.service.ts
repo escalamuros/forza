@@ -92,7 +92,7 @@ export class ApiLoginService {
         console.log("[api-login]f tokenActivation")
         if(code.estado){
             return of(code)
-        }else {
+        } else {
             let respuesta$ = new Observable(observer => {
                 const url = rutasLogin.token
                 const body = "client_id=" + credenciales.client_id + "&client_secret=" + credenciales.client_secret + "&code=" + code + "&redirect_uri=" + credenciales.redirect_uri;
@@ -106,6 +106,30 @@ export class ApiLoginService {
                     //todo:if else
                     observer.next(resp)
 
+                    observer.complete()
+                })
+            })
+            return respuesta$
+        }
+    }
+
+    updateClientUserContext(agrupado):Observable<any>{
+        console.log("[api-login]f updateClientUserContext")
+        console.log("[api-login] agrupado:"+JSON.stringify(agrupado))
+        if(agrupado.estado){
+            return of(agrupado)
+        } else {
+            let respuesta$=new Observable(observer=>{
+                const url = rutasLogin.updateContext
+                const body = "customerId="+agrupado.customerId+"&lo=es_CL&cs=SS&time=1544581079034"
+                const httpOptions = {
+                    headers: {
+                        Authorization: "Bearer " + agrupado.accessToken,
+                        AuthorizationMCSS: agrupado.mcssToken
+                    }
+                }
+                this._http.post({url: url, body: body, options: httpOptions}).subscribe(resp => {
+                    observer.next(resp)
                     observer.complete()
                 })
             })

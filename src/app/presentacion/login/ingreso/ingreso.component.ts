@@ -36,7 +36,9 @@ export class IngresoComponent implements OnInit {
 
     validarDatos() {
         console.log("[IngresoComponent] funcion validarDatos")
-        if(this.bloquearAcciones){}else{
+        if(this.bloquearAcciones){
+            console.log("[IngresoComponent] acciones bloqueadas")
+        }else{
             this.bloquearAcciones=true
             this.respuesta="logeando ..."
             this.tiempoInicio=new Date()

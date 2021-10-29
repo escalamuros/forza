@@ -10,7 +10,7 @@
   },
   "description": "NativeScript Application",
   "license": "SEE LICENSE IN <your-license-filename>",
-  "repository": "<fill-your-repository-here>",
+  "repository": "https://github.com/escalamuros/forza",
   "scripts": {
     "ngcc": "ngcc --properties es2015 module main --first-only",
     "postinstall": "npm run ngcc",

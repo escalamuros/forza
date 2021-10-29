@@ -13,14 +13,11 @@ export class UcIngresoService {
     public respuesta: respuestaLogin
 
     constructor(private _loginService: ApiLoginService,
-                private _usuario: UsuarioService
+                private _usuario: UsuarioService/*,
+                private _linea: LineaEnContextoService,
+                private _session: SessionService*/
     ) {
-
-    }
-
-    async usuarioLogeado(){
-        console.log("[UCIngreso] funcion usuarioLogeado")
-        this._usuario
+        this.respuesta={estado:"ok",segmento:"user"}
     }
 
     loginPorCredenciales(credenciales: loginPorCredenciales): Observable<respuestaLogin> {
@@ -30,22 +27,58 @@ export class UcIngresoService {
                 resp=>{
                     console.log("[UCIngreso] respuesta loginCredenciales ");
                     if(resp.estado){
-                        observer.next({estado:"nook",segmento:"na"})
+                        observer.next(this.respuesta)
                     }else{
-                        let accessToken=resp.access_token
-                        let refreshToken=resp.refresh_token
-                        let linea=resp.responseBknd.token.cliente.productos.producto[0]
-                        let customerId=linea.idclie
-                        //todo: ver si realizar un pipe y mergeMap para poner en contexto la linea
-                        observer.next({estado:"ok",segmento:"user"})
+                        this.guardarUsuarioLogeado(resp)
+                        //todo: falta poner en contexto la linea si es movil
+                        const agrupado={
+                            customerId:this._usuario.getCustomerIdLinea(),
+                            accessToken:this._usuario.getAccessToken(),
+                            mcssToken:this._usuario.getMcssToken()
+                        }
+                        this._loginService.updateClientUserContext(agrupado).subscribe(resp=>{
+                            console.log("[UCIngreso] respuesta updateClientUserContext "+JSON.stringify(resp))
+                        })
+                        observer.next(this.respuesta)
                     }
                     observer.complete()
                 }
             )
         })
-
         return respuesta$
     }
 
+    guardarUsuarioLogeado(resp){
+        console.log("[UCIngreso] f guardarUsuarioLogeado")
+        //console.log("[UCIngreso] resp:"+JSON.stringify(resp))
+        let tiempoVenceAccessToken = new Date().getTime()+resp.expires_in
+        let accessToken = resp.access_token
+        let refreshToken = resp.refresh_token
+        let mcssToken = resp.mcsstoken
+        let linea = {idclie:"no",tipo:"no"};
+        let customerIdLinea = "no";
+        let tipoLinea = "no";
+        let productos=resp.responseBknd.token.cliente.productos.producto;
+        console.log("[UCIngreso] producto:"+JSON.stringify(productos))
+        if(productos[0]){
+            linea = productos[0]
+            customerIdLinea = linea.idclie
+            tipoLinea = linea.tipo
+            console.log("[UCIngreso] linea 0:"+JSON.stringify(linea))
+            console.log("[UCIngreso] linea 0 customerIdLinea:"+linea.idclie)
+            console.log("[UCIngreso] linea 0 tipo:"+linea.tipo)
+        }
+        this._usuario.iniciarUsuario({
+            tipoLogin:"credenciales",
+            tiempoVenceAccessToken:tiempoVenceAccessToken,
+            accessToken:accessToken,
+            refreshToken:refreshToken,
+            mcssToken:mcssToken,
+            linea:linea,
+            customerIdLinea:customerIdLinea,
+            tipoLinea:tipoLinea
+        })
+        this.respuesta={estado:"ok",segmento:"user"}
+    }
 
 }

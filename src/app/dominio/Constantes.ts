@@ -2,7 +2,8 @@
 export const rutasLogin = {
     loginCajetin: "https://apix.movistar.cl/oauth2/login-app/loginCajetin",
     userAuthorize: "https://apix.movistar.cl/oauth2/userAuthorize",
-    token: "https://apix.movistar.cl/oauth2/token"
+    token: "https://apix.movistar.cl/oauth2/token",
+    updateContext: 'https://apix.movistar.cl/customer/V2/UpdateClientUserContext',
 }
 
 export const llave = '53c081ef-ab4b-47b0-95b4-892b2ac7d5f0'
@@ -17,11 +18,11 @@ export const credenciales = {
 //etapa de login: token activation (tercer paso)
 export const invitado = {
     client_id: "53c081ef-ab4b-47b0-95b4-892b2ac7d5f0",
-    client_secret: "'TU3uShAlt24lESNL",
+    client_secret: "TU3uShAlt24lESNL",
     redirect_uri: "https://myloginOauth.net/auth-code&grant_type=authorization_code"
 }
 
 export const autorization = {
     coliving_prod: "NTNjMDgxZWYtYWI0Yi00N2IwLTk1YjQtODkyYjJhYzdkNWYwOjc0ZmMxZjA0LTA2NmItNGQ1My1hM2IwLWUxYzUyMzA2YjU0NQ==",
-    coliving_test: 'YTZlYjc4OTktMmEyZC00MzhhLWFlZDktZTVmYTNiMDRhZWQwOjkzYTJiZmU2LTU4MTktNGJlNS1iOWRlLWQ3YjI3MjZkMjA2NQ=='
+    coliving_test: "YTZlYjc4OTktMmEyZC00MzhhLWFlZDktZTVmYTNiMDRhZWQwOjkzYTJiZmU2LTU4MTktNGJlNS1iOWRlLWQ3YjI3MjZkMjA2NQ=="
 }

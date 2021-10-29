@@ -10,9 +10,18 @@ export class UsuarioService {
         this.usuario={logeado:false,tipoLogin:"na"};
     }
 
-    iniciarUsuario(){}
-
-    procesoLogin(){}
+    iniciarUsuario(arr){
+        console.log("[usuarioService] f iniciaUsuario")
+        this.usuario.tipoLogin=arr.tipoLogin
+        this.usuario.tiempoVenceAccessToken = arr.tiempoVenceAccessToken
+        this.usuario.accessToken = arr.accessToken
+        this.usuario.refreshToken = arr.refreshToken
+        this.usuario.mcssToken = arr.mcssToken
+        this.usuario.linea = arr.linea
+        this.usuario.customerIdLinea = arr.customerIdLinea
+        this.usuario.tipoLinea = arr.tipoLinea
+        console.log("[usuarioService] usuario:"+JSON.stringify(this.usuario))
+    }
 
     estaLogeado(){
         return this.usuario.logeado;
@@ -30,4 +39,19 @@ export class UsuarioService {
 
     borrarUsuarioPersistencia(){}
 
+    getTipoLinea(){
+        return this.usuario.tipoLinea
+    }
+
+    getCustomerIdLinea(){
+        return this.usuario.customerIdLinea
+    }
+
+    getAccessToken(){
+        return this.usuario.accessToken
+    }
+
+    getMcssToken(){
+        return this.usuario.mcssToken
+    }
 }
