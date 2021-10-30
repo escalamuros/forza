@@ -61,6 +61,7 @@ export class IngresoComponent implements OnInit {
             this.respuesta="Intentalo de nuevo"
             this.clave="";
             this.rut="";
+            this.bloquearAcciones=false
         } else {
             let dif= this.tiempoFin.getTime() - this.tiempoInicio.getTime()
             this.respuesta="Login OK en "+dif+" milisegundos"

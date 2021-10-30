@@ -30,15 +30,19 @@ export class UcIngresoService {
                         observer.next(this.respuesta)
                     }else{
                         this.guardarUsuarioLogeado(resp)
-                        //todo: falta poner en contexto la linea si es movil
-                        const agrupado={
-                            customerId:this._usuario.getCustomerIdLinea(),
-                            accessToken:this._usuario.getAccessToken(),
-                            mcssToken:this._usuario.getMcssToken()
+                        if(this._usuario.getTipoLinea()==="MOVIL"){
+                            const agrupado={
+                                customerId:this._usuario.getCustomerIdLinea(),
+                                accessToken:this._usuario.getAccessToken(),
+                                mcssToken:this._usuario.getMcssToken()
+                            }
+                            this._loginService.updateClientUserContext(agrupado).subscribe(resp=>{
+                                console.log("[UCIngreso] respuesta updateClientUserContext "+JSON.stringify(resp))
+                            })
+                        }else{
+
                         }
-                        this._loginService.updateClientUserContext(agrupado).subscribe(resp=>{
-                            console.log("[UCIngreso] respuesta updateClientUserContext "+JSON.stringify(resp))
-                        })
+
                         observer.next(this.respuesta)
                     }
                     observer.complete()
@@ -50,7 +54,6 @@ export class UcIngresoService {
 
     guardarUsuarioLogeado(resp){
         console.log("[UCIngreso] f guardarUsuarioLogeado")
-        //console.log("[UCIngreso] resp:"+JSON.stringify(resp))
         let tiempoVenceAccessToken = new Date().getTime()+resp.expires_in
         let accessToken = resp.access_token
         let refreshToken = resp.refresh_token
@@ -59,14 +62,13 @@ export class UcIngresoService {
         let customerIdLinea = "no";
         let tipoLinea = "no";
         let productos=resp.responseBknd.token.cliente.productos.producto;
-        console.log("[UCIngreso] producto:"+JSON.stringify(productos))
+        //todo:datos del usuario
+        //todo:datos de la linea inicial:id,tipo,tipoContrato,rol,preferido,
         if(productos[0]){
             linea = productos[0]
             customerIdLinea = linea.idclie
             tipoLinea = linea.tipo
             console.log("[UCIngreso] linea 0:"+JSON.stringify(linea))
-            console.log("[UCIngreso] linea 0 customerIdLinea:"+linea.idclie)
-            console.log("[UCIngreso] linea 0 tipo:"+linea.tipo)
         }
         this._usuario.iniciarUsuario({
             tipoLogin:"credenciales",

@@ -125,7 +125,7 @@ export class ApiLoginService {
                 const body = {
                     customerId,
                     lo:'es_CL',
-                    cs:'SS',
+                    sc:'SS',
                     time:'1544581079034'
                 }
                 const httpOptions = {

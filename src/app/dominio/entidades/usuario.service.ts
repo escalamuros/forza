@@ -11,7 +11,6 @@ export class UsuarioService {
     }
 
     iniciarUsuario(arr){
-        console.log("[usuarioService] f iniciaUsuario")
         this.usuario.tipoLogin=arr.tipoLogin
         this.usuario.tiempoVenceAccessToken = arr.tiempoVenceAccessToken
         this.usuario.accessToken = arr.accessToken
@@ -20,7 +19,6 @@ export class UsuarioService {
         this.usuario.linea = arr.linea
         this.usuario.customerIdLinea = arr.customerIdLinea
         this.usuario.tipoLinea = arr.tipoLinea
-        console.log("[usuarioService] usuario:"+JSON.stringify(this.usuario))
     }
 
     estaLogeado(){
