@@ -23,8 +23,8 @@ export class ResumenComponent implements OnInit {
 
   ngOnInit(): void {
       this.texto1=this.texto1+this._usuario.obtenerNombre()
-      this.texto2=this._usuario.obtenerRut()
-      this.texto3="linea:"+this._usuario.obtenerTipoLinea()+"-"+this._usuario.obtenerCustomerIdLinea()
+      this.texto2="rut:"+this._usuario.obtenerRut()
+      this.texto3="linea tipo:"+this._usuario.obtenerTipoLinea()+"-Id:"+this._usuario.obtenerIdLinea()+"-customerId:"+this._usuario.obtenerCustomerIdLinea()
       this.texto4=this._usuario.obtenerLinea()
   }
 

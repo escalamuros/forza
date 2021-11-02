@@ -84,7 +84,7 @@ export class UcIngresoService {
             apellidos : resp.responseBknd.token.cliente.apellido_paterno+" "+resp.responseBknd.token.cliente.apellido_materno,
             correoElectronico : resp.responseBknd.token.cliente.contacto.mail,
             sms : resp.responseBknd.token.cliente.contacto.sms,
-            rut : resp.responseBknd.rut+"-"+resp.responseBknd.dv,
+            rut : resp.rut+"-"+resp.dv,
             linea : linea,
             customerIdLinea : customerIdLinea,
             tipoLinea : tipoLinea,
