@@ -10,15 +10,18 @@ export class UsuarioService {
         this.usuario={logeado:false,tipoLogin:"na"};
     }
 
-    iniciarUsuario(arr){
-        this.usuario.tipoLogin=arr.tipoLogin
-        this.usuario.tiempoVenceAccessToken = arr.tiempoVenceAccessToken
-        this.usuario.accessToken = arr.accessToken
-        this.usuario.refreshToken = arr.refreshToken
-        this.usuario.mcssToken = arr.mcssToken
-        this.usuario.linea = arr.linea
-        this.usuario.customerIdLinea = arr.customerIdLinea
-        this.usuario.tipoLinea = arr.tipoLinea
+    iniciarUsuario(dataUsuario){
+        console.log("[usuarioService] f iniciarUsuario")
+        this.usuario.tipoLogin=dataUsuario.tipoLogin
+        this.usuario.nombre=dataUsuario.nombre
+        this.usuario.apellidos=dataUsuario.apellidos
+        this.usuario.correoElectronico=dataUsuario.correoElectronico
+        this.usuario.sms=dataUsuario.sms
+        this.usuario.rut=dataUsuario.rut
+        this.usuario.linea=dataUsuario.linea
+        this.usuario.customerIdLinea=dataUsuario.customerIdLinea
+        this.usuario.tipoLinea=dataUsuario.tipoLinea
+        this.usuario.productos=dataUsuario.productos
     }
 
     estaLogeado(){
@@ -45,11 +48,4 @@ export class UsuarioService {
         return this.usuario.customerIdLinea
     }
 
-    getAccessToken(){
-        return this.usuario.accessToken
-    }
-
-    getMcssToken(){
-        return this.usuario.mcssToken
-    }
 }

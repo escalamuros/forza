@@ -1,11 +1,14 @@
 
 export interface Usuario{
     nombre?:string;
-    genero?:string;
+    apellidos?:string;
     rut?:string;
+    correoElectronico?:string;
+    sms?:string;
     tipoLogin:string;
     logeado:boolean;
 
+    productos?:any;
     linea?:any[];
     tipoLinea?:string;
     customerIdLinea?:string;
@@ -13,9 +16,4 @@ export interface Usuario{
     productIdLinea?:string;
     statusLinea?:string;
     subscriptionIdLinea?:string;
-
-    accessToken?:string;
-    refreshToken?:string;
-    mcssToken?:string;
-    tiempoVenceAccessToken?:number;
 }

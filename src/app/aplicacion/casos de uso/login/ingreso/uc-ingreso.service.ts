@@ -4,7 +4,8 @@ import {respuestaLogin} from "../../../../dominio/interfaces/login/loginResponse
 import {Injectable} from '@angular/core';
 import {ApiLoginService} from "../../../../dominio/servicios/api-login.service";
 import {UsuarioService} from "../../../../dominio/entidades/usuario.service";
-import {Observable,of} from "rxjs";
+import {SesionService} from "../../../../dominio/entidades/sesion.service";
+import {Observable} from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -13,9 +14,11 @@ export class UcIngresoService {
     public respuesta: respuestaLogin
 
     constructor(private _loginService: ApiLoginService,
-                private _usuario: UsuarioService/*,
+                private _usuario: UsuarioService,
+                private _session: SesionService
+                /*
                 private _linea: LineaEnContextoService,
-                private _session: SessionService*/
+                */
     ) {
         this.respuesta={estado:"ok",segmento:"user"}
     }
@@ -27,14 +30,16 @@ export class UcIngresoService {
                 resp=>{
                     console.log("[UCIngreso] respuesta loginCredenciales ");
                     if(resp.estado){
+                        this.respuesta.estado="nook";
+                        this.respuesta.error="Error en "+ resp.tipo
                         observer.next(this.respuesta)
                     }else{
                         this.guardarUsuarioLogeado(resp)
                         if(this._usuario.getTipoLinea()==="MOVIL"){
                             const agrupado={
                                 customerId:this._usuario.getCustomerIdLinea(),
-                                accessToken:this._usuario.getAccessToken(),
-                                mcssToken:this._usuario.getMcssToken()
+                                accessToken:this._session.getAccessToken(),
+                                mcssToken:this._session.getMcssToken()
                             }
                             this._loginService.updateClientUserContext(agrupado).subscribe(resp=>{
                                 console.log("[UCIngreso] respuesta updateClientUserContext "+JSON.stringify(resp))
@@ -54,33 +59,48 @@ export class UcIngresoService {
 
     guardarUsuarioLogeado(resp){
         console.log("[UCIngreso] f guardarUsuarioLogeado")
-        let tiempoVenceAccessToken = new Date().getTime()+resp.expires_in
-        let accessToken = resp.access_token
-        let refreshToken = resp.refresh_token
-        let mcssToken = resp.mcsstoken
-        let linea = {idclie:"no",tipo:"no"};
-        let customerIdLinea = "no";
-        let tipoLinea = "no";
-        let productos=resp.responseBknd.token.cliente.productos.producto;
-        //todo:datos del usuario
-        //todo:datos de la linea inicial:id,tipo,tipoContrato,rol,preferido,
-        if(productos[0]){
+        let dataSesion={
+            tiempoVenceAccessToken : new Date().getTime()+resp.expires_in,
+            accessToken : resp.access_token,
+            refreshToken : resp.refresh_token,
+            mcssToken : resp.mcsstoken
+        }
+        let linea = {idclie:"no",tipo:"no"}
+        let customerIdLinea = "no"
+        let tipoLinea = "no"
+        let productos=resp.responseBknd.token.cliente.productos.producto
+        this.respuesta={estado:"nook",error:"Usuario registrado,Sin lineas"}
+
+        if(Object.keys(productos).length>0){
             linea = productos[0]
             customerIdLinea = linea.idclie
             tipoLinea = linea.tipo
-            console.log("[UCIngreso] linea 0:"+JSON.stringify(linea))
+            this.respuesta={estado:"ok",segmento:"user"}
         }
-        this._usuario.iniciarUsuario({
+
+        let dataUsuario={
             tipoLogin:"credenciales",
-            tiempoVenceAccessToken:tiempoVenceAccessToken,
-            accessToken:accessToken,
-            refreshToken:refreshToken,
-            mcssToken:mcssToken,
-            linea:linea,
-            customerIdLinea:customerIdLinea,
-            tipoLinea:tipoLinea
-        })
-        this.respuesta={estado:"ok",segmento:"user"}
+            nombre : resp.responseBknd.token.cliente.nombre,
+            apellidos : resp.responseBknd.token.cliente.apellido_paterno+" "+resp.responseBknd.token.cliente.apellido_materno,
+            correoElectronico : resp.responseBknd.token.cliente.contacto.mail,
+            sms : resp.responseBknd.token.cliente.contacto.sms,
+            rut : resp.responseBknd.rut+"-"+resp.responseBknd.dv,
+            linea : linea,
+            customerIdLinea : customerIdLinea,
+            tipoLinea : tipoLinea,
+            productos : productos
+        }
+
+
+
+        //todo:datos de la linea inicial:id,tipo,tipoContrato,rol,preferido,
+
+
+        this._session.iniciarSesion(dataSesion)
+
+        this._usuario.iniciarUsuario(dataUsuario)
+
+
     }
 
 }

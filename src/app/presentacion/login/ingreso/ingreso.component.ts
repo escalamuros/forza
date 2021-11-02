@@ -25,8 +25,8 @@ export class IngresoComponent implements OnInit {
     constructor(private _enrrutador:RouterExtensions,
                 private _cuIngreso:UcIngresoService) {
         this.respuesta="Aun no ha intentado logear"
-        this.clave="";
-        this.rut="";
+        this.rut="17534493-4";
+        this.clave="cobra123";
     }
 
     ngOnInit(): void {
@@ -58,7 +58,7 @@ export class IngresoComponent implements OnInit {
     reimprimir() {
         console.log("[IngresoComponent]funcion reimprimir")
         if(this.respuestaLogin.estado!="ok"){
-            this.respuesta="Intentalo de nuevo"
+            this.respuesta="Algo falló:"+this.respuestaLogin.error
             this.clave="";
             this.rut="";
             this.bloquearAcciones=false

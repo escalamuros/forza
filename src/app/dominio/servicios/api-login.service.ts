@@ -89,7 +89,7 @@ export class ApiLoginService {
     }
 
     tokenActivation(code):Observable<any>{
-        console.log("[api-login]f tokenActivation")
+        console.log("[api-login] f tokenActivation")
         if(code.estado){
             return of(code)
         } else {
