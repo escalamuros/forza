@@ -66,9 +66,9 @@ export class IngresoComponent implements OnInit {
             let dif= this.tiempoFin.getTime() - this.tiempoInicio.getTime()
             this.respuesta="Login OK en "+dif+" milisegundos"
             this.bloquearAcciones=false
-            /*setTimeout(()=>{
+            setTimeout(()=>{
                 this.redirigePorSegmento()
-            },5000)*/
+            },5000)
         }
     }
 

@@ -36,16 +36,25 @@ export class UsuarioService {
         return this.usuario.nombre;
     }
 
+    obtenerRut(){
+        return this.usuario.rut
+    }
+
+    obtenerLinea(){
+        return JSON.stringify(this.usuario.linea)
+    }
+
+    obtenerCustomerIdLinea(){
+        return this.usuario.customerIdLinea
+    }
+
     guardarUsuarioPersistencia(){}
 
     borrarUsuarioPersistencia(){}
 
-    getTipoLinea(){
+    obtenerTipoLinea(){
         return this.usuario.tipoLinea
     }
 
-    getCustomerIdLinea(){
-        return this.usuario.customerIdLinea
-    }
 
 }

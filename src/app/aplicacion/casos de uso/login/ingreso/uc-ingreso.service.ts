@@ -35,9 +35,9 @@ export class UcIngresoService {
                         observer.next(this.respuesta)
                     }else{
                         this.guardarUsuarioLogeado(resp)
-                        if(this._usuario.getTipoLinea()==="MOVIL"){
+                        if(this._usuario.obtenerTipoLinea()==="MOVIL"){
                             const agrupado={
-                                customerId:this._usuario.getCustomerIdLinea(),
+                                customerId:this._usuario.obtenerCustomerIdLinea(),
                                 accessToken:this._session.getAccessToken(),
                                 mcssToken:this._session.getMcssToken()
                             }
