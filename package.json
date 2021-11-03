@@ -55,6 +55,7 @@
     "karma-webpack": "3.0.5",
     "nativescript-dev-webpack": "~1.5.0",
     "node-sass": "^4.14.1",
+    "tns-android": "6.5.3",
     "tns-platform-declarations": "~6.5.0",
     "typescript": "~3.8.3"
   },

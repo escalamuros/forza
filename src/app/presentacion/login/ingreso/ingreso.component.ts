@@ -27,6 +27,7 @@ export class IngresoComponent implements OnInit {
         this.respuesta="Aun no ha intentado logear"
         this.rut="17534493-4";
         this.clave="cobra123";
+        console.log("[IngresoComponent] Esto es un commit de miguelangel nuevo");
     }
 
     ngOnInit(): void {
