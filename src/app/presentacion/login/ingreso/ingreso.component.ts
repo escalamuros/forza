@@ -18,28 +18,27 @@ export class IngresoComponent implements OnInit {
     public clave: string=""
     public rut: string=""
     public respuesta: string
-    public bloquearAcciones:boolean
+    public accionBloqueada:boolean
     public tiempoInicio:Date
     public tiempoFin:Date
 
     constructor(private _enrrutador:RouterExtensions,
                 private _cuIngreso:UcIngresoService) {
         this.respuesta="Aun no ha intentado logear"
-        this.rut="17534493-4";
-        this.clave="cobra123";
+        this.rut="17534493-4"
+        this.clave="cobra123"
+        this.accionBloqueada=false
     }
 
     ngOnInit(): void {
         console.log("[IngresoComponent] funcion ngOnInit")
-        this.bloquearAcciones=false
+        this.accionBloqueada=false
     }
 
-    validarDatos() {
-        console.log("[IngresoComponent] funcion validarDatos")
-        if(this.bloquearAcciones){
-            console.log("[IngresoComponent] acciones bloqueadas")
-        }else{
-            this.bloquearAcciones=true
+    validarCredenciales() {
+        console.log("[IngresoComponent] funcion validarCredenciales")
+        if(!this.accionBloqueada){
+            this.accionBloqueada=true
             this.respuesta="logeando ..."
             this.tiempoInicio=new Date()
             this.credenciales={
@@ -49,31 +48,36 @@ export class IngresoComponent implements OnInit {
                 console.log("[IngresoComponent]respuesta:" + JSON.stringify(resp))
                 this.tiempoFin=new Date()
                 this.respuestaLogin=resp
-                this.reimprimir()
+                this.mensajeDespuesDeIntento()
+                this.accionDespuesDeIntento()
             })
         }
-
     }
 
-    reimprimir() {
+    mensajeDespuesDeIntento() {
         console.log("[IngresoComponent]funcion reimprimir")
         if(this.respuestaLogin.estado!="ok"){
             this.respuesta="Algo falló:"+this.respuestaLogin.error
-            this.clave="";
-            this.rut="";
-            this.bloquearAcciones=false
+
         } else {
             let dif= this.tiempoFin.getTime() - this.tiempoInicio.getTime()
             this.respuesta="Login OK en "+dif+" milisegundos"
-            this.bloquearAcciones=false
-            setTimeout(()=>{
-                this.redirigePorSegmento()
-            },5000)
+            this.accionBloqueada=false
         }
     }
 
-    redirigePorSegmento():void{
-        if(this.respuestaLogin.segmento === 'user'){this._enrrutador.navigate(["resumen"])}
-        else if(this.respuestaLogin.segmento === 'admin'){this._enrrutador.navigate(["resumen-admin"])}
+    accionDespuesDeIntento():void{
+        this.accionBloqueada=false
+        if(this.respuestaLogin.estado!="ok"){
+            this.clave=""
+            this.rut=""
+        }else{
+            if(this.respuestaLogin.segmento === 'user'){
+                this._enrrutador.navigate(["resumen"])
+            }
+            else if(this.respuestaLogin.segmento === 'admin'){
+                this._enrrutador.navigate(["resumen-admin"])
+            }
+        }
     }
 }
