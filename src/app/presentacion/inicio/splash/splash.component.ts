@@ -35,8 +35,8 @@ export class SplashComponent implements OnInit {
           .then(()=>{console.log("[SplashComponent]firebase iniciado")})
       setTimeout(()=>{ this.enrrutador.navigate(["ingreso"])},2000)
   }
-
 }
+
 applicationOn(launchEvent, (args: ApplicationEventData) => {
     if (args.android) {
         // For Android applications, args.android is an android.content.Intent class.

@@ -4,6 +4,7 @@ import {respuestaLogin} from "../../../../dominio/interfaces/login/loginResponse
 import {Injectable} from '@angular/core';
 import {ApiLoginService} from "../../../../dominio/servicios/api-login.service";
 import {UsuarioService} from "../../../../dominio/entidades/usuario.service";
+import {LineaService} from "../../../../dominio/entidades/linea.service";
 import {SesionService} from "../../../../dominio/entidades/sesion.service";
 import {Observable} from "rxjs";
 
@@ -15,10 +16,9 @@ export class UcIngresoService {
 
     constructor(private _loginService: ApiLoginService,
                 private _usuario: UsuarioService,
-                private _session: SesionService
-                /*
-                private _linea: LineaEnContextoService,
-                */
+                private _session: SesionService,
+                private _linea: LineaService,
+
     ) {
         this.respuesta={estado:"ok",segmento:"user"}
     }
@@ -35,6 +35,7 @@ export class UcIngresoService {
                         observer.next(this.respuesta)
                     }else{
                         this.guardarUsuarioLogeado(resp)
+                        //todo: corresponde a seleccion de linea, hacer caso de uso
                         if(this._usuario.obtenerTipoLinea()==="MOVIL"){
                             const agrupado={
                                 customerId:this._usuario.obtenerCustomerIdLinea(),
@@ -44,6 +45,7 @@ export class UcIngresoService {
                             this._loginService.updateClientUserContext(agrupado).subscribe(resp=>{
                                 console.log("[UCIngreso] respuesta updateClientUserContext "+JSON.stringify(resp))
                             })
+                        //todo:fin
                         }else{
 
                         }

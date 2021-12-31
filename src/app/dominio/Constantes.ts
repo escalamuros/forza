@@ -12,14 +12,16 @@ export const llave = '53c081ef-ab4b-47b0-95b4-892b2ac7d5f0'
 export const credenciales = {
     client_id : "598d51c9-a4c1-40e8-8583-7ee4a3f16abe",
     client_secret : "b35328c4-d15b-46e7-b539-57068cc1bd29",
-    redirect_uri :  "https://myloginOauth.net/auth-code&grant_type=authorization_code"
+    redirect_uri :  "https://myloginOauth.net/auth-code",
+    grant_type : "authorization_code"
 }
 
 //etapa de login: token activation (tercer paso)
 export const invitado = {
     client_id: "53c081ef-ab4b-47b0-95b4-892b2ac7d5f0",
     client_secret: "TU3uShAlt24lESNL",
-    redirect_uri: "https://myloginOauth.net/auth-code&grant_type=authorization_code"
+    redirect_uri: "https://myloginOauth.net/auth-code",
+    grant_type: "authorization_code"
 }
 
 export const autorization = {

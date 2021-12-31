@@ -3,27 +3,27 @@ import {Injectable} from "@angular/core";
 import {rutasLogin, llave, credenciales} from "../Constantes";
 import {loginPorCredenciales} from "../interfaces/login/loginRequest";
 import {respuestaLogin} from "../interfaces/login/loginResponse";
-import {Observable,of} from "rxjs";
+import {Observable, of} from "rxjs";
 import {ProxyHttpclientService} from "../../aplicacion/proxy/proxy.httpclient.service";
 import {mergeMap} from "rxjs/operators";
 
-@Injectable({providedIn:'root',})
+@Injectable({providedIn: 'root',})
 
 export class ApiLoginService {
-    private credenciales:loginPorCredenciales
-    private respuesta:respuestaLogin
+    private credenciales: loginPorCredenciales
+    private respuesta: respuestaLogin
 
-    constructor( private _http:ProxyHttpclientService){
+    constructor(private _http: ProxyHttpclientService) {
     }
 
-    IntertarloginConCredenciales(credenciales:loginPorCredenciales):Observable<any> {
+    IntertarloginConCredenciales(credenciales: loginPorCredenciales): Observable<any> {
         console.log("[api-login] f loginCredenciales")
-        let respuesta$ = new Observable<respuestaLogin>(observer=>{
+        let respuesta$ = new Observable<respuestaLogin>(observer => {
             this.loginConCredenciales(credenciales).pipe(
-                mergeMap(resp2 =>  this.userAuthorize(resp2)),
+                mergeMap(resp2 => this.userAuthorize(resp2)),
                 mergeMap(resp3 => this.tokenActivation(resp3))
-            ).subscribe(resp=>{
-                console.dir("[api-login] resp final:"+JSON.stringify(resp))
+            ).subscribe(resp => {
+                console.dir("[api-login] resp final:" + JSON.stringify(resp))
                 observer.next(resp)
                 observer.complete()
             })
@@ -31,28 +31,29 @@ export class ApiLoginService {
         return respuesta$
     }
 
-    loginConCredenciales(credenciales:loginPorCredenciales):Observable<any>{
+    loginConCredenciales(credenciales: loginPorCredenciales): Observable<any> {
         console.log("[api-login] f loginConCredenciales")
-        let respuesta$ = new Observable(observer =>{
-            const url = rutasLogin.loginCajetin;
-            const body = "username="+(credenciales.rut.replace(".","").replace(".",""))+"&password="+(credenciales.clave.replace(/\+/g,'%2B'));
+        let respuesta$ = new Observable(observer => {
+            const url = rutasLogin.loginCajetin
+            const nombre = credenciales.rut.replace(".", "").replace(".", "")
+            const clave = credenciales.clave.replace(/\+/g, '%2B')
+            const body = "username=" + nombre + "&password=" + clave + "&apikey="+llave;
             const httpOptions = {
-                params: {
-                    apikey: llave
-                },
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     Accept: 'application/json'
                 }
             };
-            this._http.post({url:url,body:body,options:httpOptions}).subscribe(resp => {
-                console.log("[api-login]resp:"+JSON.stringify(resp))
-                if(resp.tipo){
+            this._http.post({url: url, body: body, options: httpOptions}).subscribe(resp => {
+                console.log("[api-login]resp:" + JSON.stringify(resp))
+                if (resp.tipo) {
+                    console.log("[api-login]tipo:" + resp.tipo)
                     observer.next(resp)
-                }
-                if(resp.datos.act_token){
-                    console.log("[api-login]act_token:"+resp.datos.act_token)
-                    observer.next(resp.datos.act_token)
+                } else {
+                    if (resp.datos.act_token) {
+                        console.log("[api-login]act_token:" + resp.datos.act_token)
+                        observer.next(resp.datos.act_token)
+                    }
                 }
                 observer.complete()
             })
@@ -60,26 +61,33 @@ export class ApiLoginService {
         return respuesta$
     }
 
-    userAuthorize(activacion):Observable<any>{
+    userAuthorize(activacion): Observable<any> {
         console.log("[api-login] f userAuthorize")
-        if(activacion.estado){
+        if (activacion.estado) {
             return of(activacion)
-        }else{
-            let respuesta$ = new Observable(observer =>{
-                const url =rutasLogin.userAuthorize
-                const body = "act_token="+activacion+"&response_type=code&apikey="+llave;
+        } else {
+            let respuesta$ = new Observable(observer => {
+                const url = rutasLogin.userAuthorize
+                const body = "act_token="+activacion+
+                    "&response_type=code"+
+                    "&apikey="+llave;
                 const httpOptions = {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                         Accept: 'application/json'
                     }
                 };
-                this._http.post({url:url,body:body,options:httpOptions}).subscribe(resp=>{
-                    console.log("[api-login]code:"+resp.datos.code)
-                    if(resp.datos.code){
-                        observer.next(resp.datos.code)
-                    }else{
-                        observer.next({estado:"nook"})
+                this._http.post({url: url, body: body, options: httpOptions}).subscribe(resp => {
+                    console.log("[api-login]resp:" +JSON.stringify(resp))
+                    if(resp.tipo){
+                        observer.next({estado: "nook"})
+                    }else {
+                        if (resp.datos.code) {
+                            console.log("[api-login]code:" + resp.datos.code)
+                            observer.next(resp.datos.code)
+                        }else{
+                            observer.next({estado: "nook"})
+                        }
                     }
                     observer.complete()
                 })
@@ -88,21 +96,25 @@ export class ApiLoginService {
         }
     }
 
-    tokenActivation(code):Observable<any>{
+    tokenActivation(code): Observable<any> {
         console.log("[api-login] f tokenActivation")
-        if(code.estado){
+        if (code.estado) {
             return of(code)
         } else {
             let respuesta$ = new Observable(observer => {
                 const url = rutasLogin.token
-                const body = "client_id=" + credenciales.client_id + "&client_secret=" + credenciales.client_secret + "&code=" + code + "&redirect_uri=" + credenciales.redirect_uri;
+                const body = "client_id="+credenciales.client_id+
+                    "&client_secret="+credenciales.client_secret+
+                    "&code="+code+
+                    "&redirect_uri="+credenciales.redirect_uri+
+                    "&grant_type="+credenciales.grant_type
                 const httpOptions = {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                         Accept: 'application/json'
                     }
                 };
-                this._http.post({url: url, body: body, options: httpOptions}).subscribe(resp => {
+                this._http.post({url: url,body:body, options: httpOptions}).subscribe(resp => {
                     //todo:if else
                     observer.next(resp)
 
@@ -113,20 +125,20 @@ export class ApiLoginService {
         }
     }
 
-    updateClientUserContext(agrupado):Observable<any>{
+    updateClientUserContext(agrupado): Observable<any> {
         console.log("[api-login]f updateClientUserContext")
-        console.log("[api-login] agrupado:"+JSON.stringify(agrupado))
-        if(agrupado.estado){
+        console.log("[api-login] agrupado:" + JSON.stringify(agrupado))
+        if (agrupado.estado) {
             return of(agrupado)
         } else {
-            let respuesta$=new Observable(observer=>{
+            let respuesta$ = new Observable(observer => {
                 const url = rutasLogin.updateContext
-                const customerId=agrupado.customerId
+                const customerId = agrupado.customerId
                 const body = {
                     customerId,
-                    lo:'es_CL',
-                    sc:'SS',
-                    time:'1544581079034'
+                    lo: 'es_CL',
+                    sc: 'SS',
+                    time: '1544581079034'
                 }
                 const httpOptions = {
                     headers: {
