@@ -30,8 +30,8 @@ export class UcIngresoService {
                 resp=>{
                     console.log("[UCIngreso] respuesta loginCredenciales ");
                     if(resp.estado){
-                        this.respuesta.estado="nook";
-                        this.respuesta.error="Error en "+ resp.tipo
+                        this.respuesta.estado="error";
+                        this.respuesta.error="Error en :"+ resp.tipo
                         observer.next(this.respuesta)
                     }else{
                         this.guardarUsuarioLogeado(resp)
@@ -45,7 +45,6 @@ export class UcIngresoService {
                             this._loginService.updateClientUserContext(agrupado).subscribe(resp=>{
                                 console.log("[UCIngreso] respuesta updateClientUserContext "+JSON.stringify(resp))
                             })
-                        //todo:fin
                         }else{
 
                         }
@@ -58,6 +57,10 @@ export class UcIngresoService {
         })
         return respuesta$
     }
+
+    guardarSession(){}
+
+    guardarLinea(){}
 
     guardarUsuarioLogeado(resp){
         console.log("[UCIngreso] f guardarUsuarioLogeado")

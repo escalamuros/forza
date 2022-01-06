@@ -17,7 +17,7 @@ export class ApiLoginService {
     }
 
     IntertarloginConCredenciales(credenciales: loginPorCredenciales): Observable<any> {
-        console.log("[api-login] f loginCredenciales")
+        console.log("[api-login] f IntertarloginConCredenciales")
         let respuesta$ = new Observable<respuestaLogin>(observer => {
             this.loginConCredenciales(credenciales).pipe(
                 mergeMap(resp2 => this.userAuthorize(resp2)),
@@ -35,9 +35,9 @@ export class ApiLoginService {
         console.log("[api-login] f loginConCredenciales")
         let respuesta$ = new Observable(observer => {
             const url = rutasLogin.loginCajetin
-            const nombre = credenciales.rut.replace(".", "").replace(".", "")
+            const rut = credenciales.rut.replace(".", "").replace(".", "")
             const clave = credenciales.clave.replace(/\+/g, '%2B')
-            const body = "username=" + nombre + "&password=" + clave + "&apikey="+llave;
+            const body = "username=" + rut + "&password=" + clave + "&apikey="+llave;
             const httpOptions = {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -53,6 +53,8 @@ export class ApiLoginService {
                     if (resp.datos.act_token) {
                         console.log("[api-login]act_token:" + resp.datos.act_token)
                         observer.next(resp.datos.act_token)
+                    }else{
+                        observer.next({estado:"error",tipo:"respuesta erronea"})
                     }
                 }
                 observer.complete()
@@ -80,13 +82,13 @@ export class ApiLoginService {
                 this._http.post({url: url, body: body, options: httpOptions}).subscribe(resp => {
                     console.log("[api-login]resp:" +JSON.stringify(resp))
                     if(resp.tipo){
-                        observer.next({estado: "nook"})
+                        observer.next(resp)
                     }else {
                         if (resp.datos.code) {
                             console.log("[api-login]code:" + resp.datos.code)
                             observer.next(resp.datos.code)
                         }else{
-                            observer.next({estado: "nook"})
+                            observer.next({estado:"error",tipo:"respuesta erronea"})
                         }
                     }
                     observer.complete()
@@ -115,9 +117,12 @@ export class ApiLoginService {
                     }
                 };
                 this._http.post({url: url,body:body, options: httpOptions}).subscribe(resp => {
-                    //todo:if else
-                    observer.next(resp)
-
+                    if(resp.tipo){
+                        observer.next(resp)
+                    }else {
+                        //todo:analizar que deve debolver y que no
+                        observer.next(resp)
+                    }
                     observer.complete()
                 })
             })

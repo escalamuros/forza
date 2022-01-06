@@ -33,6 +33,15 @@ export class SplashComponent implements OnInit {
       firebase
           .init()
           .then(()=>{console.log("[SplashComponent]firebase iniciado")})
+      /*todo:
+        revisar servicio de disponibilidad (bloqueo y modal)
+        revisar mantenedor (esqueleto) (modal de error)
+        ver si esta logeado:
+         si no  sta logeado: redirigo a ingreso
+        si esta logeado: ver token vencido y renovar si es necesario
+        validar la version de la app (modal)
+        validar sistema encuesta (modal)
+        validar notificacion con deeplink (redireccion)*/
       setTimeout(()=>{ this.enrrutador.navigate(["ingreso"])},2000)
   }
 }
@@ -63,6 +72,7 @@ applicationOn(resumeEvent, (args: ApplicationEventData) => {
     if (args.android) {
         // For Android applications, args.android is an android activity class.
         console.log("[SplashComponent] Activity: " + args.android);
+        //validar token si estaba logado
     } else if (args.ios) {
         // For iOS applications, args.ios is UIApplication.
         console.log("[SplashComponent] UIApplication: " + args.ios);
