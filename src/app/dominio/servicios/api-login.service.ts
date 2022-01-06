@@ -140,7 +140,7 @@ export class ApiLoginService {
                 const url = rutasLogin.updateContext
                 const customerId = agrupado.customerId
                 const body = {
-                    customerId,
+                    customerId: customerId,
                     lo: 'es_CL',
                     sc: 'SS',
                     time: '1544581079034'

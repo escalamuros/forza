@@ -34,11 +34,11 @@ export class UcIngresoService {
                         this.respuesta.error="Error en :"+ resp.tipo
                         observer.next(this.respuesta)
                     }else{
-                        this.guardarUsuarioLogeado(resp)
+                        this.guardarRespuestas(resp)
                         //todo: corresponde a seleccion de linea, hacer caso de uso
-                        if(this._usuario.obtenerTipoLinea()==="MOVIL"){
+                        if(this._linea.obtenerTipo()==="MOVIL"){
                             const agrupado={
-                                customerId:this._usuario.obtenerCustomerIdLinea(),
+                                customerId:this._linea.obtenerCustomerId(),
                                 accessToken:this._session.getAccessToken(),
                                 mcssToken:this._session.getMcssToken()
                             }
@@ -48,7 +48,6 @@ export class UcIngresoService {
                         }else{
 
                         }
-
                         observer.next(this.respuesta)
                     }
                     observer.complete()
@@ -58,29 +57,16 @@ export class UcIngresoService {
         return respuesta$
     }
 
-    guardarSession(){}
-
-    guardarLinea(){}
-
-    guardarUsuarioLogeado(resp){
+    guardarRespuestas(resp){
         console.log("[UCIngreso] f guardarUsuarioLogeado")
+
+        let productos=resp.responseBknd.token.cliente.productos.producto
+
         let dataSesion={
             tiempoVenceAccessToken : new Date().getTime()+resp.expires_in,
             accessToken : resp.access_token,
             refreshToken : resp.refresh_token,
             mcssToken : resp.mcsstoken
-        }
-        let linea = {idclie:"no",tipo:"no"}
-        let customerIdLinea = "no"
-        let tipoLinea = "no"
-        let productos=resp.responseBknd.token.cliente.productos.producto
-        this.respuesta={estado:"nook",error:"Usuario registrado,Sin lineas"}
-
-        if(Object.keys(productos).length>0){
-            linea = productos[0]
-            customerIdLinea = linea.idclie
-            tipoLinea = linea.tipo
-            this.respuesta={estado:"ok",segmento:"user"}
         }
 
         let dataUsuario={
@@ -90,21 +76,21 @@ export class UcIngresoService {
             correoElectronico : resp.responseBknd.token.cliente.contacto.mail,
             sms : resp.responseBknd.token.cliente.contacto.sms,
             rut : resp.rut+"-"+resp.dv,
-            linea : linea,
-            customerIdLinea : customerIdLinea,
-            tipoLinea : tipoLinea,
             productos : productos
         }
 
+        let hayLineaSeleccionada=this._linea.iniciarLinea(productos)
+        if(hayLineaSeleccionada){
 
+        }else{
+            this.respuesta={estado:"ok",segmento:"registrar_linea",error:"Usuario registrado,Sin lineas"}
+        }
+        //
 
         //todo:datos de la linea inicial:id,tipo,tipoContrato,rol,preferido,
 
-
         this._session.iniciarSesion(dataSesion)
-
         this._usuario.iniciarUsuario(dataUsuario)
-
 
     }
 

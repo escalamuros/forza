@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+
+//caso de uso
 import { UcIngresoService } from "../../../aplicacion/casos de uso/login/ingreso/uc-ingreso.service";
+
+//modelos
 import {loginPorCredenciales} from "../../../dominio/interfaces/login/loginRequest";
 import {respuestaLogin} from "../../../dominio/interfaces/login/loginResponse";
+
 import {RouterExtensions} from "@nativescript/angular";
 
 @Component({
@@ -37,6 +42,9 @@ export class IngresoComponent implements OnInit {
 
     validarCredenciales() {
         console.log("[IngresoComponent] funcion validarCredenciales")
+        if(this.accionBloqueada){
+            console.log("[IngresoComponent] accion en curso, funcion no realiza nada")
+        }
         if(!this.accionBloqueada){
             this.accionBloqueada=true
             this.respuesta="logeando ..."
@@ -71,13 +79,16 @@ export class IngresoComponent implements OnInit {
         if(this.respuestaLogin.estado!="ok"){
             this.clave=""
             this.rut=""
-        }else{
+        } else {
             if(this.respuestaLogin.segmento === 'user'){
                 this._enrrutador.navigate(["resumen"])
             }
-            else if(this.respuestaLogin.segmento === 'admin'){
+            if(this.respuestaLogin.segmento === 'admin'){
                 this._enrrutador.navigate(["resumen-admin"])
             }
+            /*if(this.respuestaLogin.segmento === 'registrar_linea'){
+                this._enrrutador.navigate(["registrar_linea"])
+            }*/
         }
     }
 }

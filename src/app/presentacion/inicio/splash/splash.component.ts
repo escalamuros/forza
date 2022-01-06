@@ -36,10 +36,12 @@ export class SplashComponent implements OnInit {
       /*todo:
         revisar servicio de disponibilidad (bloqueo y modal)
         revisar mantenedor (esqueleto) (modal de error)
-        ver si esta logeado:
-         si no  sta logeado: redirigo a ingreso
-        si esta logeado: ver token vencido y renovar si es necesario
-        validar la version de la app (modal)
+        verifica el estado de logeo:
+        si no esta logeado: redirigo a ingreso (login)
+        si esta logeado:
+        rescatar datos desde persistencia local (usuario,linea,sesion)
+        ver token de session vencido y renovar si es necesario
+        validar la version minima de la app (modal)
         validar sistema encuesta (modal)
         validar notificacion con deeplink (redireccion)*/
       setTimeout(()=>{ this.enrrutador.navigate(["ingreso"])},2000)

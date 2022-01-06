@@ -9,46 +9,55 @@ import {UsuarioService} from "../app/dominio/entidades/usuario.service"
 import {SesionService} from "../app/dominio/entidades/sesion.service"
 import {LineaService} from "../app/dominio/entidades/linea.service"
 
-/*describe("Caso de uso ingreso service",()=>{
+xdescribe("Caso de uso ingreso service:",()=>{
     let credenciales:loginPorCredenciales={rut:"a",clave:"b"}
     let uc:UcIngresoService
     let api:ApiLoginService
     let usrSvc:UsuarioService
     let ssnSvc:SesionService
     let lnSvc:LineaService
-    let ObserverSpy,HttpSpy
+    let apiLoginSpy,httpSpy
     beforeEach(nsTestBedBeforeEach([],[UcIngresoService,UsuarioService,SesionService]));
     afterEach(nsTestBedAfterEach(false));
-    xit("Crea el servicio con un mock del httpclient que responde error",()=>{
-        ObserverSpy=jasmine.createSpyObj('ApiLoginService',['IntertarloginConCredenciales'])
-        HttpSpy=jasmine.createSpyObj('HttpClient',['post'])
-        api = new ApiLoginService(HttpSpy)
+    xit("mock IntegrarLoginConCredenciales ok",()=>{
+        apiLoginSpy=jasmine.createSpyObj('ApiLoginService',['IntertarloginConCredenciales'])
+        httpSpy=jasmine.createSpyObj('HttpClient',['post'])
+        api = new ApiLoginService(httpSpy)
         usrSvc= new UsuarioService()
         ssnSvc= new SesionService()
         lnSvc= new LineaService()
         uc = new UcIngresoService(api,usrSvc,ssnSvc,lnSvc)
-        ObserverSpy.IntertarloginConCredenciales.and.returnValue(of({estado:"nook"}))
-        //HttpSpy.post.and.returnValue(of({estado:"error en API",url:""}))
+        apiLoginSpy.IntertarloginConCredenciales.and.returnValue(of({estado:"nook"}))
         uc.loginPorCredenciales(credenciales).subscribe(res=>{
             expect(res.estado).toEqual("error")
         })
     })
-    xit("Crea el servicio con un mock del httpclient que responde ok",()=>{
-        httpSpy=jasmine.createSpyObj('HttpClient',['get'])
-        api = new ApiGatosService(httpSpy)
-        uc = new UcGatosService(api)
-        httpSpy.get.and.returnValue(of([{"breeds":[],"id":"cmd","url":"https://cdn2.thecatapi.com/images/cmd.jpg","width":1715,"height":1726}]))
-        uc.ObtenerGatoDesdeApi().subscribe(res=>{
-            expect(res.estado).toEqual("ok")
+    xit("mock IntegrarLoginConCredenciales error",()=>{
+        apiLoginSpy=jasmine.createSpyObj('ApiLoginService',['IntertarloginConCredenciales'])
+        httpSpy=jasmine.createSpyObj('HttpClient',['post'])
+        api = new ApiLoginService(httpSpy)
+        usrSvc= new UsuarioService()
+        ssnSvc= new SesionService()
+        lnSvc= new LineaService()
+        uc = new UcIngresoService(api,usrSvc,ssnSvc,lnSvc)
+        apiLoginSpy.IntertarloginConCredenciales.and.returnValue(of({estado:"nook"}))
+        uc.loginPorCredenciales(credenciales).subscribe(res=>{
+            expect(res.estado).toEqual("error")
         })
     })
-    xit("Crea el servicio con un mock del httpclient que responde ok",()=>{
-        httpSpy=jasmine.createSpyObj('HttpClient',['get'])
-        api = new ApiGatosService(httpSpy)
-        uc = new UcGatosService(api)
-        httpSpy.get.and.returnValue(of([{"breeds":[],"id":"cmd","url":"https://cdn2.thecatapi.com/images/cmd.jpg","width":1715,"height":1726}]))
-        uc.ObtenerGatoDesdeApi().subscribe(res=>{
-            expect(uc.getContador()).toBe(1)
+    xit("mock loginConCredenciales,userAuthorize,tokenActivation ok",()=>{
+        apiLoginSpy=jasmine.createSpyObj('ApiLoginService',['loginConCredenciales','userAuthorize','tokenActivation'])
+        httpSpy=jasmine.createSpyObj('HttpClient',['post'])
+        api = new ApiLoginService(httpSpy)
+        usrSvc= new UsuarioService()
+        ssnSvc= new SesionService()
+        lnSvc= new LineaService()
+        uc = new UcIngresoService(api,usrSvc,ssnSvc,lnSvc)
+        apiLoginSpy.loginConCredenciales.and.returnValue(of({datos:{act_token:"token"}}))
+        apiLoginSpy.userAuthorize.and.returnValue(of({estado:"nook",tipo:"no"}))
+        apiLoginSpy.tokenActivation.and.returnValue(of({estado:"ok"}))
+        uc.loginPorCredenciales(credenciales).subscribe(res=>{
+            expect(res.estado).toEqual("nook")
         })
     })
-})*/
+})

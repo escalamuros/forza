@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {UsuarioService} from "../../../dominio/entidades/usuario.service";
+import {LineaService} from "../../../dominio/entidades/linea.service";
 
 @Component({
   selector: 'ns-resumen',
@@ -13,7 +14,7 @@ export class ResumenComponent implements OnInit {
     public texto4:string
 
 
-  constructor(private _usuario:UsuarioService) {
+  constructor(private _usuario:UsuarioService,private _linea:LineaService) {
       this.texto1="Bienvenido "
       this.texto2=""
       this.texto3=""
@@ -24,8 +25,8 @@ export class ResumenComponent implements OnInit {
   ngOnInit(): void {
       this.texto1=this.texto1+this._usuario.obtenerNombre()
       this.texto2="rut:"+this._usuario.obtenerRut()
-      this.texto3="linea tipo:"+this._usuario.obtenerTipoLinea()+"-Id:"+this._usuario.obtenerIdLinea()+"-customerId:"+this._usuario.obtenerCustomerIdLinea()
-      this.texto4=this._usuario.obtenerLinea()
+      this.texto3="linea tipo:"+this._linea.obtenerTipo()+"-Id:"+this._linea.obtenerId()+"-customerId:"+this._linea.obtenerCustomerId()
+      this.texto4=""
   }
 
 }

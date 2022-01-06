@@ -18,10 +18,6 @@ export class UsuarioService {
         this.usuario.correoElectronico=dataUsuario.correoElectronico
         this.usuario.sms=dataUsuario.sms
         this.usuario.rut=dataUsuario.rut
-        this.usuario.linea=dataUsuario.linea
-        this.usuario.idLinea=dataUsuario.linea.id
-        this.usuario.customerIdLinea=dataUsuario.customerIdLinea
-        this.usuario.tipoLinea=dataUsuario.tipoLinea
         this.usuario.productos=dataUsuario.productos
     }
 
@@ -41,25 +37,11 @@ export class UsuarioService {
         return this.usuario.rut
     }
 
-    obtenerLinea(){
-        return JSON.stringify(this.usuario.linea)
-    }
-
-    obtenerIdLinea(){
-        return this.usuario.idLinea
-    }
-
-    obtenerCustomerIdLinea(){
-        return this.usuario.customerIdLinea
-    }
-
     guardarUsuarioPersistencia(){}
 
     borrarUsuarioPersistencia(){}
 
-    obtenerTipoLinea(){
-        return this.usuario.tipoLinea
-    }
+
 
 
 }
