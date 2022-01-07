@@ -46,15 +46,15 @@ export class ApiLoginService {
             };
             this._http.post({url: url, body: body, options: httpOptions}).subscribe(resp => {
                 console.log("[api-login]resp:" + JSON.stringify(resp))
-                if (resp.tipo) {
-                    console.log("[api-login]tipo:" + resp.tipo)
+                if (resp.error) {
+                    console.log("[api-login]error del tipo :" + resp.tipo)
                     observer.next(resp)
                 } else {
                     if (resp.datos.act_token) {
                         console.log("[api-login]act_token:" + resp.datos.act_token)
                         observer.next(resp.datos.act_token)
                     }else{
-                        observer.next({estado:"error",tipo:"respuesta erronea"})
+                        observer.next({error:true,tipo:"respuesta erronea"})
                     }
                 }
                 observer.complete()
@@ -65,7 +65,7 @@ export class ApiLoginService {
 
     userAuthorize(activacion): Observable<any> {
         console.log("[api-login] f userAuthorize")
-        if (activacion.estado) {
+        if (activacion.error) {
             return of(activacion)
         } else {
             let respuesta$ = new Observable(observer => {
@@ -81,14 +81,14 @@ export class ApiLoginService {
                 };
                 this._http.post({url: url, body: body, options: httpOptions}).subscribe(resp => {
                     console.log("[api-login]resp:" +JSON.stringify(resp))
-                    if(resp.tipo){
+                    if(resp.error){
                         observer.next(resp)
                     }else {
                         if (resp.datos.code) {
                             console.log("[api-login]code:" + resp.datos.code)
                             observer.next(resp.datos.code)
                         }else{
-                            observer.next({estado:"error",tipo:"respuesta erronea"})
+                            observer.next({error:true,tipo:"respuesta erronea"})
                         }
                     }
                     observer.complete()
@@ -100,7 +100,7 @@ export class ApiLoginService {
 
     tokenActivation(code): Observable<any> {
         console.log("[api-login] f tokenActivation")
-        if (code.estado) {
+        if (code.error) {
             return of(code)
         } else {
             let respuesta$ = new Observable(observer => {
@@ -117,7 +117,7 @@ export class ApiLoginService {
                     }
                 };
                 this._http.post({url: url,body:body, options: httpOptions}).subscribe(resp => {
-                    if(resp.tipo){
+                    if(resp.error){
                         observer.next(resp)
                     }else {
                         //todo:analizar que deve debolver y que no
@@ -133,7 +133,7 @@ export class ApiLoginService {
     updateClientUserContext(agrupado): Observable<any> {
         console.log("[api-login]f updateClientUserContext")
         console.log("[api-login] agrupado:" + JSON.stringify(agrupado))
-        if (agrupado.estado) {
+        if (agrupado.error) {
             return of(agrupado)
         } else {
             let respuesta$ = new Observable(observer => {

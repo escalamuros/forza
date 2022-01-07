@@ -1,12 +1,16 @@
+import {Injectable} from '@angular/core';
+import {Observable} from "rxjs";
+
+//modelos o interfaces de entrada y salida
 import {loginPorCredenciales} from "../../../../dominio/interfaces/login/loginRequest";
 import {respuestaLogin} from "../../../../dominio/interfaces/login/loginResponse";
 
-import {Injectable} from '@angular/core';
+//servicios a usar
 import {ApiLoginService} from "../../../../dominio/servicios/api-login.service";
 import {UsuarioService} from "../../../../dominio/entidades/usuario.service";
 import {LineaService} from "../../../../dominio/entidades/linea.service";
 import {SesionService} from "../../../../dominio/entidades/sesion.service";
-import {Observable} from "rxjs";
+
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +24,7 @@ export class UcIngresoService {
                 private _linea: LineaService,
 
     ) {
-        this.respuesta={estado:"ok",segmento:"user"}
+        this.respuesta={estado:"nook",error:"construccion del caso de uso"}
     }
 
     loginPorCredenciales(credenciales: loginPorCredenciales): Observable<respuestaLogin> {
@@ -28,8 +32,8 @@ export class UcIngresoService {
         let respuesta$ = new Observable<respuestaLogin>(observer =>{
             this._loginService.IntertarloginConCredenciales(credenciales).subscribe(
                 resp=>{
-                    console.log("[UCIngreso] respuesta loginCredenciales ");
-                    if(resp.estado){
+                    console.log("[UCIngreso] respuesta loginCredenciales ")
+                    if(resp.error){
                         this.respuesta.estado="error";
                         this.respuesta.error="Error en :"+ resp.tipo
                         observer.next(this.respuesta)
@@ -44,10 +48,14 @@ export class UcIngresoService {
                             }
                             this._loginService.updateClientUserContext(agrupado).subscribe(resp=>{
                                 console.log("[UCIngreso] respuesta updateClientUserContext "+JSON.stringify(resp))
+                                this.respuesta.estado="ok"
+                                this.respuesta.segmento=this._linea.obtenerTipo()
                             })
                         }else{
-
+                            this.respuesta.estado="ok"
+                            this.respuesta.segmento=this._linea.obtenerTipo()
                         }
+
                         observer.next(this.respuesta)
                     }
                     observer.complete()
@@ -79,18 +87,14 @@ export class UcIngresoService {
             productos : productos
         }
 
+        this._session.iniciarSesion(dataSesion)
+        this._usuario.iniciarUsuario(dataUsuario)
         let hayLineaSeleccionada=this._linea.iniciarLinea(productos)
         if(hayLineaSeleccionada){
 
         }else{
             this.respuesta={estado:"ok",segmento:"registrar_linea",error:"Usuario registrado,Sin lineas"}
         }
-        //
-
-        //todo:datos de la linea inicial:id,tipo,tipoContrato,rol,preferido,
-
-        this._session.iniciarSesion(dataSesion)
-        this._usuario.iniciarUsuario(dataUsuario)
 
     }
 

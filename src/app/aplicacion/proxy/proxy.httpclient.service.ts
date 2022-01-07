@@ -31,7 +31,6 @@ export class ProxyHttpclientService {
         respuesta$ = this._http.post(parametros.url,parametros.body,opciones).pipe(
             timeout(30000),
             catchError(err => this.errorApi(err))
-
         )
         return respuesta$
     }
@@ -52,7 +51,7 @@ export class ProxyHttpclientService {
         } else {
             console.log("[ProxyHttpclientService]error desconosido en servicio")
         }
-        return of({estado: "error", tipo: tipo})
+        return of({error: true, tipo: tipo})
     }
 
 }

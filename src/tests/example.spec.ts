@@ -1,4 +1,5 @@
 // A sample Jasmine test
+
 describe("A suite 1", function() {
 
   it("contains spec with an expectation", function() {
@@ -81,4 +82,4 @@ describe("PU de items.component.", function() {
         expect(respuesta).toEqual("respuesta false");
         //expect(items.getFlag()).toHaveBeenCalledTimes(1)
     });
-});
+})

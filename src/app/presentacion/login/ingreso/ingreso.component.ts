@@ -70,7 +70,6 @@ export class IngresoComponent implements OnInit {
         } else {
             let dif= this.tiempoFin.getTime() - this.tiempoInicio.getTime()
             this.respuesta="Login OK en "+dif+" milisegundos"
-            this.accionBloqueada=false
         }
     }
 
@@ -86,9 +85,9 @@ export class IngresoComponent implements OnInit {
             if(this.respuestaLogin.segmento === 'admin'){
                 this._enrrutador.navigate(["resumen-admin"])
             }
-            /*if(this.respuestaLogin.segmento === 'registrar_linea'){
-                this._enrrutador.navigate(["registrar_linea"])
-            }*/
+            if(this.respuestaLogin.segmento === 'registrar_linea'){
+                //levantar modal para registrar lineas movistar this._enrrutador.navigate(["registrar_linea"])
+            }
         }
     }
 }
