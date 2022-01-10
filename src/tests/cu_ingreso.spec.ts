@@ -28,7 +28,13 @@ xdescribe("Caso de uso ingreso service:",()=>{
                         mail:"a@b.c",
                         sms:"sms"
                     },
-                    productos:{producto:[{idclie:"a",id:"b",tipo:"MOVIL"}]}}}}
+                    productos:{
+                        producto:[{idclie:"a",id:"b",tipo:"MOVIL"}]
+                    }
+                }
+            }
+
+        }
     }
     let uc:UcIngresoService
     let api:ApiLoginService
@@ -38,7 +44,7 @@ xdescribe("Caso de uso ingreso service:",()=>{
     let apiLoginSpy,httpSpy
     beforeEach(nsTestBedBeforeEach([],[ApiLoginService]));
     afterEach(nsTestBedAfterEach(false));
-    it("mock en fn IntegrarLoginConCredenciales da error",()=>{
+    xit("mock en fn IntegrarLoginConCredenciales da error",()=>{
         apiLoginSpy=jasmine.createSpyObj('ApiLoginService',['IntertarloginConCredenciales'])
         httpSpy=jasmine.createSpyObj('HttpClient',['post'])
         api = new ApiLoginService(httpSpy)
@@ -46,12 +52,13 @@ xdescribe("Caso de uso ingreso service:",()=>{
         ssnSvc= new SesionService()
         lnSvc= new LineaService()
         uc = new UcIngresoService(api,usrSvc,ssnSvc,lnSvc)
-        apiLoginSpy.IntertarloginConCredenciales.and.returnValue(of({error:true,tipo:"no ok"}))
+        apiLoginSpy.IntertarloginConCredenciales.and.returnValue(of({error:"true",tipo:"desconocido"}))
         uc.loginPorCredenciales(credenciales).subscribe(res=>{
+
             expect(res.estado).toEqual("error")
         })
     })
-    it("mock en fn IntegrarLoginConCredenciales ok",()=>{
+    xit("mock en fn IntegrarLoginConCredenciales ok",()=>{
         apiLoginSpy=jasmine.createSpyObj('ApiLoginService',['IntertarloginConCredenciales','updateClientUserContext'])
         httpSpy=jasmine.createSpyObj('HttpClient',['post'])
         api = new ApiLoginService(httpSpy)

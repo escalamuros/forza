@@ -125,7 +125,14 @@
 <a name='L66'></a><a href='#L66'>66</a>
 <a name='L67'></a><a href='#L67'>67</a>
 <a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -163,6 +170,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -190,6 +199,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -223,41 +237,48 @@ xdescribe("Caso de uso ingreso service:",()=&gt;{
                         mail:"a@b.c",
                         sms:"sms"
                     },
-                    productos:{producto:[{idclie:"a",id:"b",tipo:"MOVIL"}]}}}}
+                    productos:{
+                        producto:[{idclie:"a",id:"b",tipo:"MOVIL"}]
+                    }
+                }
+            }
+&nbsp;
+        }
     }
     let uc:UcIngresoService
     let api:ApiLoginService
     let usrSvc:UsuarioService
     let ssnSvc:SesionService
-    let lnSvc:LineaService
-    let apiLoginSpy,httpSpy
-    beforeEach(nsTestBedBeforeEach([],[ApiLoginService]));
-    afterEach(nsTestBedAfterEach(false));
-    it("mock en fn IntegrarLoginConCredenciales da error",(<span class="fstat-no" title="function not covered" >)=</span>&gt;{
-<span class="cstat-no" title="statement not covered" >        apiLoginSpy=jasmine.createSpyObj('ApiLoginService',['IntertarloginConCredenciales'])</span>
+    let lnSvc:LineaService<span class="fstat-no" title="function not covered" ></span>
+    let <span class="cstat-no" title="statement not covered" >apiLoginSpy,httpSpy</span>
+    befo<span class="cstat-no" title="statement not covered" >reEach(nsTestBedBeforeEach([],[ApiLoginService]));</span>
+    afte<span class="cstat-no" title="statement not covered" >rEach(nsTestBedAfterEach(false));</span>
+    xit(<span class="cstat-no" title="statement not covered" >"mock en fn IntegrarLoginConCre</span>denciales da error",()=&gt;{
+<span class="cstat-no" title="statement not covered" >        apiLoginSpy=jasmine.createSpyO</span>bj('ApiLoginService',['IntertarloginConCredenciales'])
+<span class="cstat-no" title="statement not covered" >        httpSpy=jasmine.createSpyObj</span>('HttpClient',['post'])
+<span class="cstat-no" title="statement not covered" >        api = new ApiLoginService(httpSpy)</span>
+<span class="cstat-no" title="statement not covered" >        usrSvc= new UsuarioService()</span>
+<span class="cstat-no" title="statement not covered" >        ssnSvc= new SesionService()<span class="fstat-no" title="function not covered" ></span></span>
+        lnSv<span class="cstat-no" title="statement not covered" >c= new LineaService()</span>
+        uc = new UcIngresoService(api,usrSvc,ssnSvc,lnSvc)
+        apiLoginSpy.IntertarloginConCredenciales.and.returnValue(of({error:"true",tipo:"desconocido"}))
+        uc.loginPorCredenciales(credenciales).subscrib<span class="fstat-no" title="function not covered" >e(</span>res=&gt;{
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >            expect(res.estado).toEqual("error")</span>
+<span class="cstat-no" title="statement not covered" >        })</span>
+    })<span class="cstat-no" title="statement not covered" ></span>
+    xit(<span class="cstat-no" title="statement not covered" >"mock en fn IntegrarLoginConCr</span>edenciales ok",()=&gt;{
+<span class="cstat-no" title="statement not covered" >        apiLoginSpy=jasmine.createSp</span>yObj('ApiLoginService',['IntertarloginConCredenciales','updateClientUserContext'])
 <span class="cstat-no" title="statement not covered" >        httpSpy=jasmine.createSpyObj('HttpClient',['post'])</span>
 <span class="cstat-no" title="statement not covered" >        api = new ApiLoginService(httpSpy)</span>
 <span class="cstat-no" title="statement not covered" >        usrSvc= new UsuarioService()</span>
-<span class="cstat-no" title="statement not covered" >        ssnSvc= new SesionService()</span>
-<span class="cstat-no" title="statement not covered" >        lnSvc= new LineaService()</span>
-<span class="cstat-no" title="statement not covered" >        uc = new UcIngresoService(api,usrSvc,ssnSvc,lnSvc)</span>
-<span class="cstat-no" title="statement not covered" >        apiLoginSpy.IntertarloginConCredenciales.and.returnValue(of({error:true,tipo:"no ok"}))</span>
-<span class="cstat-no" title="statement not covered" >        uc.loginPorCredenciales(credenciales).subscribe(<span class="fstat-no" title="function not covered" >re</span>s=&gt;{</span>
-<span class="cstat-no" title="statement not covered" >            expect(res.estado).toEqual("error")</span>
-        })
-    })
-    it("mock en fn IntegrarLoginConCredenciales ok",(<span class="fstat-no" title="function not covered" >)=</span>&gt;{
-<span class="cstat-no" title="statement not covered" >        apiLoginSpy=jasmine.createSpyObj('ApiLoginService',['IntertarloginConCredenciales','updateClientUserContext'])</span>
-<span class="cstat-no" title="statement not covered" >        httpSpy=jasmine.createSpyObj('HttpClient',['post'])</span>
-<span class="cstat-no" title="statement not covered" >        api = new ApiLoginService(httpSpy)</span>
-<span class="cstat-no" title="statement not covered" >        usrSvc= new UsuarioService()</span>
-<span class="cstat-no" title="statement not covered" >        ssnSvc= new SesionService()</span>
-<span class="cstat-no" title="statement not covered" >        lnSvc= new LineaService()</span>
-<span class="cstat-no" title="statement not covered" >        uc = new UcIngresoService(api,usrSvc,ssnSvc,lnSvc)</span>
-<span class="cstat-no" title="statement not covered" >        apiLoginSpy.IntertarloginConCredenciales.and.returnValue(of(respuestaFinal))</span>
-<span class="cstat-no" title="statement not covered" >        apiLoginSpy.updateClientUserContext.and.returnValue(of({estado:"ok",segmento:"MOVIL"}))</span>
-<span class="cstat-no" title="statement not covered" >        uc.loginPorCredenciales(credenciales).subscribe(<span class="fstat-no" title="function not covered" >re</span>s=&gt;{</span>
-<span class="cstat-no" title="statement not covered" >            expect(res.estado).toEqual("error")</span>
+<span class="cstat-no" title="statement not covered" >        ssnSvc= new SesionService()<span class="fstat-no" title="function not covered" ></span></span>
+        lnSv<span class="cstat-no" title="statement not covered" >c= new LineaService()</span>
+        uc = new UcIngresoService(api,usrSvc,ssnSvc,lnSvc)
+        apiLoginSpy.IntertarloginConCredenciales.and.returnValue(of(respuestaFinal))
+        apiLoginSpy.updateClientUserContext.and.returnValue(of({estado:"ok",segmento:"MOVIL"}))
+        uc.loginPorCredenciales(credenciales).subscribe(res=&gt;{
+            expect(res.estado).toEqual("error")
         })
     })
 })
@@ -268,7 +289,7 @@ xdescribe("Caso de uso ingreso service:",()=&gt;{
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri Jan 07 2022 09:59:46 GMT-0300 (GMT-03:00)
+                at Fri Jan 07 2022 13:43:05 GMT-0300 (GMT-03:00)
             </div>
         </div>
         <script src="../prettify.js"></script>
