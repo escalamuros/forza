@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">86.67% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>45/45</span>
+                <span class='fraction'>39/45</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">86.67% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>15/15</span>
+                <span class='fraction'>13/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">86.67% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>45/45</span>
+                <span class='fraction'>39/45</span>
             </div>
         
             
@@ -128,7 +128,8 @@
 <a name='L69'></a><a href='#L69'>69</a>
 <a name='L70'></a><a href='#L70'>70</a>
 <a name='L71'></a><a href='#L71'>71</a>
-<a name='L72'></a><a href='#L72'>72</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -137,20 +138,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -215,13 +217,14 @@ describe("proxy de httpclient service:",()=&gt; {
     })
     afterEach(()=&gt;{
         console.log("[test]despues de cada IT")
-        nsTestBedAfterEach(false)})
-    it("fn post, http error", () =&gt; {
-        httpSpy = jasmine.createSpyObj('HttpClient', ['post'])
+        nsTestBedAfterEach(fals<span class="fstat-no" title="function not covered" >e)</span>})
+    xit(<span class="cstat-no" title="statement not covered" >"fn post, http error", () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        httpSpy = jasmine.createSpyObj('HttpClient', ['po</span>st'])
         proxyHttp = new ProxyHttpclientService(httpSpy)
-        httpSpy.post.and.returnValue(of({status:"400"}))
-        proxyHttp.post({url:"algo",body:{a:"a",b:"b"},options:{header:{c:"c",d:"d"}}}).subscribe(res =&gt; {
-            expect(res).toEqual(jasmine.anything())
+<span class="cstat-no" title="statement not covered" >        //requiere otro tipo de paso de respuesta erronea par</span>a que la tome como error
+<span class="cstat-no" title="statement not covered" >        httpSpy.post.and.returnValue(of({status:"400"}))<span class="fstat-no" title="function not covered" ></span></span>
+        prox<span class="cstat-no" title="statement not covered" >yHttp.post({url:"algo",body:{a:"a",b:"b"}</span>,options:{header:{c:"c",d:"d"}}}).subscribe(res =&gt; {
+<span class="cstat-no" title="statement not covered" >            expect(res).toEqual(jasmine.anythin</span>g())
             expect(res.error).toEqual("true")
         })
     })
@@ -277,7 +280,7 @@ describe("proxy de httpclient service:",()=&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri Jan 07 2022 13:43:05 GMT-0300 (GMT-03:00)
+                at Mon Jan 10 2022 14:19:22 GMT-0300 (GMT-03:00)
             </div>
         </div>
         <script src="../prettify.js"></script>

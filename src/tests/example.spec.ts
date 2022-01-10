@@ -44,12 +44,17 @@ class ItemsComponent{
 describe("PU de items.component.", function() {
     let items;
     beforeEach(function () {
+        jasmine.clock().install()
         items=new ItemsComponent();
     });
+    afterEach(function(){
+        jasmine.clock().uninstall()
+    })
 
     it("se crea la lista de items",function(){
         //let items= new ItemsComponent();
         let respuesta = items.retornaArray();
+        jasmine.clock().tick(5)
         expect(respuesta).not.toBeNull();
         //expect(respuesta).toEqual(jasmine.arrayContaining(['a']));
         //expect(respuesta).toEqual(jasmine.any(Object));

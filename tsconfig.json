@@ -21,7 +21,7 @@
   },
   "include": [
     "references.d.ts",
-    "src/tests/*.ts"
+    "./src/tests/*.ts"
   ],
   "files": [
     "./src/main.ts"
@@ -32,3 +32,11 @@
       "e2e"
   ]
 }
+/*
+estaba en files: ...,
+    "./src/tests/api_login.spec.ts",
+    "./src/tests/cu_ingreso.spec.ts",
+    "./src/tests/example.spec.ts",
+    "./src/tests/proxy_httpclient.spec.ts",
+    "./src/tests/setup.ts"
+*/
