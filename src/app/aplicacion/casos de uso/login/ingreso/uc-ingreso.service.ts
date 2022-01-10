@@ -38,6 +38,8 @@ export class UcIngresoService {
                         this.respuesta.error="Error en :"+ resp.tipo
                         observer.next(this.respuesta)
                     }else{
+                        this.respuesta.estado="ok"
+                        this.respuesta.segmento=this._linea.obtenerTipo()
                         this.guardarRespuestas(resp)
                         //todo: corresponde a seleccion de linea, hacer caso de uso
                         if(this._linea.obtenerTipo()==="MOVIL"){
@@ -50,15 +52,15 @@ export class UcIngresoService {
                                 console.log("[UCIngreso] respuesta updateClientUserContext "+JSON.stringify(resp))
                                 this.respuesta.estado="ok"
                                 this.respuesta.segmento=this._linea.obtenerTipo()
+                                observer.next(this.respuesta)
+                                observer.complete()
                             })
-                        }else{
-                            this.respuesta.estado="ok"
-                            this.respuesta.segmento=this._linea.obtenerTipo()
                         }
-
-                        observer.next(this.respuesta)
+                        else{
+                            observer.next(this.respuesta)
+                            observer.complete()
+                        }
                     }
-                    observer.complete()
                 }
             )
         })

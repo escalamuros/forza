@@ -21,7 +21,7 @@
   },
   "include": [
     "references.d.ts",
-    "src/tests/**/*.ts"
+    "src/tests/*.ts"
   ],
   "files": [
     "./src/main.ts"

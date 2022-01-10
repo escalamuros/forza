@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core"
+import {ModalDialogParams} from "@nativescript/angular";
 
 @Component({
   selector: 'ns-menumodal',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenumodalComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _parametros:ModalDialogParams) { }
 
   ngOnInit(): void {
+  }
+
+  cerrarModal(respuesta){
+      console.log("[MenumodalComponent] f cerrarModal")
+      this._parametros.closeCallback(respuesta)
   }
 
 }

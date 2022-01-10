@@ -63,7 +63,7 @@ export class IngresoComponent implements OnInit {
     }
 
     mensajeDespuesDeIntento() {
-        console.log("[IngresoComponent]funcion reimprimir")
+        console.log("[IngresoComponent]funcion mensajeDespuesDeIntento")
         if(this.respuestaLogin.estado!="ok"){
             this.respuesta="Algo falló:"+this.respuestaLogin.error
 
@@ -74,11 +74,15 @@ export class IngresoComponent implements OnInit {
     }
 
     accionDespuesDeIntento():void{
+        console.log("[IngresoComponent]funcion accionDespuesDeIntento")
         this.accionBloqueada=false
         if(this.respuestaLogin.estado!="ok"){
             this.clave=""
             this.rut=""
         } else {
+            if(this.respuestaLogin.segmento === 'MOVIL'){
+                this._enrrutador.navigate(["resumen"])
+            }
             if(this.respuestaLogin.segmento === 'user'){
                 this._enrrutador.navigate(["resumen"])
             }
