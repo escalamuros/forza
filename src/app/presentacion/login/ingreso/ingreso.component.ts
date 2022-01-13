@@ -94,4 +94,8 @@ export class IngresoComponent implements OnInit {
             }
         }
     }
+
+    pasarResumen(){
+        this._enrrutador.navigate(["resumen"]);
+    }
 }

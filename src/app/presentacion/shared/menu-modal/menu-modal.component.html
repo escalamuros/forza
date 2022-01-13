@@ -1,0 +1,15 @@
+<StackLayout >
+    <Label text="Menu Modal"></Label>
+    <Label text="Acciones"></Label>
+    <ListView class="lista_acciones" [items]="lista">
+        <ng-template let-item="item" >
+            <GridLayout (tap)="cerrarModal(item.accion)" >
+                <Label [text]="item.texto" ></Label>
+            </GridLayout>
+        </ng-template>
+    </ListView>
+    <GridLayout >
+        <Button text="redirige perfil"></Button>
+    </GridLayout>
+
+</StackLayout>

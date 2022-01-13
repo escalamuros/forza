@@ -1,9 +1,10 @@
 <StackLayout>
-    <GridLayout columns="*" rows="20,20,20,40,20,*">
+    <GridLayout columns="*" rows="40,40,40,40,40,40,*">
         <Label row="0" [text]="texto1" ></Label>
         <Label row="1" [text]="texto2" ></Label>
         <Label row="2" [text]="texto3" ></Label>
         <Label row="3" [text]="texto4" textWrap="true"></Label>
         <Button row="4" text="Menu" (tap)="abrirMenuModal()"></Button>
+        <ns-navegacion-inferior row="5"></ns-navegacion-inferior>
     </GridLayout>
 </StackLayout>

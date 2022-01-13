@@ -20,6 +20,7 @@ export class LineaService {
             this.linea.numero=this.linea.lineas[0].id
             this.linea.customerId=this.linea.lineas[0].idclie
             this.linea.tipo=this.linea.lineas[0].tipo
+            this.linea.tipoContratoOri=this.linea.lineas[0].tipoContratoOri
             this.validarActualizarContexto()
             return true
         }
@@ -38,6 +39,7 @@ export class LineaService {
         this.linea.numero=this.linea.lineas[indice].numero
         this.linea.customerId=this.linea.lineas[indice].customerId
         this.linea.tipo=this.linea.lineas[indice].tipo
+        this.linea.tipoContratoOri=this.linea.lineas[indice].tipoContratoOri
         if(this.linea.customerId!=customerIdAnterior) {
             this.validarActualizarContexto()
         }
@@ -50,6 +52,14 @@ export class LineaService {
         }else{
             this.updateContext=false
         }
+    }
+
+    obtenerActualizarContexto(){
+        return this.updateContext
+    }
+
+    actualizarContextoRealizado(){
+        this.updateContext=false
     }
 
     obtenerNumero(){

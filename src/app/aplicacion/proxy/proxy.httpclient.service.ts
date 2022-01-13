@@ -15,20 +15,8 @@ export class ProxyHttpclientService {
     get(parametros): Observable<any> {
         console.log("[ProxyHttpclientService]f get")
         console.log("[ProxyHttpclientService]parametros.url:"+parametros.url)
-        console.log("[ProxyHttpclientService]parametros.body:"+parametros.body)
-        let url=parametros.url
-        /*
-        //todo:como tomar los elementos enviados en body
-        if(parametros.body){
-            url+="?"
-            parametros.body.forEach(elemento=>{
-                url+=elemento.key+"="+elemento.value+"&"
-            })
-        }*/
-        let  opciones=parametros.options
-        opciones.headers=new HttpHeaders(opciones.headers)
         let respuesta$: Observable<any>
-        respuesta$ = this._http.get(url,opciones).pipe(
+        respuesta$ = this._http.get(parametros.url,parametros.opciones).pipe(
             catchError(err => this.errorApi(err)),
             timeout(30000)
         )

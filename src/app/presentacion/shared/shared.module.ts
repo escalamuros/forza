@@ -1,14 +1,19 @@
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { NativeScriptCommonModule } from '@nativescript/angular';
-import { MenumodalComponent } from './menumodal/menumodal.component';
+import { MenuModalComponent } from './menu-modal/menu-modal.component';
+import { SelectorLineaComponent } from './selector-linea/selector-linea.component';
+import { NavegacionInferiorComponent } from './navegacion-inferior/navegacion-inferior.component';
 
 
 
 @NgModule({
-  declarations: [MenumodalComponent],
-  imports: [
-    NativeScriptCommonModule
-  ],
-  schemas: [NO_ERRORS_SCHEMA]
+    declarations: [MenuModalComponent, SelectorLineaComponent, NavegacionInferiorComponent],
+    imports: [
+        NativeScriptCommonModule
+    ],
+    exports: [
+        NavegacionInferiorComponent
+    ],
+    schemas: [NO_ERRORS_SCHEMA]
 })
 export class SharedModule { }

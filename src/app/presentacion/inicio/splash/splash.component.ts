@@ -21,7 +21,7 @@ import { SplashService } from "../../../aplicacion/casos de uso/inicio/splash/sp
 })
 export class SplashComponent implements OnInit {
 
-  constructor(private enrrutador:RouterExtensions,
+  constructor(private _enrrutador:RouterExtensions,
               private _splash:SplashService) {
       console.log("[SplashComponent] constructor");
   }
@@ -44,11 +44,12 @@ export class SplashComponent implements OnInit {
         validar la version minima de la app (modal)
         validar sistema encuesta (modal)
         validar notificacion con deeplink (redireccion)*/
-      setTimeout(()=>{ this.enrrutador.navigate(["ingreso"])},2000)
+      setTimeout(()=>{ this._enrrutador.navigate(["ingreso"])},2000)
   }
 }
 
 applicationOn(launchEvent, (args: ApplicationEventData) => {
+    console.log("[SplashComponent] launchEvent");
     if (args.android) {
         // For Android applications, args.android is an android.content.Intent class.
         console.log("[SplashComponent] Launched Android application with the following intent: " + args.android + ".");

@@ -3,14 +3,17 @@ import { NativeScriptCommonModule } from '@nativescript/angular';
 import { ModalDialogService} from "@nativescript/angular";
 
 import { ResumenComponent } from './resumen/resumen.component';
-import { MenumodalComponent} from "../shared/menumodal/menumodal.component";
+import { PerfilComponent } from './perfil/perfil.component';
+//import { MenuModalComponent} from "../shared/menu-modal/menu-modal.component";
+import {SharedModule} from "../shared/shared.module";
 
 
 @NgModule({
-    declarations: [ResumenComponent,MenumodalComponent],
+    declarations: [ResumenComponent, PerfilComponent],
     providers:[ModalDialogService],
     imports: [
-        NativeScriptCommonModule
+        NativeScriptCommonModule,
+        SharedModule
     ],
     exports: [
     ],

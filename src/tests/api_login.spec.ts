@@ -5,7 +5,7 @@ import {of} from "rxjs"
 import {ApiLoginService} from "../app/dominio/servicios/api-login.service"
 import {loginPorCredenciales} from "../app/dominio/interfaces/login/loginRequest"
 
-xdescribe("Api de login service:",()=> {
+describe("Api de login service:",()=> {
     let credenciales: loginPorCredenciales = {rut: "a", clave: "b"}
     let actCode:string = "abc"
     let errorPrevio={error:"true",tipo:"nose"}
