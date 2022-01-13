@@ -1,0 +1,17 @@
+/* Add mobile styles for the component here.  */
+.opcion{
+    margin:2px;
+    background-color: #E8E8E8;
+}
+
+.opcion--btn__activo{
+    color: blueviolet;
+    border-radius: 10;
+    border-color: #880000;
+}
+
+.opcion--btn__inactivo{
+    color: #a594ca;
+    border-radius: 10;
+    border-color: #7c5454;
+}
