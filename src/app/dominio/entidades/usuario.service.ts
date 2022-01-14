@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
 import {Usuario} from "../interfaces/usuario/usuario";
+import {ProxyPersistenciaService} from "../../aplicacion/proxy/proxy.persistencia.service";
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
     private usuario:Usuario
 
-    constructor() {
+    constructor(private _persistencia:ProxyPersistenciaService) {
         this.usuario={logeado:false,tipoLogin:"na"};
     }
 
     iniciarUsuario(dataUsuario){
         console.log("[usuarioService] f iniciarUsuario")
+        this.usuario.logeado=true
         this.usuario.tipoLogin=dataUsuario.tipoLogin
         this.usuario.nombre=dataUsuario.nombre
         this.usuario.apellidos=dataUsuario.apellidos
@@ -19,6 +21,7 @@ export class UsuarioService {
         this.usuario.sms=dataUsuario.sms
         this.usuario.rut=dataUsuario.rut
         this.usuario.productos=dataUsuario.productos
+        this.guardarEnPersistencia()
     }
 
     estaLogeado(){
@@ -37,9 +40,22 @@ export class UsuarioService {
         return this.usuario.rut
     }
 
-    guardarUsuarioPersistencia(){}
+    rescatarDePersistencia(){
+        console.log("[usuarioService] f rescatarDePersistencia")
+        if(this._persistencia.existe("usuario")){
+            this.usuario = this._persistencia.obtener("usuario")
+        }else{
+            this.usuario={logeado:false,tipoLogin:"na"};
+        }
+    }
 
-    borrarUsuarioPersistencia(){}
+    guardarEnPersistencia(){
+        this._persistencia.guardar("usuario",this.usuario)
+    }
+
+    borrarDePersistencia(){
+        this._persistencia.limpiar("usuario")
+    }
 
 
 

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Sesion } from '../interfaces/sesion/sesion'
+import {ProxyPersistenciaService} from "../../aplicacion/proxy/proxy.persistencia.service";
 @Injectable({
   providedIn: 'root'
 })
 export class SesionService {
     public sesion:Sesion
 
-    constructor() {
+    constructor(private _persistencia:ProxyPersistenciaService) {
         this.sesion={creada:false}
     }
 
@@ -16,6 +17,11 @@ export class SesionService {
         this.sesion.refreshToken=dataSesion.refreshToken
         this.sesion.mcssToken=dataSesion.mcssToken
         this.sesion.tiempoVenceAccessToken =dataSesion.tiempoVenceAccessToken
+        this.guardarEnPersistencia()
+    }
+
+    estaCreada(){
+        return this.sesion.creada;
     }
 
     getAccessToken(){
@@ -24,6 +30,23 @@ export class SesionService {
 
     getMcssToken(){
         return this.sesion.mcssToken
+    }
+
+    rescatarDePersistencia(){
+        console.log("[sesionService] f rescatarDePersistencia")
+        if(this._persistencia.existe("sesion")){
+            this.sesion = this._persistencia.obtener("sesion")
+        }else{
+            this.sesion={creada:false};
+        }
+    }
+
+    guardarEnPersistencia(){
+        this._persistencia.guardar("sesion",this.sesion)
+    }
+
+    borrarDePersistencia(){
+        this._persistencia.limpiar("sesion")
     }
 
 }

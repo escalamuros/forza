@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">70.73% </span>
+                <span class="strong">78.38% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>29/41</span>
+                <span class='fraction'>29/37</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.32% </span>
+                <span class="strong">85.29% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>29/38</span>
+                <span class='fraction'>29/34</span>
             </div>
         
             
@@ -119,19 +119,7 @@
 <a name='L60'></a><a href='#L60'>60</a>
 <a name='L61'></a><a href='#L61'>61</a>
 <a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a>
-<a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a>
-<a name='L70'></a><a href='#L70'>70</a>
-<a name='L71'></a><a href='#L71'>71</a>
-<a name='L72'></a><a href='#L72'>72</a>
-<a name='L73'></a><a href='#L73'>73</a>
-<a name='L74'></a><a href='#L74'>74</a>
-<a name='L75'></a><a href='#L75'>75</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L63'></a><a href='#L63'>63</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -141,18 +129,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -217,25 +193,13 @@ import {catchError, timeout} from "rxjs/operators";
 export class ProxyHt<span class="cstat-no" title="statement not covered" >tpcli</span>entService {
 <span class="cstat-no" title="statement not covered" ></span>
     cons<span class="cstat-no" title="statement not covered" >tructor(private _http: HttpClient) {</span>
-    }<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ></span>
-    get(parametros): Observable&lt;any&gt; {
+    }
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span></span>
+    get(<span class="cstat-no" title="statement not covered" >parametros): Observ</span>able&lt;any&gt; {
         console.log("[ProxyHttpclientService]f get")
         console.log("[ProxyHttpclientService]parametros.url:"+parametros.url)
-        console.log("[ProxyHttpclientService]parametros.body:"+parametros.body)
-        let url=parametros.url
-        /*
-        //todo:como tomar los elementos enviados en body
-        if(parametros.body){
-            url+="?"<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >            parametros.body.forEach(elemento=&gt;{</span>
-                url+=elemento.key+"="+elemento.value+"&amp;"
-<span class="cstat-no" title="statement not covered" >            })<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span></span>
-<span class="cstat-no" title="statement not covered" >        }*/</span>
-        let  opciones=parametros.options
-        opciones.headers=new HttpHeaders(opciones.headers)
         let respuesta$: Observable&lt;any&gt;
-        respuesta$ = this._http.get(url,opciones).pipe(
+        respuesta$ = this._http.get(parametros.url,parametros.opciones).pipe(
             catchError(err =&gt; this.errorApi(err)),
             timeout(30000)
         )
@@ -286,7 +250,7 @@ export class ProxyHt<span class="cstat-no" title="statement not covered" >tpcli<
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Jan 10 2022 14:19:22 GMT-0300 (GMT-03:00)
+                at Fri Jan 14 2022 14:04:12 GMT-0300 (GMT-03:00)
             </div>
         </div>
         <script src="../../../prettify.js"></script>

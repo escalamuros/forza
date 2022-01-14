@@ -10,7 +10,7 @@ export class ProxyPersistenciaService {
 
     public obtener(llave:string):any {
         const valor:string= getString(llave);
-        return JSON.stringify(valor);
+        return JSON.parse(valor)
     }
 
     public guardar(llave:string,valor:any):void{

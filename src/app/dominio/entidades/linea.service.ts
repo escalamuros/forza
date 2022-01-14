@@ -1,29 +1,35 @@
 import { Injectable } from '@angular/core';
 import {Linea} from "../interfaces/linea/linea";
+import {ProxyPersistenciaService} from "../../aplicacion/proxy/proxy.persistencia.service";
 @Injectable({
   providedIn: 'root'
 })
 export class LineaService {
     private linea:Linea
-    private updateContext:boolean
+    private debeActualizarContexto:boolean
 
-    constructor() {
+    constructor(private _persistencia:ProxyPersistenciaService) {
         this.linea={id:"0",numero:"0",customerId:"0",tipo:"na",lineas:[]};
-        this.updateContext=false
+        this.debeActualizarContexto=false
     }
 
     iniciarLinea(lineas){
         console.log("[lineaService] f iniciarLinea")
         if(lineas.length>0){
+            console.log("[lineaService] llegan lineas");
+            console.log("[lineaService] linea 0:"+this.linea.lineas[0]);
+            this.linea.id=lineas[0].id
+            this.linea.numero=lineas[0].id
+            this.linea.customerId=lineas[0].idclie
+            this.linea.tipo=lineas[0].tipo
+            this.linea.tipoContratoOri=lineas[0].tipoContratoOri
             this.linea.lineas=lineas
-            this.linea.id=this.linea.lineas[0].id
-            this.linea.numero=this.linea.lineas[0].id
-            this.linea.customerId=this.linea.lineas[0].idclie
-            this.linea.tipo=this.linea.lineas[0].tipo
-            this.linea.tipoContratoOri=this.linea.lineas[0].tipoContratoOri
             this.validarActualizarContexto()
+            this.guardarEnPersistencia()
             return true
         }
+        console.log("[lineaService] no hay lineas");
+        this.linea={id:"0",numero:"0",customerId:"0",tipo:"na",lineas:[]};
         return false
     }
 
@@ -48,18 +54,18 @@ export class LineaService {
 
     validarActualizarContexto(){
         if(this.linea.tipo!="fijo"){
-            this.updateContext=true
+            this.debeActualizarContexto=true
         }else{
-            this.updateContext=false
+            this.debeActualizarContexto=false
         }
     }
 
     obtenerActualizarContexto(){
-        return this.updateContext
+        return this.debeActualizarContexto
     }
 
     actualizarContextoRealizado(){
-        this.updateContext=false
+        this.debeActualizarContexto=false
     }
 
     obtenerNumero(){
@@ -76,6 +82,24 @@ export class LineaService {
 
     obtenerTipo(){
         return this.linea.tipo
+    }
+
+    rescatarDePersistencia(){
+        console.log("[lineaService] f rescatarDePersistencia")
+        if(this._persistencia.existe("linea")){
+            this.linea = this._persistencia.obtener("linea")
+        }else{
+            this.linea={id:"0",numero:"0",customerId:"0",tipo:"na",lineas:[]}
+        }
+    }
+
+    guardarEnPersistencia(){
+        console.log("[lineaService] f guardarEnPersistencia")
+        this._persistencia.guardar("linea",this.linea)
+    }
+
+    borrarDePersistencia(){
+        this._persistencia.limpiar("linea")
     }
 
 

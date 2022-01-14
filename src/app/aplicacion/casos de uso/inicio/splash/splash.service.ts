@@ -11,32 +11,81 @@ import { Application, AndroidApplication } from "@nativescript/core";
 import * as firebase from "nativescript-plugin-firebase";
 import {AndroidActivityBackPressedEventData} from "tns-core-modules";
 
+import {UsuarioService} from "../../../../dominio/entidades/usuario.service";
+import {SesionService} from "../../../../dominio/entidades/sesion.service";
+import {LineaService} from "../../../../dominio/entidades/linea.service";
+
 @Injectable({
   providedIn: 'root'
 })
 export class SplashService {
 
-    constructor() {
+    constructor(private _sesion:SesionService,
+                private _usuario:UsuarioService,
+                private _linea:LineaService) {
 
+    }
+
+    usuarioEstaLogeado(){
+        console.log("[SplashService] f usuarioEstaLogeado")
+        this._usuario.rescatarDePersistencia()
+        if(this._usuario.estaLogeado()){
+            console.log("[SplashService] usuario esta")
+            return true
+        }
+        return false
+    }
+
+    sesionEstaCreada(){
+        console.log("[SplashService] f sesionEstaCreada")
+        this._sesion.rescatarDePersistencia()
+        if(this._sesion.estaCreada()){
+            console.log("[SplashService] sesion esta")
+            return true
+        }
+        return false
+    }
+
+    lineaEstaSeleccionada(){
+        this._linea.rescatarDePersistencia()
+        if(this._linea.obtenerId()!="0"){
+            console.log("[SplashService] linea esta")
+            return true
+        }
+        return false
     }
 
     inicioApp(): string {
         //aqui iria logica de la app para prepararse a iniciar
         console.log("[SplashService] f inicioApp")
+        let respuesta
         //todo:  revisar servicio de disponibilidad (bloqueo y modal)
         //todo:  revisar mantenedor (esqueleto) (modal de error)
+
+        // todo:  rescatar datos desde persistencia local (usuario,linea,sesion)
+        let usuarioOk=this.usuarioEstaLogeado()
+        let sesionOk=this.sesionEstaCreada()
         //todo:  verifica el estado de logeo:
-        //todo:  si no esta logeado: redirigo a ingreso (login)
-        //todo:  si esta logeado:
-        //todo:  rescatar datos desde persistencia local (usuario,linea,sesion)
-        //todo:  ver token de session vencido y renovar si es necesario
+        if(usuarioOk&&sesionOk){
+            //todo:  si esta logeado:
+            // todo:  ver token de session vencido y renovar si es necesario
+            respuesta="resumen"
+            let lineaOk = this.lineaEstaSeleccionada()
+            if(!lineaOk){
+                respuesta="registrar_linea"
+            }
+        }else{
+            //todo:  si no esta logeado: redirigo a ingreso (login)
+            respuesta="ingreso"
+        }
         //todo:  validar la version minima de la app (modal)
         //todo:  validar sistema encuesta (modal)
         //todo:  validar notificacion con deeplink (redireccion)
+        //todo:  validar login biometrico
         firebase
             .init()
             .then(() => {
-                console.log("[SplashComponent]firebase iniciado")
+                console.log("[SplashService]firebase iniciado")
             })
 
         if (isAndroid) {
@@ -56,78 +105,78 @@ export class SplashService {
             );}
 
         applicationOn(launchEvent, (args: ApplicationEventData) => {
-                console.log("[SplashComponent] launchEvent");
+                console.log("[SplashService] launchEvent");
                 if (args.android) {
                     // For Android applications, args.android is an android.content.Intent class.
-                    console.log("[SplashComponent] en Android, intent: " + args.android + ".");
+                    console.log("[SplashService] en Android, intent: " + args.android + ".");
                 } else if (args.ios !== undefined) {
                     // For iOS applications, args.ios is NSDictionary (launchOptions).
-                    console.log("[SplashComponent] en iOS, options: " + args.ios);
+                    console.log("[SplashService] en iOS, options: " + args.ios);
                 }
             });
 
         applicationOn(suspendEvent, (args: ApplicationEventData) => {
-                console.log("[SplashComponent] suspendEvent");
+                console.log("[SplashService] suspendEvent");
                 if (args.android) {
                     // For Android applications, args.android is an android activity class.
-                    console.log("[SplashComponent]  Activity: " + args.android);
+                    console.log("[SplashService]  Activity: " + args.android);
                 } else if (args.ios) {
                     // For iOS applications, args.ios is UIApplication.
-                    console.log("[SplashComponent] UIApplication: " + args.ios);
+                    console.log("[SplashService] UIApplication: " + args.ios);
                 }
             });
 
         applicationOn(resumeEvent, (args: ApplicationEventData) => {
-                console.log("[SplashComponent] resumeEvent");
+                console.log("[SplashService] resumeEvent");
                 if (args.android) {
                     // For Android applications, args.android is an android activity class.
-                    console.log("[SplashComponent] Activity: " + args.android);
+                    console.log("[SplashService] Activity: " + args.android);
                     //validar token si estaba logado
                 } else if (args.ios) {
                     // For iOS applications, args.ios is UIApplication.
-                    console.log("[SplashComponent] UIApplication: " + args.ios);
+                    console.log("[SplashService] UIApplication: " + args.ios);
                 }
             });
 
         applicationOn(exitEvent, (args: ApplicationEventData) => {
-                console.log("[SplashComponent] exitEvent");
+                console.log("[SplashService] exitEvent");
                 if (args.android) {
                     // For Android applications, args.android is an android activity class.
-                    console.log("[SplashComponent] Activity: " + args.android);
+                    console.log("[SplashService] Activity: " + args.android);
                     if (args.android.isFinishing()) {
-                        console.log("[SplashComponent] Activity: " + args.android + " is exiting");
+                        console.log("[SplashService] Activity: " + args.android + " is exiting");
                     } else {
-                        console.log("[SplashComponent] Activity: " + args.android + " is restarting");
+                        console.log("[SplashService] Activity: " + args.android + " is restarting");
                     }
                 } else if (args.ios) {
                     // For iOS applications, args.ios is UIApplication.
-                    console.log("[SplashComponent] UIApplication: " + args.ios);
+                    console.log("[SplashService] UIApplication: " + args.ios);
                 }
             });
 
         applicationOn(lowMemoryEvent, (args: ApplicationEventData) => {
-                console.log("[SplashComponent] lowMemoryEvent");
+                console.log("[SplashService] lowMemoryEvent");
                 if (args.android) {
                     // For Android applications, args.android is an android activity class.
-                    console.log("[SplashComponent] Activity: " + args.android);
+                    console.log("[SplashService] Activity: " + args.android);
                 } else if (args.ios) {
                     // For iOS applications, args.ios is UIApplication.
-                    console.log("[SplashComponent] UIApplication: " + args.ios);
+                    console.log("[SplashService] UIApplication: " + args.ios);
                 }
             });
 
         applicationOn(uncaughtErrorEvent, (args: ApplicationEventData) => {
-                console.log("[SplashComponent] uncaughtErrorEvent");
+                console.log("[SplashService] uncaughtErrorEvent");
                 if (args.android) {
                     // For Android applications, args.android is an NativeScriptError.
-                    console.log("[SplashComponent] NativeScriptError: " + args.android);
+                    console.log("[SplashService] NativeScriptError: " + args.android);
                 } else if (args.ios) {
                     // For iOS applications, args.ios is NativeScriptError.
-                    console.log("[SplashComponent] NativeScriptError: " + args.ios);
+                    console.log("[SplashService] NativeScriptError: " + args.ios);
                 }
             });
 
-        return "ingreso"
+        return respuesta
     }
 
 

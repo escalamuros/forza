@@ -35,6 +35,12 @@ export class SplashComponent implements OnInit {
           if(ruta==="ingreso"){
             this._enrrutador.navigate(["ingreso"])
           }
+          if(ruta==="resumen"){
+              this._enrrutador.navigate(["resumen"])
+          }
+          if(ruta==="registrar_linea"){
+              this._enrrutador.navigate(["ingreso"])
+          }
       },2000)
   }
 }

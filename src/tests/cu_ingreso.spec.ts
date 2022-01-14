@@ -41,16 +41,17 @@ xdescribe("Caso de uso ingreso service:",()=>{
     let usrSvc:UsuarioService
     let ssnSvc:SesionService
     let lnSvc:LineaService
-    let apiLoginSpy,httpSpy
+    let apiLoginSpy,httpSpy,persistenciaSpy
     beforeEach(nsTestBedBeforeEach([],[ApiLoginService]));
     afterEach(nsTestBedAfterEach(false));
     xit("mock en fn IntegrarLoginConCredenciales da error",()=>{
         apiLoginSpy=jasmine.createSpyObj('ApiLoginService',['IntertarloginConCredenciales'])
         httpSpy=jasmine.createSpyObj('HttpClient',['post'])
+        persistenciaSpy=jasmine.createSpyObj('ProxyPersistenciaService',['existe','guardar','obtener'])
         api = new ApiLoginService(httpSpy)
-        usrSvc= new UsuarioService()
-        ssnSvc= new SesionService()
-        lnSvc= new LineaService()
+        usrSvc= new UsuarioService(persistenciaSpy)
+        ssnSvc= new SesionService(persistenciaSpy)
+        lnSvc= new LineaService(persistenciaSpy)
         uc = new UcIngresoService(api,usrSvc,ssnSvc,lnSvc)
         apiLoginSpy.IntertarloginConCredenciales.and.returnValue(of({error:"true",tipo:"desconocido"}))
         uc.loginPorCredenciales(credenciales).subscribe(res=>{
@@ -61,10 +62,11 @@ xdescribe("Caso de uso ingreso service:",()=>{
     xit("mock en fn IntegrarLoginConCredenciales ok",()=>{
         apiLoginSpy=jasmine.createSpyObj('ApiLoginService',['IntertarloginConCredenciales','updateClientUserContext'])
         httpSpy=jasmine.createSpyObj('HttpClient',['post'])
+        persistenciaSpy=jasmine.createSpyObj('ProxyPersistenciaService',['existe','guardar','obtener'])
         api = new ApiLoginService(httpSpy)
-        usrSvc= new UsuarioService()
-        ssnSvc= new SesionService()
-        lnSvc= new LineaService()
+        usrSvc= new UsuarioService(persistenciaSpy)
+        ssnSvc= new SesionService(persistenciaSpy)
+        lnSvc= new LineaService(persistenciaSpy)
         uc = new UcIngresoService(api,usrSvc,ssnSvc,lnSvc)
         apiLoginSpy.IntertarloginConCredenciales.and.returnValue(of(respuestaFinal))
         apiLoginSpy.updateClientUserContext.and.returnValue(of({estado:"ok",segmento:"MOVIL"}))

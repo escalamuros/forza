@@ -68,7 +68,7 @@ export class UcIngresoService {
     }
 
     guardarRespuestas(resp){
-        console.log("[UCIngreso] f guardarUsuarioLogeado")
+        console.log("[UCIngreso] f guardarRespuestas")
 
         let productos=resp.responseBknd.token.cliente.productos.producto
 
