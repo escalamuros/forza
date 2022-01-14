@@ -28,26 +28,17 @@ export class SplashComponent implements OnInit {
 
   ngOnInit(): void {
       console.log("[SplashComponent] f ngOnInit");
+      const ruta= this._splash.inicioApp()
       //esto es para que se vea durante el arranque
-      //aqui iria logica de la app para prepararse a iniciar
-      firebase
-          .init()
-          .then(()=>{console.log("[SplashComponent]firebase iniciado")})
-      /*todo:
-        revisar servicio de disponibilidad (bloqueo y modal)
-        revisar mantenedor (esqueleto) (modal de error)
-        verifica el estado de logeo:
-        si no esta logeado: redirigo a ingreso (login)
-        si esta logeado:
-        rescatar datos desde persistencia local (usuario,linea,sesion)
-        ver token de session vencido y renovar si es necesario
-        validar la version minima de la app (modal)
-        validar sistema encuesta (modal)
-        validar notificacion con deeplink (redireccion)*/
-      setTimeout(()=>{ this._enrrutador.navigate(["ingreso"])},2000)
+
+      setTimeout(()=>{
+          if(ruta==="ingreso"){
+            this._enrrutador.navigate(["ingreso"])
+          }
+      },2000)
   }
 }
-
+/*
 applicationOn(launchEvent, (args: ApplicationEventData) => {
     console.log("[SplashComponent] launchEvent");
     if (args.android) {
@@ -118,4 +109,4 @@ applicationOn(uncaughtErrorEvent, (args: ApplicationEventData) => {
         // For iOS applications, args.ios is NativeScriptError.
         console.log("[SplashComponent] NativeScriptError: " + args.ios);
     }
-});
+});*/
