@@ -49,4 +49,8 @@ export class SesionService {
         this._persistencia.limpiar("sesion")
     }
 
+    limpiarVariableSesion(){
+        this.sesion={creada:false};
+    }
+
 }

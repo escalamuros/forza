@@ -13,7 +13,7 @@ export class MenuModalComponent implements OnInit {
         this.lista=[
             {texto:"resumen",accion:"resumen",activo:false},
             {texto:"perfil",accion:"perfil",activo:false},
-            //{texto:"cerrar sesion",accion:"cerrar_sesion",activo:false},
+            {texto:"cerrar sesion",accion:"cerrar_sesion",activo:false},
             {texto:"cerrar menu",accion:"",activo:false}
         ]
   }

@@ -2,6 +2,7 @@ import { Component, OnInit,ViewContainerRef } from '@angular/core'
 import {ModalDialogOptions, ModalDialogService, RouterExtensions} from '@nativescript/angular'
 
 import { MenuModalComponent } from "../../shared/menu-modal/menu-modal.component"
+import{CerrarSesionModalComponent} from "../../shared/cerrar-sesion-modal/cerrar-sesion-modal.component"
 import { UsuarioService } from "../../../dominio/entidades/usuario.service"
 import { LineaService } from "../../../dominio/entidades/linea.service"
 
@@ -57,9 +58,36 @@ export class ResumenComponent implements OnInit {
       if(resultado===""){
           console.log("[ResumenComponent] cierro modal")
       }
+      if(resultado==="cerrar_sesion"){
+          this.abrirModalDeCerrarSesion()
+      }
       else{
           this._enrrutador.navigate([resultado])
       }
+  }
+  abrirModalDeCerrarSesion(){
+      const opciones: ModalDialogOptions = {
+          viewContainerRef: this._vcRef,
+          context: {},
+          fullscreen: true
+      };
+
+      this._modalService.showModal(CerrarSesionModalComponent, opciones)
+          .then((resultado: string) => {
+              console.log("[ResumenComponent] accion cerrar sesion modal: "+resultado);
+
+              //posible timeout por el movimiento-desaparicion del modal
+              setTimeout(()=>{
+                  this.salirONada(resultado)
+              },50)
+
+          });
+  }
+
+  salirONada(res){
+        if(res==="ok"){
+            this._enrrutador.navigate(["ingreso"])
+        }
   }
 
 }

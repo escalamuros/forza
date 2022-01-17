@@ -102,5 +102,9 @@ export class LineaService {
         this._persistencia.limpiar("linea")
     }
 
+    limpiarVariableLinea(){
+        this.linea={id:"0",numero:"0",customerId:"0",tipo:"na",lineas:[]}
+    }
+
 
 }
