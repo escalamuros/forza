@@ -20,6 +20,7 @@ import {LineaService} from "../../../../dominio/entidades/linea.service";
 })
 export class SplashService {
 
+
     constructor(private _sesion:SesionService,
                 private _usuario:UsuarioService,
                 private _linea:LineaService) {
@@ -49,16 +50,17 @@ export class SplashService {
     lineaEstaSeleccionada(){
         this._linea.rescatarDePersistencia()
         if(this._linea.obtenerId()!="0"){
-            console.log("[SplashService] linea esta")
+            console.log("[SplashService] linea esta seleccionada")
             return true
         }
+        console.log("[SplashService] no tiene lineas")
         return false
     }
 
     inicioApp(): string {
         //aqui iria logica de la app para prepararse a iniciar
         console.log("[SplashService] f inicioApp")
-        let respuesta
+        let respuesta:string
         //todo:  revisar servicio de disponibilidad (bloqueo y modal)
         //todo:  revisar mantenedor (esqueleto) (modal de error)
 

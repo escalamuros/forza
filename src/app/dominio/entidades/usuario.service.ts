@@ -57,6 +57,10 @@ export class UsuarioService {
         this._persistencia.limpiar("usuario")
     }
 
+    limpiarVariableUsuario(){
+        this.usuario={logeado:false,tipoLogin:"na"};
+    }
+
 
 
 
