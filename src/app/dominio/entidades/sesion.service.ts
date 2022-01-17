@@ -53,4 +53,12 @@ export class SesionService {
         this.sesion={creada:false};
     }
 
+    estaVencida(){
+        let ahora=new Date().getTime()
+        if(ahora>=this.sesion.tiempoVenceAccessToken){
+            return true
+        }
+        return false
+    }
+
 }
