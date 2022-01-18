@@ -12,7 +12,6 @@ export class UsuarioService {
     }
 
     iniciarUsuario(dataUsuario){
-        console.log("[usuarioService] f iniciarUsuario")
         this.usuario.logeado=true
         this.usuario.tipoLogin=dataUsuario.tipoLogin
         this.usuario.nombre=dataUsuario.nombre
@@ -41,7 +40,6 @@ export class UsuarioService {
     }
 
     rescatarDePersistencia(){
-        console.log("[usuarioService] f rescatarDePersistencia")
         if(this._persistencia.existe("usuario")){
             this.usuario = this._persistencia.obtener("usuario")
         }else{
@@ -60,8 +58,4 @@ export class UsuarioService {
     limpiarVariableUsuario(){
         this.usuario={logeado:false,tipoLogin:"na"};
     }
-
-
-
-
 }

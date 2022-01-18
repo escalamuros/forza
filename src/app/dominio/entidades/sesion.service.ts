@@ -33,7 +33,6 @@ export class SesionService {
     }
 
     rescatarDePersistencia(){
-        console.log("[sesionService] f rescatarDePersistencia")
         if(this._persistencia.existe("sesion")){
             this.sesion = this._persistencia.obtener("sesion")
         }else{
@@ -60,5 +59,4 @@ export class SesionService {
         }
         return false
     }
-
 }

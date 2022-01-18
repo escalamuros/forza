@@ -14,10 +14,7 @@ export class LineaService {
     }
 
     iniciarLinea(lineas){
-        console.log("[lineaService] f iniciarLinea")
         if(lineas.length>0){
-            console.log("[lineaService] llegan lineas");
-            console.log("[lineaService] linea 0:"+this.linea.lineas[0]);
             this.linea.id=lineas[0].id
             this.linea.numero=lineas[0].id
             this.linea.customerId=lineas[0].idclie
@@ -28,7 +25,6 @@ export class LineaService {
             this.guardarEnPersistencia()
             return true
         }
-        console.log("[lineaService] no hay lineas");
         this.linea={id:"0",numero:"0",customerId:"0",tipo:"na",lineas:[]};
         return false
     }
@@ -85,7 +81,6 @@ export class LineaService {
     }
 
     rescatarDePersistencia(){
-        console.log("[lineaService] f rescatarDePersistencia")
         if(this._persistencia.existe("linea")){
             this.linea = this._persistencia.obtener("linea")
         }else{
@@ -94,7 +89,6 @@ export class LineaService {
     }
 
     guardarEnPersistencia(){
-        console.log("[lineaService] f guardarEnPersistencia")
         this._persistencia.guardar("linea",this.linea)
     }
 
@@ -105,6 +99,4 @@ export class LineaService {
     limpiarVariableLinea(){
         this.linea={id:"0",numero:"0",customerId:"0",tipo:"na",lineas:[]}
     }
-
-
 }

@@ -64,7 +64,7 @@ export class SplashService {
         //todo:  revisar servicio de disponibilidad (bloqueo y modal)
         //todo:  revisar mantenedor (esqueleto) (modal de error)
 
-        // todo:  rescatar datos desde persistencia local (usuario,linea,sesion)
+        // Rescatar datos desde persistencia local (usuario,linea,sesion)
         let usuarioOk=this.usuarioEstaLogeado()
         let sesionOk=this.sesionEstaCreada()
         //todo:  verifica el estado de logeo:
@@ -76,14 +76,14 @@ export class SplashService {
             if(!lineaOk){
                 respuesta="registrar_linea"
             }
+            //todo: indicar que tipo de linea esta, para redirigirlo a un resumen especifico
+            //todo: validar login biometrico
         }else{
-            //todo:  si no esta logeado: redirigo a ingreso (login)
             respuesta="ingreso"
         }
         //todo:  validar la version minima de la app (modal)
         //todo:  validar sistema encuesta (modal)
         //todo:  validar notificacion con deeplink (redireccion)
-        //todo:  validar login biometrico
         firebase
             .init()
             .then(() => {
