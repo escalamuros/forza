@@ -1,16 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {RouterExtensions} from "@nativescript/angular";
-import * as firebase from "nativescript-plugin-firebase";
-import {
-    on as applicationOn,
-    ApplicationEventData,
-    exitEvent,
-    launchEvent,
-    lowMemoryEvent,
-    resumeEvent,
-    suspendEvent,
-    uncaughtErrorEvent
-} from "tns-core-modules/application";
+import { Component, OnInit } from '@angular/core'
+import {RouterExtensions} from "@nativescript/angular"
+import { Page } from "tns-core-modules/ui/page"
 
 import { SplashService } from "../../../aplicacion/casos de uso/inicio/splash/splash.service";
 
@@ -22,7 +12,9 @@ import { SplashService } from "../../../aplicacion/casos de uso/inicio/splash/sp
 export class SplashComponent implements OnInit {
 
   constructor(private _enrrutador:RouterExtensions,
-              private _splash:SplashService) {
+              private _splash:SplashService,
+              private _page:Page) {
+      this._page.actionBarHidden=true
       console.log("[SplashComponent] constructor");
   }
 

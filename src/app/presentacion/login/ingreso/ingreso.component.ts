@@ -96,6 +96,11 @@ export class IngresoComponent implements OnInit {
     }
 
     pasarResumen(){
-        this._enrrutador.navigate(["resumen"]);
+        if(this.accionBloqueada){
+            console.log("[IngresoComponent] accion en curso, funcion no realiza nada")
+        }
+        if(!this.accionBloqueada) {
+            this._enrrutador.navigate(["resumen"]);
+        }
     }
 }

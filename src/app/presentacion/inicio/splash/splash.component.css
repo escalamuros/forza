@@ -1,4 +1,12 @@
 /* Add mobile styles for the component here.  */
-.pantalla{ background-color: #008800}
-.pantalla--texto{ color: aliceblue; font-size: 18}
-.pantalla--subtexto{ color: aliceblue; font-size: 12}
+.pantalla{
+    background-color: white;
+    padding-top: 25;
+    margin-top:33%
+}
+.pantalla--icono{ width: 100 }
+.pantalla--texto{ text-align:center;
+    font-size: 22}
+.pantalla--subtexto{  text-align:center;
+    font-size: 18}
+.pantalla--logo{ width: 80 }

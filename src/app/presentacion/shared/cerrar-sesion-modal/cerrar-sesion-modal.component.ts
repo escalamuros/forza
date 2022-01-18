@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core'
 import {ModalDialogParams} from "@nativescript/angular"
 
 import {DeslogearService} from "../../../aplicacion/casos de uso/deslogear/deslogear.service";
-import {SesionService} from "../../../dominio/entidades/sesion.service";
-import {LineaService} from "../../../dominio/entidades/linea.service";
 
 @Component({
   selector: 'ns-cerrar-sesion-modal',
