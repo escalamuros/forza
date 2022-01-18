@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">34.29% </span>
+                <span class="strong">37.14% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>12/35</span>
+                <span class='fraction'>13/35</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">9.09% </span>
+                <span class="strong">8.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/11</span>
+                <span class='fraction'>1/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">35.29% </span>
+                <span class="strong">38.24% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>12/34</span>
+                <span class='fraction'>13/34</span>
             </div>
         
             
@@ -118,8 +118,7 @@
 <a name='L59'></a><a href='#L59'>59</a>
 <a name='L60'></a><a href='#L60'>60</a>
 <a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L62'></a><a href='#L62'>62</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -152,9 +151,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -164,6 +160,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -174,9 +175,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -190,20 +188,20 @@ import {ProxyPersistenciaService} from "../../aplicacion/proxy/proxy.persistenci
 export class UsuarioService {
     private usuario:Usuario<span class="fstat-no" title="function not covered" ></span>
 <span class="cstat-no" title="statement not covered" ></span>
-    cons<span class="cstat-no" title="statement not covered" >tructor(private _persistencia</span>:ProxyPersistenciaService) {
-<span class="cstat-no" title="statement not covered" >        this.usuario={logeado:false,tipoLogin:"na"};</span>
+    cons<span class="cstat-no" title="statement not covered" >tructor(private _persistencia:ProxyPersistenciaS</span>ervice) {
+<span class="cstat-no" title="statement not covered" >        this.usuario={logeado:false,tipoLogin:"na"</span>};
     }<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ></span>
     inic<span class="cstat-no" title="statement not covered" >iarUsuario(dataUsuario){</span>
-<span class="cstat-no" title="statement not covered" >        console.log("[usuarioService] f inic</span>iarUsuario")
 <span class="cstat-no" title="statement not covered" >        this.usuario.logeado=true</span>
 <span class="cstat-no" title="statement not covered" >        this.usuario.tipoLogin=dataUsuario.tipoLogin</span>
-        this.usuario.nombre=dataUsuario.nombre
-        this.usuario.apellidos=dataUsuario.<span class="fstat-no" title="function not covered" >ap</span>ellidos
-<span class="cstat-no" title="statement not covered" >        this.usuario.correoElectronic</span>o=dataUsuario.correoElectronico
-        this.usuario.sms=dataUsuario.sms
-        this.usuario.rut=dataUsuario.rut<span class="fstat-no" title="function not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        this.usuario.productos=dataUsua</span>rio.productos
+<span class="cstat-no" title="statement not covered" >        this.usuario.nombre=dataUsuari</span>o.nombre
+        this.usuario.apellidos=dataUsuario.apellidos
+        this.usuario.correoElectronico=data<span class="fstat-no" title="function not covered" >Us</span>uario.correoElectronico
+<span class="cstat-no" title="statement not covered" >        this.usuario.sms=dataUsuario.</span>sms
+        this.usuario.rut=dataUsuario.rut
+        this.usuario.productos=dataUsuario.<span class="fstat-no" title="function not covered" >pr</span>oductos
+<span class="cstat-no" title="statement not covered" >        this.guardarEnPersistencia()</span>
     }
 <span class="fstat-no" title="function not covered" ></span>
     esta<span class="cstat-no" title="statement not covered" >Logeado(){</span>
@@ -214,34 +212,33 @@ export class UsuarioService {
         return this.usuario.tipoLogin;<span class="fstat-no" title="function not covered" ></span>
     }<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ></span>
-    obtenerNombre(){<span class="cstat-no" title="statement not covered" ></span>
-        retu<span class="cstat-no" title="statement not covered" >rn this.usuario.nombre;</span>
+    obtenerNombre(){
+        return this.usuario.nombre;
     }<span class="cstat-no" title="statement not covered" ></span>
 &nbsp;
     obtenerRut(){
-        retu<span class="cstat-no" title="statement not covered" >rn this.usuario.rut</span>
-    }
+        return this.usuario.rut<span class="fstat-no" title="function not covered" ></span>
+    }<span class="cstat-no" title="statement not covered" ></span>
 &nbsp;
     rescatarDePersistencia(){<span class="fstat-no" title="function not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        console.log("[usuarioService] f rescatarDePersistenci</span>a")
-        if(this._persistencia.existe("usuario")){
-           let usuarioStr = this._persistencia.obtener("u<span class="fstat-no" title="function not covered" >su</span>ario")
-            console.log("[usuarioSer<span class="fstat-no" title="function not covered" >vi</span>ce] existe: <span class="cstat-no" title="statement not covered" >"+usuarioStr+".")</span>
-            this.usuario = JSON.parse(usuarioStr)
-        }else{
-            this.usuario={logeado:false,tipoLogin:"na"};
+<span class="cstat-no" title="statement not covered" >        if(this._persistencia.existe("usuario")</span>){
+            this.usuario = this._persistencia.obtener("usuario")
+        }else{<span class="fstat-no" title="function not covered" ></span>
+<span class="cstat-no" title="statement not covered" >            this.usuario={logeado:false,tipoLogin:"na"};</span>
         }
-    }
+    }<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
 &nbsp;
     guardarEnPersistencia(){
         this._persistencia.guardar("usuario",this.usuario)
     }
 &nbsp;
-    borrarUsuarioPersistencia(){}
+    borrarDePersistencia(){
+        this._persistencia.limpiar("usuario")
+    }
 &nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
+    limpiarVariableUsuario(){
+        this.usuario={logeado:false,tipoLogin:"na"};
+    }
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -250,7 +247,7 @@ export class UsuarioService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri Jan 14 2022 14:04:12 GMT-0300 (GMT-03:00)
+                at Tue Jan 18 2022 12:06:50 GMT-0300 (GMT-03:00)
             </div>
         </div>
         <script src="../../../prettify.js"></script>

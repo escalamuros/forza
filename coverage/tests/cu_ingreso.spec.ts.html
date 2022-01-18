@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">23.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/28</span>
+                <span class='fraction'>7/30</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">23.33% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/28</span>
+                <span class='fraction'>7/30</span>
             </div>
         
             
@@ -132,7 +132,9 @@
 <a name='L73'></a><a href='#L73'>73</a>
 <a name='L74'></a><a href='#L74'>74</a>
 <a name='L75'></a><a href='#L75'>75</a>
-<a name='L76'></a><a href='#L76'>76</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -185,9 +187,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -250,16 +254,17 @@ xdescribe("Caso de uso ingreso service:",()=&gt;{
     let usrSvc:UsuarioService
     let ssnSvc:SesionService
     let lnSvc:LineaService<span class="fstat-no" title="function not covered" ></span>
-    let <span class="cstat-no" title="statement not covered" >apiLoginSpy,httpSpy</span>
+    let <span class="cstat-no" title="statement not covered" >apiLoginSpy,httpSpy,persistenciaSpy</span>
     befo<span class="cstat-no" title="statement not covered" >reEach(nsTestBedBeforeEach([],[ApiLoginService]));</span>
     afte<span class="cstat-no" title="statement not covered" >rEach(nsTestBedAfterEach(false));</span>
-    xit(<span class="cstat-no" title="statement not covered" >"mock en fn IntegrarLoginConCre</span>denciales da error",()=&gt;{
-<span class="cstat-no" title="statement not covered" >        apiLoginSpy=jasmine.createSpyO</span>bj('ApiLoginService',['IntertarloginConCredenciales'])
-<span class="cstat-no" title="statement not covered" >        httpSpy=jasmine.createSpyObj</span>('HttpClient',['post'])
+    xit(<span class="cstat-no" title="statement not covered" >"mock en fn IntegrarLoginConCredenci</span>ales da error",()=&gt;{
+<span class="cstat-no" title="statement not covered" >        apiLoginSpy=jasmine.createSpyObj('ApiLoginServ</span>ice',['IntertarloginConCredenciales'])
+<span class="cstat-no" title="statement not covered" >        httpSpy=jasmine.createSpyObj('HttpClient',['p</span>ost'])
+<span class="cstat-no" title="statement not covered" >        persistenciaSpy=jasmine.createSpyObj('Proxy</span>PersistenciaService',['existe','guardar','obtener'])
 <span class="cstat-no" title="statement not covered" >        api = new ApiLoginService(httpSpy)</span>
-<span class="cstat-no" title="statement not covered" >        usrSvc= new UsuarioService()</span>
-<span class="cstat-no" title="statement not covered" >        ssnSvc= new SesionService()<span class="fstat-no" title="function not covered" ></span></span>
-        lnSv<span class="cstat-no" title="statement not covered" >c= new LineaService()</span>
+<span class="cstat-no" title="statement not covered" >        usrSvc= new UsuarioService(persistenciaSpy)</span>
+<span class="cstat-no" title="statement not covered" >        ssnSvc= new SesionService(persistenciaSpy)<span class="fstat-no" title="function not covered" ></span></span>
+        lnSv<span class="cstat-no" title="statement not covered" >c= new LineaService(persistenciaSpy)</span>
         uc = new UcIngresoService(api,usrSvc,ssnSvc,lnSvc)
         apiLoginSpy.IntertarloginConCredenciales.and.returnValue(of({error:"true",tipo:"desconocido"}))
         uc.loginPorCredenciales(credenciales).subscrib<span class="fstat-no" title="function not covered" >e(</span>res=&gt;{
@@ -267,13 +272,14 @@ xdescribe("Caso de uso ingreso service:",()=&gt;{
 <span class="cstat-no" title="statement not covered" >            expect(res.estado).toEqual("error")</span>
 <span class="cstat-no" title="statement not covered" >        })</span>
     })<span class="cstat-no" title="statement not covered" ></span>
-    xit(<span class="cstat-no" title="statement not covered" >"mock en fn IntegrarLoginConCr</span>edenciales ok",()=&gt;{
-<span class="cstat-no" title="statement not covered" >        apiLoginSpy=jasmine.createSp</span>yObj('ApiLoginService',['IntertarloginConCredenciales','updateClientUserContext'])
-<span class="cstat-no" title="statement not covered" >        httpSpy=jasmine.createSpyObj('HttpClient',['post'])</span>
+    xit(<span class="cstat-no" title="statement not covered" >"mock en fn IntegrarLoginConCredenciales ok",(</span>)=&gt;{
+<span class="cstat-no" title="statement not covered" >        apiLoginSpy=jasmine.createSpyObj('ApiLoginSer</span>vice',['IntertarloginConCredenciales','updateClientUserContext'])
+<span class="cstat-no" title="statement not covered" >        httpSpy=jasmine.createSpyObj('HttpClient',[</span>'post'])
+<span class="cstat-no" title="statement not covered" >        persistenciaSpy=jasmine.createSpyObj('ProxyPersistencia</span>Service',['existe','guardar','obtener'])
 <span class="cstat-no" title="statement not covered" >        api = new ApiLoginService(httpSpy)</span>
-<span class="cstat-no" title="statement not covered" >        usrSvc= new UsuarioService()</span>
-<span class="cstat-no" title="statement not covered" >        ssnSvc= new SesionService()<span class="fstat-no" title="function not covered" ></span></span>
-        lnSv<span class="cstat-no" title="statement not covered" >c= new LineaService()</span>
+<span class="cstat-no" title="statement not covered" >        usrSvc= new UsuarioService(persistenciaSpy)</span>
+<span class="cstat-no" title="statement not covered" >        ssnSvc= new SesionService(persistenciaSpy)<span class="fstat-no" title="function not covered" ></span></span>
+        lnSv<span class="cstat-no" title="statement not covered" >c= new LineaService(persistenciaSpy)</span>
         uc = new UcIngresoService(api,usrSvc,ssnSvc,lnSvc)
         apiLoginSpy.IntertarloginConCredenciales.and.returnValue(of(respuestaFinal))
         apiLoginSpy.updateClientUserContext.and.returnValue(of({estado:"ok",segmento:"MOVIL"}))
@@ -289,7 +295,7 @@ xdescribe("Caso de uso ingreso service:",()=&gt;{
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri Jan 14 2022 14:04:12 GMT-0300 (GMT-03:00)
+                at Tue Jan 18 2022 12:06:50 GMT-0300 (GMT-03:00)
             </div>
         </div>
         <script src="../prettify.js"></script>
