@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core'
 import { Sesion } from '../interfaces/sesion/sesion'
-import {ProxyPersistenciaService} from "../../aplicacion/proxy/proxy.persistencia.service";
+import {ProxyPersistenciaService} from "../../aplicacion/proxy/proxy.persistencia.service"
 @Injectable({
   providedIn: 'root'
 })

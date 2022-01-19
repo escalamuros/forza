@@ -12,11 +12,11 @@ export class ProxyHttpclientService {
     constructor(private _http: HttpClient) {
     }
 
-    get(parametros): Observable<any> {
+    get(peticion): Observable<any> {
         console.log("[ProxyHttpclientService]f get")
-        console.log("[ProxyHttpclientService]parametros.url:"+parametros.url)
+        console.log("[ProxyHttpclientService]parametros.url:"+peticion.url)
         let respuesta$: Observable<any>
-        respuesta$ = this._http.get(parametros.url,parametros.opciones).pipe(
+        respuesta$ = this._http.get(peticion.url,peticion).pipe(
             catchError(err => this.errorApi(err)),
             timeout(30000)
         )

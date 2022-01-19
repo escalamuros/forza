@@ -24,7 +24,19 @@ export const invitado = {
     grant_type: "authorization_code"
 }
 
-export const autorization = {
+export const token = {
     coliving_prod: "NTNjMDgxZWYtYWI0Yi00N2IwLTk1YjQtODkyYjJhYzdkNWYwOjc0ZmMxZjA0LTA2NmItNGQ1My1hM2IwLWUxYzUyMzA2YjU0NQ==",
-    coliving_test: "YTZlYjc4OTktMmEyZC00MzhhLWFlZDktZTVmYTNiMDRhZWQwOjkzYTJiZmU2LTU4MTktNGJlNS1iOWRlLWQ3YjI3MjZkMjA2NQ=="
+    coliving_test: "YTZlYjc4OTktMmEyZC00MzhhLWFlZDktZTVmYTNiMDRhZWQwOjkzYTJiZmU2LTU4MTktNGJlNS1iOWRlLWQ3YjI3MjZkMjA2NQ==",
+    redis: "bW9uaXRvcmVvOm1vbml0b3Jlb0B0ZWxlZm9uaWNhLmNvbQ=="
+}
+
+export const rutasMantenedor = {
+    mantenedor:"https://apix.movistar.cl/ParameterCatalog/V2/domains/appmimovistar/entities/",
+    flag:"https://apix.movistar.cl/contentmanager/V1/content"
+}
+
+export const parametrosFlagMantenedor = {
+    apikey:"xf2oz8X7lnvFWkIDJXkfsEkUhvQaJ26g",
+    consumer:"AppMovistar",
+    maintainer:"flag_actualizar_mantenedor"
 }
