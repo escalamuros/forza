@@ -27,10 +27,9 @@ export class ProxyHttpclientService {
         console.log("[ProxyHttpclientService]f post")
         console.log("[ProxyHttpclientService]parametros.url:"+parametros.url)
         console.log("[ProxyHttpclientService]parametros.body:"+parametros.body)
-        let  opciones=parametros.options
-        opciones.headers=new HttpHeaders(opciones.headers)
+        const headers=new HttpHeaders(parametros.headers)
         let respuesta$: Observable<any>
-        respuesta$ = this._http.post(parametros.url,parametros.body,opciones).pipe(
+        respuesta$ = this._http.post(parametros.url,parametros.body,{headers:headers}).pipe(
             timeout(30000),
             catchError(err => this.errorApi(err))
         )

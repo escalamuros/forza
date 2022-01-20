@@ -9,7 +9,7 @@ import {UsuarioService} from "../app/dominio/entidades/usuario.service"
 import {SesionService} from "../app/dominio/entidades/sesion.service"
 import {LineaService} from "../app/dominio/entidades/linea.service"
 
-xdescribe("Caso de uso ingreso service:",()=>{
+describe("Caso de uso ingreso service:",()=>{
     let credenciales:loginPorCredenciales={rut:"a",clave:"b"}
     let respuestaFinal={
         rut:"123",
@@ -44,6 +44,17 @@ xdescribe("Caso de uso ingreso service:",()=>{
     let apiLoginSpy,httpSpy,persistenciaSpy
     beforeEach(nsTestBedBeforeEach([],[ApiLoginService]));
     afterEach(nsTestBedAfterEach(false));
+    it("creacion del caso de uso",()=>{
+        apiLoginSpy=jasmine.createSpyObj('ApiLoginService',['IntertarloginConCredenciales'])
+        httpSpy=jasmine.createSpyObj('HttpClient',['post'])
+        persistenciaSpy=jasmine.createSpyObj('ProxyPersistenciaService',['existe','guardar','obtener'])
+        api = new ApiLoginService(httpSpy)
+        usrSvc= new UsuarioService(persistenciaSpy)
+        ssnSvc= new SesionService(persistenciaSpy)
+        lnSvc= new LineaService(persistenciaSpy)
+        uc = new UcIngresoService(api,usrSvc,ssnSvc,lnSvc)
+        expect(uc.respuesta.estado).toBe("nook")
+    })
     xit("mock en fn IntegrarLoginConCredenciales da error",()=>{
         apiLoginSpy=jasmine.createSpyObj('ApiLoginService',['IntertarloginConCredenciales'])
         httpSpy=jasmine.createSpyObj('HttpClient',['post'])
@@ -55,7 +66,7 @@ xdescribe("Caso de uso ingreso service:",()=>{
         uc = new UcIngresoService(api,usrSvc,ssnSvc,lnSvc)
         apiLoginSpy.IntertarloginConCredenciales.and.returnValue(of({error:"true",tipo:"desconocido"}))
         uc.loginPorCredenciales(credenciales).subscribe(res=>{
-
+            console.log("[test] llega res:"+res)
             expect(res.estado).toEqual("error")
         })
     })

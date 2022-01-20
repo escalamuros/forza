@@ -15,14 +15,13 @@ describe("proxy de httpclient service:",()=> {
     afterEach(()=>{
         console.log("[test]despues de cada IT")
         nsTestBedAfterEach(false)})
-    xit("fn post, http error", () => {
-        httpSpy = jasmine.createSpyObj('HttpClient', ['post'])
+    it("fn get, http ok", () => {
+        httpSpy = jasmine.createSpyObj('HttpClient', ['get'])
         proxyHttp = new ProxyHttpclientService(httpSpy)
-        //requiere otro tipo de paso de respuesta erronea para que la tome como error
-        httpSpy.post.and.returnValue(of({status:"400"}))
-        proxyHttp.post({url:"algo",body:{a:"a",b:"b"},options:{header:{c:"c",d:"d"}}}).subscribe(res => {
+        httpSpy.get.and.returnValue(of({datos:{campo1:"si",campo2:"no"}}))
+        proxyHttp.get({url:"algo",params:{a:"a",b:"b"},headers:{c:"c",d:"d"}}).subscribe(res => {
             expect(res).toEqual(jasmine.anything())
-            expect(res.error).toEqual("true")
+            expect(res.datos).toEqual({campo1:"si",campo2:"no"})
         })
     })
     it("fn post, http ok", () => {

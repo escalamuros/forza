@@ -1,4 +1,10 @@
-// A sample Jasmine test
+// pruebas unitarias con jasmine
+
+//xdescribe:excluir un grupo de pruebas
+//fdescribe: enfocarse en un grupo de pruebas
+
+//xit: excluir una prueba
+//fit: enfocarse en una prueba
 
 describe("A suite 1", function() {
 
@@ -56,11 +62,15 @@ describe("PU de items.component.", function() {
         //expect(respuesta).toEqual(jasmine.arrayContaining(['a']));
         //expect(respuesta).toEqual(jasmine.any(Object));
     });
+
     it("Algunos soportes para string",function(){
         //let items= new ItemsComponent();
         let respuesta=items.retornaString()
         expect(respuesta).toEqual(jasmine.stringMatching('tina'));
     });
+
+    //jasmine.spyOnObject
+
     xit("spyOn funcion retornando null",function(){
         //let items= new ItemsComponent();
         spyOn(items,'retornaArray').and.callFake(function(){ return "3";});
@@ -77,6 +87,17 @@ describe("PU de items.component.", function() {
         expect(respuesta).toEqual("respuesta true");
     });
 
+    xit("*Probando spyOn con varias respuestas falzas",function(){
+        //let items= new ItemsComponent();
+        spyOn(items, "getFlag").and.returnValues(false,false,true);
+        let respuesta = items.useFlagForSomething();
+        expect(respuesta).toEqual("respuesta false");
+        respuesta = items.useFlagForSomething();
+        expect(respuesta).toEqual("respuesta false");
+        respuesta = items.useFlagForSomething();
+        expect(respuesta).toEqual("respuesta true");
+    });
+
     it("* Probando spyOn respuesta verdadera",function(){
         //let items= new itemsComponent.ItemsComponent();
         spyOn(items, "getFlag").and.callThrough();
@@ -84,4 +105,10 @@ describe("PU de items.component.", function() {
         expect(respuesta).toEqual("respuesta false");
         //expect(items.getFlag()).toHaveBeenCalledTimes(1)
     });
+
+    xit("* si el spy esta sobre una promesa",function(){
+        spyOn(items, "getFlag").and.rejectWith("value")
+        spyOn(items, "getFlag").and.resolveTo("value")
+    })
 })
+

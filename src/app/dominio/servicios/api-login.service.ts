@@ -38,13 +38,11 @@ export class ApiLoginService {
             const rut = credenciales.rut.replace(".", "").replace(".", "")
             const clave = credenciales.clave.replace(/\+/g, '%2B')
             const body = "username=" + rut + "&password=" + clave + "&apikey="+llave;
-            const httpOptions = {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    Accept: 'application/json'
-                }
-            };
-            this._http.post({url: url, body: body, options: httpOptions}).subscribe(resp => {
+            const headers= {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Accept': 'application/json'
+            }
+            this._http.post({url: url, body: body, headers: headers}).subscribe(resp => {
                 console.log("[api-login]resp:" + JSON.stringify(resp))
                 if (resp.error) {
                     console.log("[api-login]error del tipo :" + resp.tipo)
@@ -73,13 +71,11 @@ export class ApiLoginService {
                 const body = "act_token="+activacion+
                     "&response_type=code"+
                     "&apikey="+llave;
-                const httpOptions = {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        Accept: 'application/json'
-                    }
-                };
-                this._http.post({url: url, body: body, options: httpOptions}).subscribe(resp => {
+                const headers = {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Accept': 'application/json'
+                }
+                this._http.post({url: url, body: body, headers: headers}).subscribe(resp => {
                     console.log("[api-login]resp:" +JSON.stringify(resp))
                     if(resp.error){
                         observer.next(resp)
@@ -110,13 +106,11 @@ export class ApiLoginService {
                     "&code="+code+
                     "&redirect_uri="+credenciales.redirect_uri+
                     "&grant_type="+credenciales.grant_type
-                const httpOptions = {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        Accept: 'application/json'
-                    }
-                };
-                this._http.post({url: url,body:body, options: httpOptions}).subscribe(resp => {
+                const headers = {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Accept': 'application/json'
+                }
+                this._http.post({url: url,body:body, headers:headers}).subscribe(resp => {
                     if(resp.error){
                         observer.next(resp)
                     }else {
@@ -145,13 +139,11 @@ export class ApiLoginService {
                     sc: 'SS',
                     time: '1544581079034'
                 }
-                const httpOptions = {
-                    headers: {
-                        Authorization: "Bearer " + agrupado.accessToken,
-                        AuthorizationMCSS: agrupado.mcssToken
-                    }
+                const headers = {
+                    'Authorization': 'Bearer ' + agrupado.accessToken,
+                    'AuthorizationMCSS': agrupado.mcssToken
                 }
-                this._http.post({url: url, body: body, options: httpOptions}).subscribe(resp => {
+                this._http.post({url: url, body: body, headers:headers}).subscribe(resp => {
                     observer.next(resp)
                     observer.complete()
                 })
