@@ -5,6 +5,8 @@ platforms/
 #recursos de imagenes para plataforma
 App_Resources/Android/src/
 App_Resources/iOS/Assets.xcassets/
+#reporte de pruebas unitarias
+coverage/
 #firma de android
 org_escalamuros_forza.jks
 # NativeScript Template

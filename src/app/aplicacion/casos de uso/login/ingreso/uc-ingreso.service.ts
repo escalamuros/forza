@@ -69,16 +69,13 @@ export class UcIngresoService {
 
     guardarRespuestas(resp){
         console.log("[UCIngreso] f guardarRespuestas")
-
         let productos=resp.responseBknd.token.cliente.productos.producto
-
         let dataSesion={
             tiempoVenceAccessToken : new Date().getTime()+resp.expires_in,
             accessToken : resp.access_token,
             refreshToken : resp.refresh_token,
             mcssToken : resp.mcsstoken
         }
-
         let dataUsuario={
             tipoLogin:"credenciales",
             nombre : resp.responseBknd.token.cliente.nombre,
@@ -88,12 +85,11 @@ export class UcIngresoService {
             rut : resp.rut+"-"+resp.dv,
             productos : productos
         }
-
         this._session.iniciarSesion(dataSesion)
         this._usuario.iniciarUsuario(dataUsuario)
         let hayLineaSeleccionada=this._linea.iniciarLinea(productos)
         if(hayLineaSeleccionada){
-
+            //no realiza nada
         }else{
             this.respuesta={estado:"ok",segmento:"registrar_linea",error:"Usuario registrado,Sin lineas"}
         }

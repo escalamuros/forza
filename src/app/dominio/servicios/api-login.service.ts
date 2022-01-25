@@ -37,8 +37,8 @@ export class ApiLoginService {
             const url = rutasLogin.loginCajetin
             const rut = credenciales.rut.replace(".", "").replace(".", "")
             const clave = credenciales.clave.replace(/\+/g, '%2B')
-            const body = "username=" + rut + "&password=" + clave + "&apikey="+llave;
-            const headers= {
+            const body = "username=" + rut + "&password=" + clave + "&apikey=" + llave;
+            const headers = {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Accept': 'application/json'
             }
@@ -48,11 +48,15 @@ export class ApiLoginService {
                     console.log("[api-login]error del tipo :" + resp.tipo)
                     observer.next(resp)
                 } else {
-                    if (resp.datos.act_token) {
-                        console.log("[api-login]act_token:" + resp.datos.act_token)
-                        observer.next(resp.datos.act_token)
-                    }else{
-                        observer.next({error:true,tipo:"respuesta erronea"})
+                    if (resp.hasOwnProperty('datos')) {
+                        if (resp.datos.hasOwnProperty('act_token')) {
+                            console.log("[api-login]act_token:" + resp.datos.act_token)
+                            observer.next(resp.datos.act_token)
+                        } else {
+                            observer.next({error: true, tipo: "respuesta erronea"})
+                        }
+                    } else {
+                        observer.next({error: true, tipo: "respuesta erronea"})
                     }
                 }
                 observer.complete()
@@ -63,28 +67,32 @@ export class ApiLoginService {
 
     userAuthorize(activacion): Observable<any> {
         console.log("[api-login] f userAuthorize")
-        if (activacion.error) {
+        if (activacion.hasOwnProperty('error')) {
             return of(activacion)
         } else {
             let respuesta$ = new Observable(observer => {
                 const url = rutasLogin.userAuthorize
-                const body = "act_token="+activacion+
-                    "&response_type=code"+
-                    "&apikey="+llave;
+                const body = "act_token=" + activacion +
+                    "&response_type=code" +
+                    "&apikey=" + llave;
                 const headers = {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Accept': 'application/json'
                 }
                 this._http.post({url: url, body: body, headers: headers}).subscribe(resp => {
-                    console.log("[api-login]resp:" +JSON.stringify(resp))
-                    if(resp.error){
+                    console.log("[api-login]resp:" + JSON.stringify(resp))
+                    if (resp.error) {
                         observer.next(resp)
-                    }else {
-                        if (resp.datos.code) {
-                            console.log("[api-login]code:" + resp.datos.code)
-                            observer.next(resp.datos.code)
-                        }else{
-                            observer.next({error:true,tipo:"respuesta erronea"})
+                    } else {
+                        if (resp.hasOwnProperty('datos')) {
+                            if (resp.datos.hasOwnProperty('code')) {
+                                console.log("[api-login]code:" + resp.datos.code)
+                                observer.next(resp.datos.code)
+                            } else {
+                                observer.next({error: true, tipo: "respuesta erronea"})
+                            }
+                        } else {
+                            observer.next({error: true, tipo: "respuesta erronea"})
                         }
                     }
                     observer.complete()
@@ -101,19 +109,19 @@ export class ApiLoginService {
         } else {
             let respuesta$ = new Observable(observer => {
                 const url = rutasLogin.token
-                const body = "client_id="+credenciales.client_id+
-                    "&client_secret="+credenciales.client_secret+
-                    "&code="+code+
-                    "&redirect_uri="+credenciales.redirect_uri+
-                    "&grant_type="+credenciales.grant_type
+                const body = "client_id=" + credenciales.client_id +
+                    "&client_secret=" + credenciales.client_secret +
+                    "&code=" + code +
+                    "&redirect_uri=" + credenciales.redirect_uri +
+                    "&grant_type=" + credenciales.grant_type
                 const headers = {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Accept': 'application/json'
                 }
-                this._http.post({url: url,body:body, headers:headers}).subscribe(resp => {
-                    if(resp.error){
+                this._http.post({url: url, body: body, headers: headers}).subscribe(resp => {
+                    if (resp.error) {
                         observer.next(resp)
-                    }else {
+                    } else {
                         //todo:analizar que deve debolver y que no
                         observer.next(resp)
                     }
@@ -143,7 +151,7 @@ export class ApiLoginService {
                     'Authorization': 'Bearer ' + agrupado.accessToken,
                     'AuthorizationMCSS': agrupado.mcssToken
                 }
-                this._http.post({url: url, body: body, headers:headers}).subscribe(resp => {
+                this._http.post({url: url, body: body, headers: headers}).subscribe(resp => {
                     observer.next(resp)
                     observer.complete()
                 })

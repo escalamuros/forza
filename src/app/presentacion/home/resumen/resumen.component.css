@@ -1,1 +1,10 @@
 /* Add mobile styles for the component here.  */
+.pantalla{
+    padding-top: 24;
+}
+
+.cuerpo{
+    background-color: #dddddd;
+    padding: 5;
+    height: 100%;
+}

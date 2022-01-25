@@ -13,7 +13,8 @@ import { CerrarSesionModalComponent } from './cerrar-sesion-modal/cerrar-sesion-
         NativeScriptCommonModule
     ],
     exports: [
-        NavegacionInferiorComponent
+        NavegacionInferiorComponent,
+        SelectorLineaComponent
     ],
     schemas: [NO_ERRORS_SCHEMA]
 })

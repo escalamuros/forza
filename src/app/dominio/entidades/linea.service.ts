@@ -80,6 +80,10 @@ export class LineaService {
         return this.linea.tipo
     }
 
+    obtenerTipoContratoOri(){
+        return this.linea.tipoContratoOri
+    }
+
     rescatarDePersistencia(){
         if(this._persistencia.existe("linea")){
             this.linea = this._persistencia.obtener("linea")

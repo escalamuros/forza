@@ -18,16 +18,22 @@ module.exports = function (config) {
 
     // list of files to exclude
     exclude: [
-        'src/tests/example.spec.ts',
-        'src/tests/cu_ingreso.spec.ts'
+        'src/tests/example.spec.ts'
     ],
 
-
-    // preprocess matching files before serving them to the browser
+       // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+
     },
 
+    plugins: [
+      'karma-jasmine',
+      'karma-coverage-istanbul-reporter',
+      'karma-coverage',
+      'karma-webpack',
+      'karma-nativescript-launcher'
+    ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
@@ -37,10 +43,9 @@ module.exports = function (config) {
     //agregado reporter istambul
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, 'coverage'),
-      reports: ['html', 'lcovonly', 'text-summary'],
+      reports: ['html', 'lcovonly','json', 'text-summary'],
       fixWebpackSourcePaths: true
     },
-
 
     // web server port
     port: 9876,

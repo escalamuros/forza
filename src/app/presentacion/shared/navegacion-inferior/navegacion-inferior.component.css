@@ -1,17 +1,26 @@
 /* Add mobile styles for the component here.  */
 .opcion{
+    width: 100%;
+    heigth:50;
     margin:2px;
     background-color: #E8E8E8;
 }
 
 .opcion--btn__activo{
-    color: blueviolet;
+    border-color:black;
+    border-width: 1;
     border-radius: 10;
     border-color: #880000;
+    color: blueviolet;
 }
 
 .opcion--btn__inactivo{
+    border-color:black;
+    border-width: 1;
     color: #a594ca;
     border-radius: 10;
     border-color: #7c5454;
+}
+.opcion--btn__invisible{
+    visibility: collapse;
 }

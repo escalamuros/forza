@@ -1,1 +1,9 @@
 /* Add mobile styles for the component here.  */
+.cuerpo{
+    padding-top: 25;
+    background-color: #0074D9;
+    color: white;
+    font-size: 20;
+    height: 100;
+    width: 100%;
+}

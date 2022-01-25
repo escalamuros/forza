@@ -15,18 +15,23 @@ export class ApiMantenedorService {
     }
 
     obtenerEntidades(): Observable<any> {
-        console.log("[api-mantenedor] f obtener")
+        console.log("[api-mantenedor] f obtenerEntidades")
         let respuesta$ = new Observable(observer => {
             let parametros = {url: "", headers: {}}
             parametros.url = rutasMantenedor.mantenedor
             parametros.headers = new HttpHeaders().set('Authorization', 'Basic ' + token.coliving_prod)
             console.log("[api-mantenedor] parametros:" + JSON.stringify(parametros))
             this._http.get(parametros).subscribe(resp => {
+                console.log("[api-mantenedor] repuesta:" + JSON.stringify(resp))
                 if (resp.error) {
                     observer.next(resp)
                 } else {
-                    if (resp.data.Entity) {
-                        observer.next(resp.data.Entity)
+                    if (resp.hasOwnProperty('data')) {
+                        if (resp.data.hasOwnProperty('Entity')) {
+                            observer.next(resp.data.Entity)
+                        } else {
+                            observer.next({error: true, tipo: "respuesta erronea"})
+                        }
                     } else {
                         observer.next({error: true, tipo: "respuesta erronea"})
                     }
@@ -38,6 +43,7 @@ export class ApiMantenedorService {
     }
 
     obtenerFlagDeForzado(): Observable<any> {
+        console.log("[api-mantenedor] f obtenerFlagDeForzado")
         let respuesta$ = new Observable(observer => {
             let parametros = {url: "", headers: {}, params: {}}
             parametros.url = rutasMantenedor.flag
@@ -52,7 +58,7 @@ export class ApiMantenedorService {
             this._http.get(parametros).subscribe(resp => {
                 if (resp.error) {
                     console.log("[api-mantenedor]error del tipo :" + resp.tipo)
-                    if (resp.tipo == 'peticion'||resp.tipo == 'timeout') {
+                    if (resp.tipo == 'peticion' || resp.tipo == 'timeout') {
                         observer.next(false)
                     } else {
                         observer.next(resp)

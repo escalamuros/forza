@@ -1,7 +1,7 @@
-<GridLayout columns="*,*,*,*,*" rows="50" class="opcion">
-    <Button col="0" class="opcion--btn__inactivo" text="1" ></Button>
-    <Button col="1" class="opcion--btn__inactivo" text="2" ></Button>
-    <Button col="2" class="opcion--btn__inactivo" text="3" ></Button>
-    <Button col="3" class="opcion--btn__inactivo" text="4" ></Button>
-    <Button col="4" class="opcion--btn__activo" text="menu" (tap)="abrirMenuModal()" ></Button>
-</GridLayout>
+<FlexboxLayout flexDirection="row" class="opcion">
+    <Button class="opcion--btn__inactivo" text="Resumen" (tap)="accionNavegador(1)" ></Button>
+    <Button class="opcion--btn__inactivo" text="2" (tap)="accionNavegador(2)"></Button>
+    <Button class="opcion--btn__inactivo" text="3" (tap)="accionNavegador(3)"></Button>
+    <Button class="opcion--btn__invisible" text="4" (tap)="accionNavegador(4)"></Button>
+    <Button class="opcion--btn__activo" text="menu" (tap)="abrirModalDeMenu()" ></Button>
+</FlexboxLayout>

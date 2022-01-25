@@ -3,15 +3,10 @@ import {HttpClient, HttpHeaders,HttpParams} from "@angular/common/http";
 import {Observable, of} from "rxjs";
 import {catchError, timeout} from "rxjs/operators";
 
-
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable({ providedIn: 'root'})
 export class ProxyHttpclientService {
-
     constructor(private _http: HttpClient) {
     }
-
     get(peticion): Observable<any> {
         console.log("[ProxyHttpclientService]f get")
         console.log("[ProxyHttpclientService]parametros.url:"+peticion.url)
@@ -22,7 +17,6 @@ export class ProxyHttpclientService {
         )
         return respuesta$
     }
-
     post(parametros): Observable<any> {
         console.log("[ProxyHttpclientService]f post")
         console.log("[ProxyHttpclientService]parametros.url:"+parametros.url)
@@ -35,7 +29,6 @@ export class ProxyHttpclientService {
         )
         return respuesta$
     }
-
     errorApi(err) {
         console.log("[ProxyHttpclientService] f errorApi")
         console.log("[ProxyHttpclientService] error:"+JSON.stringify(err))
@@ -55,7 +48,6 @@ export class ProxyHttpclientService {
         }
         return of({error: "true", tipo: tipo})
     }
-
 }
 
 

@@ -18,86 +18,100 @@ describe("Api de login service:",()=> {
     afterEach(()=>{
         console.log("[test]despues de cada IT")
         nsTestBedAfterEach(false)});
-    it("fn loginconcredenciales, error en http", () => {
+    it("fn loginconcredenciales, error en http", done => {
         httpSpy = jasmine.createSpyObj('HttpClient', ['post'])
         api = new ApiLoginService(httpSpy)
         httpSpy.post.and.returnValue(of({error: true, tipo: "no"}))
         api.loginConCredenciales(credenciales).subscribe(res => {
             expect(res.error).toBeTruthy()
+            done()
         })
     })
-    it("fn loginconcredenciales, http ok, campo act_token no esta presente", () => {
+    it("fn loginconcredenciales, http ok, campo act_token no esta presente", done => {
         httpSpy = jasmine.createSpyObj('HttpClient', ['post'])
         api = new ApiLoginService(httpSpy)
         httpSpy.post.and.returnValue(of({datos: {act:"token",token:"un_"}}))
         api.loginConCredenciales(credenciales).subscribe(res => {
             expect(res.error).toBeTruthy()
+            done()
         })
     })
-    it("fn loginconcredenciales, http respuesta ok", () => {
+    it("fn loginconcredenciales, http respuesta ok", done => {
         httpSpy = jasmine.createSpyObj('HttpClient', ['post'])
         api = new ApiLoginService(httpSpy)
         httpSpy.post.and.returnValue(of({datos: {act_token: "un_token"}}))
         api.loginConCredenciales(credenciales).subscribe(res => {
             expect(res).toEqual("un_token")
+            done()
         })
     })
-    it("fn userAuthorize, viene un error en servicio anterior",()=>{
+    it("fn userAuthorize, viene un error en servicio anterior",done => {
+        httpSpy = jasmine.createSpyObj('HttpClient', ['post'])
+        api = new ApiLoginService(httpSpy)
+        httpSpy.post.and.returnValue(of({error:true,tipo:"no"}))
         api.userAuthorize(errorPrevio).subscribe(res=>{
             expect(res.error).toBeTruthy()
+            done()
         })
     })
-    it("fn userAuthorize, error en http",()=>{
+    it("fn userAuthorize, error en http",done => {
         httpSpy=jasmine.createSpyObj('HttpClient',['post'])
         api = new ApiLoginService(httpSpy)
         httpSpy.post.and.returnValue(of({error:true, tipo:"no"}))
         api.userAuthorize(actCode).subscribe(res=>{
             expect(res.error).toBeTruthy()
+            done()
         })
     })
-    it("fn userAuthorize, http respuesta ok",()=>{
+    it("fn userAuthorize, http respuesta ok",done => {
         httpSpy=jasmine.createSpyObj('HttpClient',['post'])
         api = new ApiLoginService(httpSpy)
         httpSpy.post.and.returnValue(of({otro:"si",datos: { code: "abc" } }))
         api.userAuthorize(actCode).subscribe(res=>{
             expect(res).toEqual("abc")
+            done()
         })
     })
-    it("fn userAuthorize, http ok, campo code no esta presente",()=>{
+    it("fn userAuthorize, http ok, campo code no esta presente",done => {
         httpSpy=jasmine.createSpyObj('HttpClient',['post'])
         api = new ApiLoginService(httpSpy)
         httpSpy.post.and.returnValue(of({otro:"si",datos: { codigo: "abc" } }))
         api.userAuthorize(actCode).subscribe(res=>{
             expect(res.error).toBeTruthy()
+            done()
         })
     })
-    it("fn tokenActivation, viene un error en servicio anterior",()=>{
+    it("fn tokenActivation, viene un error en servicio anterior",done => {
         api.tokenActivation(errorPrevio).subscribe(res=>{
             expect(res.error).toBeTruthy()
+            done()
         })
     })
-    it("fn tokenActivation, error en http",()=>{
+    it("fn tokenActivation, error en http",done => {
         httpSpy=jasmine.createSpyObj('HttpClient',['post'])
         api = new ApiLoginService(httpSpy)
         httpSpy.post.and.returnValue(of({error:true, tipo:"no"}))
         api.tokenActivation(actCode).subscribe(res=>{
             expect(res.error).toBeTruthy()
+            done()
         })
     })
-    it("fn tokenActivation, http respuesta ok",()=>{
+    it("fn tokenActivation, http respuesta ok",done => {
         httpSpy=jasmine.createSpyObj('HttpClient',['post'])
         api = new ApiLoginService(httpSpy)
         httpSpy.post.and.returnValue(of({datos:{code:"abc"}}))
         api.tokenActivation(actCode).subscribe(res=>{
             expect(res).toEqual({datos:{code:"abc"}})
+            done()
         })
     })
-    it("fn tokenActivation, http ok, campo code no esta presente",()=>{
+    it("fn tokenActivation, http ok, campo code no esta presente",done => {
         httpSpy=jasmine.createSpyObj('HttpClient',['post'])
         api = new ApiLoginService(httpSpy)
         httpSpy.post.and.returnValue(of({datos:{algo:"abc"}}))
         api.tokenActivation(actCode).subscribe(res=>{
             expect(res).toEqual({datos:{algo:"abc"}})
+            done()
         })
     })
 })

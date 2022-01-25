@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {UsuarioService} from "../../../dominio/entidades/usuario.service";
 
 @Component({
   selector: 'ns-selector-linea',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SelectorLineaComponent implements OnInit {
 
-  constructor() { }
+    private mensaje
+  constructor(
+      private _usuario:UsuarioService
+  ) {
+        this.mensaje="Bienvendido"
+  }
 
   ngOnInit(): void {
+        this.mensaje="Bienvendido "+this._usuario.obtenerNombre()
   }
 
 }

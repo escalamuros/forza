@@ -1,9 +1,11 @@
-<StackLayout>
-    <GridLayout columns="*" rows="40,40,40,40,40,40,*">
-        <Label row="0" [text]="texto1" ></Label>
-        <Label row="1" [text]="texto2" ></Label>
-        <Label row="2" [text]="texto3" ></Label>
-        <Label row="3" [text]="texto4" textWrap="true"></Label>
-        <ns-navegacion-inferior row="5"></ns-navegacion-inferior>
+<StackLayout class="pantalla">
+    <GridLayout columns="*" rows="auto,600,auto">
+        <ns-selector-linea row="0"></ns-selector-linea>
+        <StackLayout row="1" class="cuerpo">
+            <Label [text]="texto2" ></Label>
+            <Label [text]="texto3" ></Label>
+            <Label [text]="texto4" textWrap="true"></Label>
+        </StackLayout>
+        <ns-navegacion-inferior row="2"></ns-navegacion-inferior>
     </GridLayout>
 </StackLayout>
