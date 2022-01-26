@@ -14,9 +14,9 @@
   "scripts": {
     "ngcc": "ngcc --properties es2015 module main --first-only",
     "postinstall": "npm run ngcc",
-    "release_android": "tns build android --release --key-store-path org_escalamuros_forza.jks --key-store-password escalamuros123 --key-store-alias org_escalamuros_forza --key-store-alias-password forza123  --copy-to platforms/android/app/build/outputs/apk/release/forza-signed.apk",
-    "prueba": "tns build android --env.report --env.verbose --copy-to apk/forza-prueba.apk",
-    "pruebas_unitarias": "tns test android"
+    "release_android": "tns build android --release --key-store-path org_escalamuros_forza.jks --key-store-password escalamuros123 --key-store-alias org_escalamuros_forza --key-store-alias-password forza123  --copy-to apk/forza-signed.apk",
+    "reporte_android": "tns build android --env.report --env.verbose --copy-to apk/forza-prueba.apk",
+    "p_u_android": "tns test android"
   },
   "dependencies": {
     "@angular/animations": "~9.1.0",
