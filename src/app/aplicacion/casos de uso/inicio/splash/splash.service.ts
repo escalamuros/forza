@@ -14,6 +14,7 @@ import {AndroidActivityBackPressedEventData} from "tns-core-modules";
 import {UsuarioService} from "../../../../dominio/entidades/usuario.service";
 import {SesionService} from "../../../../dominio/entidades/sesion.service";
 import {LineaService} from "../../../../dominio/entidades/linea.service";
+import {ContadorIngresoService} from "../../../../dominio/entidades/contador-ingreso.service";
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,8 @@ export class SplashService {
 
     constructor(private _sesion:SesionService,
                 private _usuario:UsuarioService,
-                private _linea:LineaService) {
+                private _linea:LineaService,
+                private _contador:ContadorIngresoService) {
 
     }
 
@@ -57,6 +59,11 @@ export class SplashService {
         return false
     }
 
+    iniciarSistemaDeContador(){
+        this._contador.obtenerDePersistencia()
+        this._contador.aumentarContador()
+    }
+
     inicioApp(): string {
         //aqui iria logica de la app para prepararse a iniciar
         console.log("[SplashService] f inicioApp")
@@ -64,7 +71,7 @@ export class SplashService {
         //todo:  revisar servicio de disponibilidad (bloqueo y modal)
         //todo:  revisar mantenedor (esqueleto) (modal de error)
 
-        // Rescatar datos desde persistencia local (usuario,linea,sesion)
+        // Rescatar datos desde persistencia local (usuario,linea,sesion,contador de ingreso)
         let usuarioOk=this.usuarioEstaLogeado()
         let sesionOk=this.sesionEstaCreada()
         //todo:  verifica el estado de logeo:
@@ -76,13 +83,14 @@ export class SplashService {
             if(!lineaOk){
                 respuesta="registrar_linea"
             }
+            // Activar contador de ingreso
+            this.iniciarSistemaDeContador()
             //todo: indicar que tipo de linea esta, para redirigirlo a un resumen especifico
             //todo: validar login biometrico
         }else{
             respuesta="ingreso"
         }
         //todo:  validar la version minima de la app (modal)
-        //todo:  validar sistema encuesta (modal)
         //todo:  validar notificacion con deeplink (redireccion)
         firebase
             .init()
