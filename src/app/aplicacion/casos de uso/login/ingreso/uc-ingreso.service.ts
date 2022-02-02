@@ -10,6 +10,7 @@ import {ApiLoginService} from "../../../../dominio/servicios/api-login.service";
 import {UsuarioService} from "../../../../dominio/entidades/usuario.service";
 import {LineaService} from "../../../../dominio/entidades/linea.service";
 import {SesionService} from "../../../../dominio/entidades/sesion.service";
+import {ContadorIngresoService} from "../../../../dominio/entidades/contador-ingreso.service";
 
 
 @Injectable({
@@ -22,41 +23,40 @@ export class UcIngresoService {
                 private _usuario: UsuarioService,
                 private _session: SesionService,
                 private _linea: LineaService,
-
+                private _contador:ContadorIngresoService
     ) {
-        this.respuesta={estado:"nook",error:"construccion del caso de uso"}
+        this.respuesta = {estado: "nook", error: "construccion del caso de uso"}
     }
 
     loginPorCredenciales(credenciales: loginPorCredenciales): Observable<respuestaLogin> {
         console.log("[UCIngreso] funcion loginPorCredenciales")
-        let respuesta$ = new Observable<respuestaLogin>(observer =>{
+        let respuesta$ = new Observable<respuestaLogin>(observer => {
             this._loginService.IntertarloginConCredenciales(credenciales).subscribe(
-                resp=>{
+                resp => {
                     console.log("[UCIngreso] respuesta loginCredenciales ")
-                    if(resp.error){
-                        this.respuesta.estado="error";
-                        this.respuesta.error="Error en :"+ resp.tipo
+                    if (resp.error) {
+                        this.respuesta.estado = "error";
+                        this.respuesta.error = "Error en :" + resp.tipo
                         observer.next(this.respuesta)
-                    }else{
-                        this.respuesta.estado="ok"
-                        this.respuesta.segmento=this._linea.obtenerTipo()
+                    } else {
+                        this.respuesta.estado = "ok"
+                        this.respuesta.segmento = this._linea.obtenerTipo()
                         this.guardarRespuestas(resp)
                         //todo: corresponde a seleccion de linea, hacer caso de uso
-                        if(this._linea.obtenerTipo()==="MOVIL"){
-                            const agrupado={
-                                customerId:this._linea.obtenerCustomerId(),
-                                accessToken:this._session.getAccessToken(),
-                                mcssToken:this._session.getMcssToken()
+                        if (this._linea.obtenerTipo() === "MOVIL") {
+                            const agrupado = {
+                                customerId: this._linea.obtenerCustomerId(),
+                                accessToken: this._session.getAccessToken(),
+                                mcssToken: this._session.getMcssToken()
                             }
-                            this._loginService.updateClientUserContext(agrupado).subscribe(resp=>{
-                                console.log("[UCIngreso] respuesta updateClientUserContext "+JSON.stringify(resp))
-                                this.respuesta.estado="ok"
-                                this.respuesta.segmento=this._linea.obtenerTipo()
+                            this._loginService.updateClientUserContext(agrupado).subscribe(resp => {
+                                console.log("[UCIngreso] respuesta updateClientUserContext " + JSON.stringify(resp))
+                                this.respuesta.estado = "ok"
+                                this.respuesta.segmento = this._linea.obtenerTipo()
                                 observer.next(this.respuesta)
                                 observer.complete()
                             })
-                        }
-                        else{
+                        } else {
                             observer.next(this.respuesta)
                             observer.complete()
                         }
@@ -67,31 +67,33 @@ export class UcIngresoService {
         return respuesta$
     }
 
-    guardarRespuestas(resp){
+    guardarRespuestas(resp) {
         console.log("[UCIngreso] f guardarRespuestas")
-        let productos=resp.responseBknd.token.cliente.productos.producto
-        let dataSesion={
-            tiempoVenceAccessToken : new Date().getTime()+resp.expires_in,
-            accessToken : resp.access_token,
-            refreshToken : resp.refresh_token,
-            mcssToken : resp.mcsstoken
+        let productos = resp.responseBknd.token.cliente.productos.producto
+        let dataSesion = {
+            tiempoVenceAccessToken: new Date().getTime() + resp.expires_in,
+            accessToken: resp.access_token,
+            refreshToken: resp.refresh_token,
+            mcssToken: resp.mcsstoken
         }
-        let dataUsuario={
-            tipoLogin:"credenciales",
-            nombre : resp.responseBknd.token.cliente.nombre,
-            apellidos : resp.responseBknd.token.cliente.apellido_paterno+" "+resp.responseBknd.token.cliente.apellido_materno,
-            correoElectronico : resp.responseBknd.token.cliente.contacto.mail,
-            sms : resp.responseBknd.token.cliente.contacto.sms,
-            rut : resp.rut+"-"+resp.dv,
-            productos : productos
+        let dataUsuario = {
+            tipoLogin: "credenciales",
+            nombre: resp.responseBknd.token.cliente.nombre,
+            apellidos: resp.responseBknd.token.cliente.apellido_paterno + " " + resp.responseBknd.token.cliente.apellido_materno,
+            correoElectronico: resp.responseBknd.token.cliente.contacto.mail,
+            sms: resp.responseBknd.token.cliente.contacto.sms,
+            rut: resp.rut + "-" + resp.dv,
+            productos: productos
         }
+        this._contador.iniciarConteo()
+        this._contador.aumentarContador()
         this._session.iniciarSesion(dataSesion)
         this._usuario.iniciarUsuario(dataUsuario)
-        let hayLineaSeleccionada=this._linea.iniciarLinea(productos)
-        if(hayLineaSeleccionada){
+        let hayLineaSeleccionada = this._linea.iniciarLinea(productos)
+        if (hayLineaSeleccionada) {
             //no realiza nada
-        }else{
-            this.respuesta={estado:"ok",segmento:"registrar_linea",error:"Usuario registrado,Sin lineas"}
+        } else {
+            this.respuesta = {estado: "ok", segmento: "registrar_linea", error: "Usuario registrado,Sin lineas"}
         }
 
     }

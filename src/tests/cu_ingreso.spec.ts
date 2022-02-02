@@ -8,6 +8,7 @@ import {loginPorCredenciales} from "../app/dominio/interfaces/login/loginRequest
 import {UsuarioService} from "../app/dominio/entidades/usuario.service"
 import {SesionService} from "../app/dominio/entidades/sesion.service"
 import {LineaService} from "../app/dominio/entidades/linea.service"
+import {ContadorIngresoService} from "../app/dominio/entidades/contador-ingreso.service";
 
 describe("Caso de uso ingreso service:",()=>{
     let credenciales:loginPorCredenciales={rut:"a",clave:"b"}
@@ -41,6 +42,7 @@ describe("Caso de uso ingreso service:",()=>{
     let usrSvc:UsuarioService
     let ssnSvc:SesionService
     let lnSvc:LineaService
+    let conSvc:ContadorIngresoService
     let apiLoginSpy,httpSpy,persistenciaSpy
     beforeEach(nsTestBedBeforeEach([],[ApiLoginService]));
     afterEach(nsTestBedAfterEach(false));
@@ -52,7 +54,8 @@ describe("Caso de uso ingreso service:",()=>{
         usrSvc= new UsuarioService(persistenciaSpy)
         ssnSvc= new SesionService(persistenciaSpy)
         lnSvc= new LineaService(persistenciaSpy)
-        uc = new UcIngresoService(api,usrSvc,ssnSvc,lnSvc)
+        conSvc= new ContadorIngresoService(persistenciaSpy)
+        uc = new UcIngresoService(api,usrSvc,ssnSvc,lnSvc,conSvc)
         expect(uc.respuesta.estado).toBe("nook")
     })
     //no se porque no puede resolver estos casos
