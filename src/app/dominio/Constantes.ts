@@ -7,6 +7,7 @@ export const rutasLogin = {
 }
 
 export const llave = '53c081ef-ab4b-47b0-95b4-892b2ac7d5f0'
+/* para apix-dev: llave = a6eb7899-2a2d-438a-aed9-e5fa3b04aed0 */
 
 //etapa de login: token activation (tercer paso)
 export const credenciales = {
@@ -15,6 +16,10 @@ export const credenciales = {
     redirect_uri :  "https://myloginOauth.net/auth-code",
     grant_type : "authorization_code"
 }
+/* para apix-dev:
+client_id: b5ba8e96-9d77-4dac-85e9-20c78ecb2617
+client_secret: a5ef2397-32dd-474c-b972-2b44efe32555
+*/
 
 //etapa de login: token activation (tercer paso)
 export const invitado = {
