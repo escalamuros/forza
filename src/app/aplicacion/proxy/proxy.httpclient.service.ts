@@ -4,6 +4,7 @@ import {Observable, of} from "rxjs";
 import {catchError, timeout} from "rxjs/operators";
 
 @Injectable({ providedIn: 'root'})
+
 export class ProxyHttpclientService {
     constructor(private _http: HttpClient) {
     }
@@ -17,6 +18,7 @@ export class ProxyHttpclientService {
         )
         return respuesta$
     }
+
     post(parametros): Observable<any> {
         console.log("[ProxyHttpclientService]f post")
         console.log("[ProxyHttpclientService]parametros.url:"+parametros.url)

@@ -61,6 +61,7 @@ describe("PU de items.component.", function() {
         expect(respuesta).not.toBeNull();
         //expect(respuesta).toEqual(jasmine.arrayContaining(['a']));
         //expect(respuesta).toEqual(jasmine.any(Object));
+        //expect(respuesta).toEqual(['a','b','c']);
     });
 
     it("Algunos soportes para string",function(){
@@ -77,7 +78,7 @@ describe("PU de items.component.", function() {
         let respuesta= items.retornaArray();
         expect(respuesta).toHaveBeenCalled();
         //expect(respuesta).toEqual("3")
-        //expect(respuesta).toEqual(jasmine.any(String));l
+        //expect(respuesta).toEqual(jasmine.any(String));
     });
 
     it("*Probando spyOn respuesta falza",function(){

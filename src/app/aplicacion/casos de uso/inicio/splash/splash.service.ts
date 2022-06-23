@@ -20,12 +20,13 @@ import {ContadorIngresoService} from "../../../../dominio/entidades/contador-ing
   providedIn: 'root'
 })
 export class SplashService {
-
+    private f_suspend:boolean
 
     constructor(private _sesion:SesionService,
                 private _usuario:UsuarioService,
                 private _linea:LineaService,
                 private _contador:ContadorIngresoService) {
+        this.f_suspend=false
 
     }
 
@@ -64,6 +65,14 @@ export class SplashService {
         this._contador.aumentarContador()
     }
 
+    iniciarPlugins(){
+        firebase
+            .init()
+            .then(() => {
+                console.log("[SplashService]firebase iniciado")
+            })
+    }
+
     inicioApp(): string {
         //aqui iria logica de la app para prepararse a iniciar
         console.log("[SplashService] f inicioApp")
@@ -92,11 +101,8 @@ export class SplashService {
         }
         //todo:  validar la version minima de la app (modal)
         //todo:  validar notificacion con deeplink (redireccion)
-        firebase
-            .init()
-            .then(() => {
-                console.log("[SplashService]firebase iniciado")
-            })
+        this.iniciarPlugins()
+
 
         if (isAndroid) {
             Application.android.on(
@@ -114,7 +120,7 @@ export class SplashService {
                 }
             );}
 
-        applicationOn(launchEvent, (args: ApplicationEventData) => {
+        /*applicationOn(launchEvent, (args: ApplicationEventData) => {
                 console.log("[SplashService] launchEvent");
                 if (args.android) {
                     // For Android applications, args.android is an android.content.Intent class.
@@ -123,10 +129,11 @@ export class SplashService {
                     // For iOS applications, args.ios is NSDictionary (launchOptions).
                     console.log("[SplashService] en iOS, options: " + args.ios);
                 }
-            });
+            });*/
 
         applicationOn(suspendEvent, (args: ApplicationEventData) => {
                 console.log("[SplashService] suspendEvent");
+                this.f_suspend=true
                 if (args.android) {
                     // For Android applications, args.android is an android activity class.
                     console.log("[SplashService]  Activity: " + args.android);
@@ -138,6 +145,11 @@ export class SplashService {
 
         applicationOn(resumeEvent, (args: ApplicationEventData) => {
                 console.log("[SplashService] resumeEvent");
+                if(this.f_suspend){
+                    console.log("[SplashService] viene de segundo plano");
+                }else{
+                    console.log("[SplashService] viene de inicio de app");
+                }
                 if (args.android) {
                     // For Android applications, args.android is an android activity class.
                     console.log("[SplashService] Activity: " + args.android);
