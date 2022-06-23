@@ -8,13 +8,13 @@ import {
     suspendEvent, uncaughtErrorEvent
 } from "tns-core-modules/application";
 import { Application, AndroidApplication } from "@nativescript/core";
-import * as firebase from "nativescript-plugin-firebase";
 import {AndroidActivityBackPressedEventData} from "tns-core-modules";
 
 import {UsuarioService} from "../../../../dominio/entidades/usuario.service";
 import {SesionService} from "../../../../dominio/entidades/sesion.service";
 import {LineaService} from "../../../../dominio/entidades/linea.service";
 import {ContadorIngresoService} from "../../../../dominio/entidades/contador-ingreso.service";
+import {ProxyFirebaseService} from "../../../proxy/proxy.firebase.service";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,8 @@ import {ContadorIngresoService} from "../../../../dominio/entidades/contador-ing
 export class SplashService {
     private f_suspend:boolean
 
-    constructor(private _sesion:SesionService,
+    constructor(private _firebase:ProxyFirebaseService,
+                private _sesion:SesionService,
                 private _usuario:UsuarioService,
                 private _linea:LineaService,
                 private _contador:ContadorIngresoService) {
@@ -66,11 +67,7 @@ export class SplashService {
     }
 
     iniciarPlugins(){
-        firebase
-            .init()
-            .then(() => {
-                console.log("[SplashService]firebase iniciado")
-            })
+        this._firebase.inicio()
     }
 
     inicioApp(): string {
