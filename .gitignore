@@ -11,6 +11,8 @@ coverage/
 report/
 #firma de android
 org_escalamuros_forza.jks
+#ssh generado
+ssh_escala.*
 # NativeScript Template
 *.js.map
 *.js
