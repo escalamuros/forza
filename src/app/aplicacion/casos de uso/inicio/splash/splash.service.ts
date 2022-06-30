@@ -13,8 +13,11 @@ import {AndroidActivityBackPressedEventData} from "tns-core-modules";
 import {UsuarioService} from "../../../../dominio/entidades/usuario.service";
 import {SesionService} from "../../../../dominio/entidades/sesion.service";
 import {LineaService} from "../../../../dominio/entidades/linea.service";
+
+import {ApiTokenService} from "../../../../dominio/servicios/api-token.service";
 import {ContadorIngresoService} from "../../../../dominio/entidades/contador-ingreso.service";
 import {ProxyFirebaseService} from "../../../proxy/proxy.firebase.service";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +26,7 @@ export class SplashService {
     private f_suspend:boolean
 
     constructor(private _firebase:ProxyFirebaseService,
+                private _token:ApiTokenService,
                 private _sesion:SesionService,
                 private _usuario:UsuarioService,
                 private _linea:LineaService,
@@ -70,37 +74,99 @@ export class SplashService {
         this._firebase.inicio()
     }
 
-    inicioApp(): string {
+    inicioApp(): Observable <string> {
         //aqui iria logica de la app para prepararse a iniciar
-        console.log("[SplashService] f inicioApp")
-        let respuesta:string
-        //todo:  revisar servicio de disponibilidad (bloqueo y modal)
-        //todo:  revisar mantenedor (esqueleto) (modal de error)
 
-        // Rescatar datos desde persistencia local (usuario,linea,sesion,contador de ingreso)
-        let usuarioOk=this.usuarioEstaLogeado()
-        let sesionOk=this.sesionEstaCreada()
-        //todo:  verifica el estado de logeo:
-        if(usuarioOk&&sesionOk){
-            //todo:  si esta logeado:
-            // todo:  ver token de session vencido y renovar si es necesario
-            respuesta="resumen"
-            let lineaOk = this.lineaEstaSeleccionada()
-            if(!lineaOk){
-                respuesta="registrar_linea"
-            }
-            // Activar contador de ingreso
-            this.iniciarSistemaDeContador()
-            //todo: indicar que tipo de linea esta, para redirigirlo a un resumen especifico
-            //todo: validar login biometrico
-        }else{
-            respuesta="ingreso"
-        }
+        //inicio ciclo de vida app
+        this.activarCicloDeVida()
+
         //todo:  validar la version minima de la app (modal)
         //todo:  validar notificacion con deeplink (redireccion)
+
+        //inicia servicios de plugin u otros servios requeridos
         this.iniciarPlugins()
 
+        console.log("[SplashService] f inicioApp")
+        let respuesta$ = new Observable<string>(obs => {
+            //todo:  revisar servicio de disponibilidad (bloqueo y modal)
+            //todo:  revisar mantenedor (esqueleto) (modal de error)
 
+            // Rescatar datos desde persistencia local (usuario,linea,sesion,contador de ingreso)
+            let usuarioOk = this.usuarioEstaLogeado()
+            let sesionOk = this.sesionEstaCreada()
+            // verifica el estado de logeo:
+            if (usuarioOk && sesionOk) {
+                let lineaOk = this.lineaEstaSeleccionada()
+                if (!lineaOk) {
+                    obs.next("registrar_linea")
+                    obs.complete()
+                } else {
+                    // Activar contador de ingreso
+                    this.iniciarSistemaDeContador()
+                    //todo:validr si debe refrescar token de la sesion
+                    this.revisarTokenVencido().subscribe(resp=>{
+                        obs.next(resp)
+                        obs.complete()
+                    })
+                }
+
+            } else {
+                //no hay usuario o no hay sesion: envia a login
+                obs.next("ingreso")
+                obs.complete()
+            }
+        })
+        //todo: validar login biometrico
+        return respuesta$
+    }
+
+    revisarTokenVencido(): Observable <string>{
+        console.log("[SplashService] f revisaTokenVencido")
+        let respuesta$ = new Observable<string>(obs=>{
+            if(this._linea.obtenerTipo() !== "MOVIL"){
+                console.log("[SplashService] linea fija, no se refresca token")
+                //todo: indicar que tipo de linea esta, para redirigirlo a un resumen especifico
+                obs.next("resumen-fijo")
+                obs.complete()
+            }
+            if(this._linea.obtenerTipo() === "MOVIL"){
+                console.log("[SplashService] linea movil,  se revisa si se debe refresca token")
+                let tokenVencido=this._sesion.estaVencida()
+                tokenVencido=true
+                if(tokenVencido){
+                    console.log("[SplashService] token vencido")
+                    let refresh ={
+                        refreshToken: this._sesion.getRefreshToken(),
+                        accessToken: this._sesion.getAccessToken(),
+                        mcssToken: this._sesion.getMcssToken()}
+                    this._token.refrescarToken(refresh).subscribe(resp=>{
+                        if(resp.error){
+                            //todo: enviar error y a login??
+                            //todo: reintentar 3 veces o mandar a login ???
+                            obs.next("ingreso")
+                            obs.complete()
+                        }else{
+                            this._sesion.renovarToken(resp)
+                            //todo: indicar que tipo de linea esta, para redirigirlo a un resumen especifico
+                            obs.next("resumen")
+                            obs.complete()
+                        }
+                    })
+                    obs.next("resumen")
+                    obs.complete()
+                }else{
+                    console.log("[SplashService] token vivo")
+                    //todo: indicar que tipo de linea esta, para redirigirlo a un resumen especifico
+                    obs.next("resumen")
+                    obs.complete()
+                }
+            }
+        })
+        return respuesta$
+    }
+
+    activarCicloDeVida(){
+        //boton back fiico de android
         if (isAndroid) {
             Application.android.on(
                 AndroidApplication.activityBackPressedEvent,
@@ -117,6 +183,7 @@ export class SplashService {
                 }
             );}
 
+        //no hay evento LaunchEvent, ya que es la funcion de InicioApp
         /*applicationOn(launchEvent, (args: ApplicationEventData) => {
                 console.log("[SplashService] launchEvent");
                 if (args.android) {
@@ -194,9 +261,6 @@ export class SplashService {
                     console.log("[SplashService] NativeScriptError: " + args.ios);
                 }
             });
-
-        return respuesta
     }
-
 
 }

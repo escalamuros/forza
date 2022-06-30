@@ -4,6 +4,7 @@ import {of} from "rxjs"
 
 import {UcIngresoService} from "../app/aplicacion/casos de uso/login/ingreso/uc-ingreso.service"
 import {ApiLoginService} from "../app/dominio/servicios/api-login.service"
+import {ApiTokenService} from "../app/dominio/servicios/api-token.service"
 import {loginPorCredenciales} from "../app/dominio/interfaces/login/loginRequest"
 import {UsuarioService} from "../app/dominio/entidades/usuario.service"
 import {SesionService} from "../app/dominio/entidades/sesion.service"
@@ -38,24 +39,27 @@ describe("Caso de uso ingreso service:",()=>{
         }
     }
     let uc:UcIngresoService
-    let api:ApiLoginService
+    let apiLogin:ApiLoginService
+    let apiToken:ApiTokenService
     let usrSvc:UsuarioService
     let ssnSvc:SesionService
     let lnSvc:LineaService
     let conSvc:ContadorIngresoService
-    let apiLoginSpy,httpSpy,persistenciaSpy
+    let apiLoginSpy,httpSpyL,httpSpyT,persistenciaSpy
     beforeEach(nsTestBedBeforeEach([],[ApiLoginService]));
     afterEach(nsTestBedAfterEach(false));
     it("creacion del caso de uso",()=>{
         apiLoginSpy=jasmine.createSpyObj('ApiLoginService',['IntertarloginConCredenciales'])
-        httpSpy=jasmine.createSpyObj('HttpClient',['post'])
+        httpSpyL=jasmine.createSpyObj('HttpClient',['post'])
+        httpSpyT=jasmine.createSpyObj('HttpClient',['post'])
         persistenciaSpy=jasmine.createSpyObj('ProxyPersistenciaService',['existe','guardar','obtener'])
-        api = new ApiLoginService(httpSpy)
+        apiLogin = new ApiLoginService(httpSpyL)
+        apiToken = new ApiTokenService(httpSpyT)
         usrSvc= new UsuarioService(persistenciaSpy)
         ssnSvc= new SesionService(persistenciaSpy)
         lnSvc= new LineaService(persistenciaSpy)
         conSvc= new ContadorIngresoService(persistenciaSpy)
-        uc = new UcIngresoService(api,usrSvc,ssnSvc,lnSvc,conSvc)
+        uc = new UcIngresoService(apiLogin,apiToken,usrSvc,ssnSvc,lnSvc,conSvc)
         expect(uc.respuesta.estado).toBe("nook")
     })
     //no se porque no puede resolver estos casos

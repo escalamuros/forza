@@ -44,35 +44,40 @@ export class ApiLoginService {
             }
             this._http.post({url: url, body: body, headers: headers}).subscribe(resp => {
                 console.log("[api-login]resp:" + JSON.stringify(resp))
-                if (resp.error) {
-                    console.log("[api-login]error del tipo :" + resp.tipo)
-                    observer.next(resp)
-                } else {
-                    if (resp.hasOwnProperty('datos')) {
-                        if (resp.datos.hasOwnProperty('act_token')) {
-                            console.log("[api-login]act_token:" + resp.datos.act_token)
-                            observer.next(resp.datos.act_token)
-                        } else {
-                            observer.next({error: true, tipo: "respuesta erronea"})
-                        }
-                    } else {
-                        observer.next({error: true, tipo: "respuesta erronea"})
-                    }
-                }
+                let respuestaAnalizada=this.validarRespuestaLoginConCredenciales(resp)
+                observer.next(respuestaAnalizada)
                 observer.complete()
             })
         })
         return respuesta$
     }
 
+    validarRespuestaLoginConCredenciales(resp){
+        if (resp.error) {
+            console.log("[api-login]error del tipo :" + resp.tipo)
+            return (resp)
+        } else {
+            if (resp.hasOwnProperty('datos')) {
+                if (resp.datos.hasOwnProperty('act_token')) {
+                    console.log("[api-login]act_token:" + resp.datos.act_token)
+                    return {error:false,datos:resp.datos.act_token}
+                } else {
+                    return {error: true, tipo: "respuesta erronea"}
+                }
+            } else {
+                return {error: true, tipo: "respuesta erronea"}
+            }
+        }
+    }
+
     userAuthorize(activacion): Observable<any> {
         console.log("[api-login] f userAuthorize")
-        if (activacion.hasOwnProperty('error')) {
+        if (activacion.error) {
             return of(activacion)
         } else {
             let respuesta$ = new Observable(observer => {
                 const url = rutasLogin.userAuthorize
-                const body = "act_token=" + activacion +
+                const body = "act_token=" + activacion.datos +
                     "&response_type=code" +
                     "&apikey=" + llave;
                 const headers = {
@@ -132,7 +137,7 @@ export class ApiLoginService {
         }
     }
 
-    updateClientUserContext(agrupado): Observable<any> {
+    oupdateClientUserContext(agrupado): Observable<any> {
         console.log("[api-login]f updateClientUserContext")
         console.log("[api-login] agrupado:" + JSON.stringify(agrupado))
         if (agrupado.error) {

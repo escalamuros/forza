@@ -80,22 +80,16 @@ export class IngresoComponent implements OnInit {
             this.clave=""
             this.rut=""
         } else {
-            if(this.respuestaLogin.segmento === 'MOVIL'){
-                this._enrrutador.navigate(["resumen"])
-            }
-            if(this.respuestaLogin.segmento === 'user'){
-                this._enrrutador.navigate(["resumen"])
-            }
-            if(this.respuestaLogin.segmento === 'admin'){
-                this._enrrutador.navigate(["resumen-admin"])
-            }
+            console.log("[IngresoComponent]debe de enviar al resumen de la linea:",this.respuestaLogin.segmento)
+            //todo: deberia haber un resumen segun tipo de segmentos
+            this._enrrutador.navigate(["resumen"])
             if(this.respuestaLogin.segmento === 'registrar_linea'){
                 //levantar modal para registrar lineas movistar this._enrrutador.navigate(["registrar_linea"])
             }
         }
     }
 
-    pasarResumen(){
+    validarLinea(){
         if(this.accionBloqueada){
             console.log("[IngresoComponent] accion en curso, funcion no realiza nada")
         }

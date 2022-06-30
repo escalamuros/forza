@@ -20,20 +20,14 @@ export class SplashComponent implements OnInit {
 
   ngOnInit(): void {
       console.log("[SplashComponent] f ngOnInit");
-      const ruta= this._splash.inicioApp()
+      const ruta= this._splash.inicioApp().subscribe(resp=>{
+          setTimeout(()=>{
+                  this._enrrutador.navigate([resp])
+          },2000)
+      })
       //esto es para que se vea durante el arranque
 
-      setTimeout(()=>{
-          if(ruta==="ingreso"){
-            this._enrrutador.navigate(["ingreso"])
-          }
-          if(ruta==="resumen"){
-              this._enrrutador.navigate(["resumen"])
-          }
-          if(ruta==="registrar_linea"){
-              this._enrrutador.navigate(["ingreso"])
-          }
-      },2000)
+
   }
 }
 

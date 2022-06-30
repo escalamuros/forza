@@ -3,13 +3,15 @@ import { NativeScriptCommonModule } from '@nativescript/angular';
 import { ModalDialogService} from "@nativescript/angular";
 
 import { ResumenComponent } from './resumen/resumen.component';
+import { ResumenFijoComponent } from './resumen-fijo/resumen-fijo.component';
 import { PerfilComponent } from './perfil/perfil.component';
 //import { MenuModalComponent} from "../shared/menu-modal/menu-modal.component";
 import {SharedModule} from "../shared/shared.module";
 
 
+
 @NgModule({
-    declarations: [ResumenComponent, PerfilComponent],
+    declarations: [ResumenComponent, PerfilComponent, ResumenFijoComponent],
     providers:[ModalDialogService],
     imports: [
         NativeScriptCommonModule,
@@ -19,4 +21,6 @@ import {SharedModule} from "../shared/shared.module";
     ],
     schemas: [NO_ERRORS_SCHEMA]
 })
-export class HomeModule { }
+export class HomeModule {
+
+}

@@ -3,7 +3,7 @@ export const rutasLogin = {
     loginCajetin: "https://apix.movistar.cl/oauth2/login-app/loginCajetin",
     userAuthorize: "https://apix.movistar.cl/oauth2/userAuthorize",
     token: "https://apix.movistar.cl/oauth2/token",
-    updateContext: 'https://apix.movistar.cl/customer/V2/UpdateClientUserContext',
+    updateContext: 'https://apix.movistar.cl/customer/V2/UpdateClientUserContext'
 }
 
 export const llave = '53c081ef-ab4b-47b0-95b4-892b2ac7d5f0'

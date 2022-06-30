@@ -40,10 +40,12 @@ export class UsuarioService {
     }
 
     rescatarDePersistencia(){
+        console.log("[UsuarioService] f rescatarDePersistencia")
         if(this._persistencia.existe("usuario")){
             this.usuario = this._persistencia.obtener("usuario")
         }else{
-            this.usuario={logeado:false,tipoLogin:"na"};
+            console.log("[UsuarioService] no hay usuario en persistencia")
+            this.usuario={logeado:false,tipoLogin:"na"}
         }
     }
 

@@ -13,7 +13,4 @@ import { SplashComponent } from './splash/splash.component';
 })
 export class InicioModule {
 
-    constructor() {
-    }
-
 }

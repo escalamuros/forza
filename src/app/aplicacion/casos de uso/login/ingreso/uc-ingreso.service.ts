@@ -7,6 +7,7 @@ import {respuestaLogin} from "../../../../dominio/interfaces/login/loginResponse
 
 //servicios a usar
 import {ApiLoginService} from "../../../../dominio/servicios/api-login.service";
+import {ApiTokenService} from "../../../../dominio/servicios/api-token.service";
 import {UsuarioService} from "../../../../dominio/entidades/usuario.service";
 import {LineaService} from "../../../../dominio/entidades/linea.service";
 import {SesionService} from "../../../../dominio/entidades/sesion.service";
@@ -20,6 +21,7 @@ export class UcIngresoService {
     public respuesta: respuestaLogin
 
     constructor(private _loginService: ApiLoginService,
+                private _tokenService: ApiTokenService,
                 private _usuario: UsuarioService,
                 private _session: SesionService,
                 private _linea: LineaService,
@@ -49,10 +51,10 @@ export class UcIngresoService {
                                 accessToken: this._session.getAccessToken(),
                                 mcssToken: this._session.getMcssToken()
                             }
-                            this._loginService.updateClientUserContext(agrupado).subscribe(resp => {
+                            this._tokenService.updateClientUserContext(agrupado).subscribe(resp => {
                                 console.log("[UCIngreso] respuesta updateClientUserContext " + JSON.stringify(resp))
                                 this.respuesta.estado = "ok"
-                                this.respuesta.segmento = this._linea.obtenerTipo()
+                                this.respuesta.segmento = this._linea.obtenerTipoContratoOri()
                                 observer.next(this.respuesta)
                                 observer.complete()
                             })

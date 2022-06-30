@@ -8,7 +8,6 @@ export class ContadorIngresoService {
     private ingreso: number
 
     constructor(private _persistencia: ProxyPersistenciaService) {
-        this.obtenerDePersistencia()
     }
 
     iniciarConteo() {

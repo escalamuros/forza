@@ -51,5 +51,9 @@ export class ProxyHttpclientService {
         return of({error: "true", tipo: tipo})
     }
 }
-
+export interface respuestaHttp{
+    error:boolean;
+    tipo?:string;
+    datos?:any;
+}
 
