@@ -3,7 +3,7 @@ import { nsTestBedAfterEach, nsTestBedBeforeEach, nsTestBedRender} from '@native
 import {of} from "rxjs"
 
 import {ProxyHttpclientService} from "../app/aplicacion/proxy/proxy.httpclient.service"
-import {HttpClient} from "@angular/common/http"
+import {HttpClient, HttpHeaders,HttpParams} from "@angular/common/http"
 
 describe("proxy de httpclient service:",()=> {
     let proxyHttp: ProxyHttpclientService
@@ -19,7 +19,9 @@ describe("proxy de httpclient service:",()=> {
         httpSpy = jasmine.createSpyObj('HttpClient', ['get'])
         proxyHttp = new ProxyHttpclientService(httpSpy)
         httpSpy.get.and.returnValue(of({datos:{campo1:"si",campo2:"no"}}))
-        proxyHttp.get({url:"algo",params:{a:"a",b:"b"},headers:{c:"c",d:"d"}}).subscribe(res => {
+        let cabecera=new HttpHeaders({c:"c",d:"d"})
+        let parametros=new HttpParams().set("a","a").set("b","b")
+        proxyHttp.get({url:"algo",options:{params:parametros,headers:cabecera}}).subscribe(res => {
             expect(res).toEqual(jasmine.anything())
             expect(res.datos).toEqual({campo1:"si",campo2:"no"})
         })
@@ -28,7 +30,8 @@ describe("proxy de httpclient service:",()=> {
         httpSpy = jasmine.createSpyObj('HttpClient', ['post'])
         proxyHttp = new ProxyHttpclientService(httpSpy)
         httpSpy.post.and.returnValue(of({datos:{campo1:"si",campo2:"no"}}))
-        proxyHttp.post({url:"algo",body:{a:"a",b:"b"},options:{header:{c:"c",d:"d"}}}).subscribe(res => {
+        let cabecera=new HttpHeaders({c:"c",d:"d"})
+        proxyHttp.post({url:"algo",body:{a:"a",b:"b"},options:{headers:cabecera}}).subscribe(res => {
             expect(res).toEqual(jasmine.anything())
             expect(res.datos).toEqual({campo1:"si",campo2:"no"})
         })
@@ -37,7 +40,7 @@ describe("proxy de httpclient service:",()=> {
         httpSpy = jasmine.createSpyObj('HttpClient', ['post'])
         proxyHttp = new ProxyHttpclientService(httpSpy)
         proxyHttp.errorApi({name:"TimeoutError"}).subscribe(resp=>{
-            expect(resp.error).toEqual("true")
+            expect(resp.error).toEqual(true)
             expect(resp.tipo).toEqual("timeout")
         })
     })
@@ -45,7 +48,7 @@ describe("proxy de httpclient service:",()=> {
         httpSpy = jasmine.createSpyObj('HttpClient', ['post'])
         proxyHttp = new ProxyHttpclientService(httpSpy)
         proxyHttp.errorApi({status:"400"}).subscribe(resp=>{
-            expect(resp.error).toEqual("true")
+            expect(resp.error).toEqual(true)
             expect(resp.tipo).toEqual("peticion")
         })
     })
@@ -53,7 +56,7 @@ describe("proxy de httpclient service:",()=> {
         httpSpy = jasmine.createSpyObj('HttpClient', ['post'])
         proxyHttp = new ProxyHttpclientService(httpSpy)
         proxyHttp.errorApi({status:"500"}).subscribe(resp=>{
-            expect(resp.error).toEqual("true")
+            expect(resp.error).toEqual(true)
             expect(resp.tipo).toEqual("servidor")
         })
     })
@@ -61,7 +64,7 @@ describe("proxy de httpclient service:",()=> {
         httpSpy = jasmine.createSpyObj('HttpClient', ['post'])
         proxyHttp = new ProxyHttpclientService(httpSpy)
         proxyHttp.errorApi({status:"600"}).subscribe(resp=>{
-            expect(resp.error).toEqual("true")
+            expect(resp.error).toEqual(true)
             expect(resp.tipo).toEqual("desconocido")
         })
     })

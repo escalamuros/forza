@@ -24,7 +24,7 @@ export class NavegacionInferiorComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log("[NavegacionInferiorComponent] f ngOnInit");
+        console.log("[NavegacionInferiorComponent] f ngOnInit")
         this.tipo=this._linea.obtenerTipo()
         this.tipoContrtoOri=this._linea.obtenerTipoContratoOri()
         console.log("[NavegacionInferiorComponent]ruta actual:"+this._enrrutador.router.url)
@@ -88,6 +88,9 @@ export class NavegacionInferiorComponent implements OnInit {
 
     salirONada(res) {
         if (res === "ok") {
+            console.log("[NavegacionInferiorComponent] solo redireccion a ingreso ");
+            //todo: limpiar linea(en contexto),usuario y sesion
+
             this._enrrutador.navigate(["ingreso"])
         }
     }

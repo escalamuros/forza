@@ -79,6 +79,7 @@ export class IngresoComponent implements OnInit {
         if(this.respuestaLogin.estado!="ok"){
             this.clave=""
             this.rut=""
+            this.respuestaLogin={estado:"na"}
         } else {
             console.log("[IngresoComponent]debe de enviar al resumen de la linea:",this.respuestaLogin.segmento)
             //todo: deberia haber un resumen segun tipo de segmentos

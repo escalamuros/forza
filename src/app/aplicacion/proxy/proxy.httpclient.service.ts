@@ -1,36 +1,57 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders,HttpParams} from "@angular/common/http";
 import {Observable, of} from "rxjs";
-import {catchError, timeout} from "rxjs/operators";
+import {catchError, map, timeout} from "rxjs/operators";
 
 @Injectable({ providedIn: 'root'})
 
 export class ProxyHttpclientService {
     constructor(private _http: HttpClient) {
     }
-    get(peticion): Observable<any> {
+    get(parametros:peticionHttp): Observable<respuestaHttp> {
         console.log("[ProxyHttpclientService]f get")
-        console.log("[ProxyHttpclientService]parametros.url:"+peticion.url)
+        console.log("[ProxyHttpclientService]parametros.url:",parametros.url)
         let respuesta$: Observable<any>
-        respuesta$ = this._http.get(peticion.url,peticion).pipe(
+        respuesta$ = this._http.get(parametros.url,parametros.options).pipe(
             catchError(err => this.errorApi(err)),
-            timeout(30000)
+            timeout(30000),
+            map((obj:any)=>{
+                console.log("[ProxyHttpclientService] pipe map:",obj)
+                if((obj.hasOwnProperty("error"))&&(obj.error==true)){
+                    console.log("[ProxyHttpclientService] hay error capturado")
+                    return {error:true,datos:obj.tipo}
+                }else{
+                    console.log("[ProxyHttpclientService] no hay error capturado")
+                    return {error:false,datos:obj}
+                }
+            })
         )
         return respuesta$
     }
 
-    post(parametros): Observable<any> {
+    post(parametros:peticionHttp): Observable<respuestaHttp> {
         console.log("[ProxyHttpclientService]f post")
-        console.log("[ProxyHttpclientService]parametros.url:"+parametros.url)
-        console.log("[ProxyHttpclientService]parametros.body:"+parametros.body)
-        const headers=new HttpHeaders(parametros.headers)
+        console.log("[ProxyHttpclientService]parametros.url:",parametros.url)
+        console.log("[ProxyHttpclientService]parametros.body:",parametros.body)
+
         let respuesta$: Observable<any>
-        respuesta$ = this._http.post(parametros.url,parametros.body,{headers:headers}).pipe(
+        respuesta$ = this._http.post(parametros.url,parametros.body,parametros.options).pipe(
+            catchError(err => this.errorApi(err)),
             timeout(30000),
-            catchError(err => this.errorApi(err))
+            map((obj:any)=>{
+                console.log("[ProxyHttpclientService] pipe map:",obj)
+                if(obj.hasOwnProperty("error") && obj.hasOwnProperty("tipo")){
+                    console.log("[ProxyHttpclientService] hay error capturado")
+                    return {error:true,datos:obj.tipo}
+                }else{
+                    console.log("[ProxyHttpclientService] NO hay error capturado")
+                    return {error:false,datos:obj}
+                }
+            })
         )
         return respuesta$
     }
+
     errorApi(err) {
         console.log("[ProxyHttpclientService] f errorApi")
         console.log("[ProxyHttpclientService] error:"+JSON.stringify(err))
@@ -48,9 +69,17 @@ export class ProxyHttpclientService {
                 console.log("[ProxyHttpclientService]error desconosido en servicio")
             }
         }
-        return of({error: "true", tipo: tipo})
+        let resp:respuestaHttp={error:true,tipo:tipo}
+        return of(resp)
     }
 }
+
+export interface peticionHttp{
+    url:string,
+    body?:any,
+    options: { headers?:HttpHeaders,params?:HttpParams | any  }
+}
+
 export interface respuestaHttp{
     error:boolean;
     tipo?:string;

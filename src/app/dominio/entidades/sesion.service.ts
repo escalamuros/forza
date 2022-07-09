@@ -6,7 +6,7 @@ import {ProxyPersistenciaService} from "../../aplicacion/proxy/proxy.persistenci
   providedIn: 'root'
 })
 export class SesionService {
-    public sesion:Sesion
+    private sesion:Sesion
 
     constructor(private _persistencia:ProxyPersistenciaService) {
         this.sesion={creada:false}
@@ -17,7 +17,10 @@ export class SesionService {
         this.sesion.accessToken=dataSesion.accessToken
         this.sesion.refreshToken=dataSesion.refreshToken
         this.sesion.mcssToken=dataSesion.mcssToken
-        this.sesion.tiempoVenceAccessToken =dataSesion.tiempoVenceAccessToken
+        //expira viene en segundos, y date.gettime en milisegundos*1000
+        let vence = Number(new Date().getTime()) + (Number(dataSesion.expira))
+        this.sesion.tiempoVenceAccessToken =vence
+        console.log("[sesion]guardando sesion:",this.sesion)
         this.guardarEnPersistencia()
     }
 
@@ -40,8 +43,11 @@ export class SesionService {
     rescatarDePersistencia(){
         if(this._persistencia.existe("sesion")){
             this.sesion = this._persistencia.obtener("sesion")
+            console.log("[sesion] variable sesion rescatada:",this.sesion)
         }else{
-            this.sesion={creada:false};
+            this.sesion={creada:false}
+            console.log("[sesion] no hay sesion, variable incial sesion:",this.sesion)
+            console.log("[sesion] sesion:",this.sesion)
         }
     }
 
@@ -59,6 +65,12 @@ export class SesionService {
 
     estaVencida(){
         let ahora=new Date().getTime()
+        console.log("[sesion] ahora:",ahora)
+        console.log("[sesion] vence:",this.sesion.tiempoVenceAccessToken)
+        console.log("[sesion] resta:",ahora>=this.sesion.tiempoVenceAccessToken)
+        if(typeof this.sesion.tiempoVenceAccessToken  === "undefined"){
+            return true
+        }
         if(ahora>=this.sesion.tiempoVenceAccessToken){
             return true
         }
@@ -66,10 +78,15 @@ export class SesionService {
     }
 
     renovarToken(resp){
-        /*this.sesion.mcssToken
-        this.sesion.accessToken
-        this.sesion.refreshToken
-        this.sesion.tiempoVenceAccessToken
-        this.guardarEnPersistencia()*/
+        console.log("[sesion] f renovarToken")
+        console.log("[sesion] datos:",resp)
+        this.sesion.creada=true
+        this.sesion.mcssToken=resp.mcssToken
+        this.sesion.accessToken=resp.accessToken
+        this.sesion.refreshToken=resp.refreshToken
+        //expira viene en segundos, y date.gettime en milisegundos*1000
+        let vence = Number(new Date().getTime()) + (Number(resp.expira))
+        this.sesion.tiempoVenceAccessToken=vence
+        this.guardarEnPersistencia()
     }
 }

@@ -17,18 +17,17 @@ export class ApiMantenedorService {
     obtenerEntidades(): Observable<any> {
         console.log("[api-mantenedor] f obtenerEntidades")
         let respuesta$ = new Observable(observer => {
-            let parametros = {url: "", headers: {}}
-            parametros.url = rutasMantenedor.mantenedor
-            parametros.headers = new HttpHeaders().set('Authorization', 'Basic ' + token.coliving_prod)
-            console.log("[api-mantenedor] parametros:" + JSON.stringify(parametros))
-            this._http.get(parametros).subscribe(resp => {
+            let url = rutasMantenedor.mantenedor
+            let headers = new HttpHeaders({'Authorization':'Basic ' + token.coliving_prod})
+
+            this._http.get({url:url,options:{headers:headers}}).subscribe(resp => {
                 console.log("[api-mantenedor] repuesta:" + JSON.stringify(resp))
                 if (resp.error) {
                     observer.next(resp)
                 } else {
-                    if (resp.hasOwnProperty('data')) {
-                        if (resp.data.hasOwnProperty('Entity')) {
-                            observer.next(resp.data.Entity)
+                    if (resp.datos.hasOwnProperty('data')) {
+                        if (resp.datos.data.hasOwnProperty('Entity')) {
+                            observer.next(resp.datos.data.Entity)
                         } else {
                             observer.next({error: true, tipo: "respuesta erronea"})
                         }
@@ -45,17 +44,15 @@ export class ApiMantenedorService {
     obtenerFlagDeForzado(): Observable<any> {
         console.log("[api-mantenedor] f obtenerFlagDeForzado")
         let respuesta$ = new Observable(observer => {
-            let parametros = {url: "", headers: {}, params: {}}
-            parametros.url = rutasMantenedor.flag
-            parametros.params = new HttpParams()
+            let url = rutasMantenedor.flag
+            let params = new HttpParams()
                 .set('apikey', parametrosFlagMantenedor.apikey)
                 .set('consumer', parametrosFlagMantenedor.consumer)
                 .set('maintainer', parametrosFlagMantenedor.maintainer)
-            parametros.headers = new HttpHeaders()
+            let headers = new HttpHeaders()
                 .set('Accept', 'application/json')
                 .set('Authorization', 'Basic ' + token.redis)
-            console.log("[api-mantenedor] parametros:" + JSON.stringify(parametros))
-            this._http.get(parametros).subscribe(resp => {
+            this._http.get({url:url,options:{headers:headers,params:params}}).subscribe(resp => {
                 if (resp.error) {
                     console.log("[api-mantenedor]error del tipo :" + resp.tipo)
                     if (resp.tipo == 'peticion' || resp.tipo == 'timeout') {

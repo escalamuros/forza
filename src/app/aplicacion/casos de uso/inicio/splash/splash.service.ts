@@ -35,28 +35,37 @@ export class SplashService {
 
     }
 
+    rescatarDePersistencia():void{
+        this._sesion.rescatarDePersistencia()
+        this._usuario.rescatarDePersistencia()
+        this._linea.rescatarDePersistencia()
+    }
+
     usuarioEstaLogeado(){
         console.log("[SplashService] f usuarioEstaLogeado")
-        this._usuario.rescatarDePersistencia()
         if(this._usuario.estaLogeado()){
             console.log("[SplashService] usuario esta")
             return true
+        }else{
+            console.log("[SplashService] usuario NO esta")
+            return false
         }
-        return false
+
     }
 
     sesionEstaCreada(){
         console.log("[SplashService] f sesionEstaCreada")
-        this._sesion.rescatarDePersistencia()
         if(this._sesion.estaCreada()){
             console.log("[SplashService] sesion esta")
             return true
+        } else{
+            console.log("[SplashService] sesion NO esta")
+            return false
         }
-        return false
+
     }
 
     lineaEstaSeleccionada(){
-        this._linea.rescatarDePersistencia()
         if(this._linea.obtenerId()!="0"){
             console.log("[SplashService] linea esta seleccionada")
             return true
@@ -92,6 +101,7 @@ export class SplashService {
             //todo:  revisar mantenedor (esqueleto) (modal de error)
 
             // Rescatar datos desde persistencia local (usuario,linea,sesion,contador de ingreso)
+            this.rescatarDePersistencia()
             let usuarioOk = this.usuarioEstaLogeado()
             let sesionOk = this.sesionEstaCreada()
             // verifica el estado de logeo:
@@ -105,6 +115,7 @@ export class SplashService {
                     this.iniciarSistemaDeContador()
                     //todo:validr si debe refrescar token de la sesion
                     this.revisarTokenVencido().subscribe(resp=>{
+                        console.log("[SplashService] respuesta revisarToken:",resp)
                         obs.next(resp)
                         obs.complete()
                     })
@@ -130,30 +141,51 @@ export class SplashService {
                 obs.complete()
             }
             if(this._linea.obtenerTipo() === "MOVIL"){
-                console.log("[SplashService] linea movil,  se revisa si se debe refresca token")
+                console.log("[SplashService] linea movil, se revisa si se debe refresca token")
                 let tokenVencido=this._sesion.estaVencida()
-                tokenVencido=true
                 if(tokenVencido){
                     console.log("[SplashService] token vencido")
                     let refresh ={
                         refreshToken: this._sesion.getRefreshToken(),
                         accessToken: this._sesion.getAccessToken(),
-                        mcssToken: this._sesion.getMcssToken()}
+                        mcssToken: this._sesion.getMcssToken()
+                    }
                     this._token.refrescarToken(refresh).subscribe(resp=>{
+                        console.log("[SplashService] respuesta renovar token:",resp)
                         if(resp.error){
+                            console.log("[SplashService] falla renovar token")
                             //todo: enviar error y a login??
                             //todo: reintentar 3 veces o mandar a login ???
                             obs.next("ingreso")
                             obs.complete()
                         }else{
-                            this._sesion.renovarToken(resp)
-                            //todo: indicar que tipo de linea esta, para redirigirlo a un resumen especifico
-                            obs.next("resumen")
-                            obs.complete()
+                            console.log("[SplashService] exito renovar token")
+                            //guardar sesion nueva
+                            this._sesion.renovarToken(resp.datos)
+                            //poner en contexto
+                            let agrupado = {
+                                customerId: this._linea.obtenerCustomerId(),
+                                accessToken: this._sesion.getAccessToken(),
+                                mcssToken: this._sesion.getMcssToken()
+                            }
+                            console.log("[SplashService] poner en contexto, luego de refrescar token")
+                            console.log("[SplashService] agrupado:",agrupado)
+                            this._token.updateClientUserContext(agrupado).subscribe(resp => {
+                                console.log("[SplashService] respuesta updateClientUserContext ",resp)
+                                if(resp.error){
+                                    console.log("[SplashService] falla updateClientUserContext ")
+                                    obs.next("ingreso")
+                                }else{
+                                    console.log("[SplashService] exito updateClientUserContext ")
+                                    let segmento = this._linea.obtenerTipoContratoOri()
+                                    //todo: indicar que tipo de linea esta, para redirigirlo a un resumen especifico
+                                    console.log("[SplashService] debe redirigir al home segmento:",segmento)
+                                    obs.next("resumen")
+                                }
+                                obs.complete()
+                            })
                         }
                     })
-                    obs.next("resumen")
-                    obs.complete()
                 }else{
                     console.log("[SplashService] token vivo")
                     //todo: indicar que tipo de linea esta, para redirigirlo a un resumen especifico

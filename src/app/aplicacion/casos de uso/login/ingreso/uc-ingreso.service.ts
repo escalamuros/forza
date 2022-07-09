@@ -13,7 +13,6 @@ import {LineaService} from "../../../../dominio/entidades/linea.service";
 import {SesionService} from "../../../../dominio/entidades/sesion.service";
 import {ContadorIngresoService} from "../../../../dominio/entidades/contador-ingreso.service";
 
-
 @Injectable({
     providedIn: 'root'
 })
@@ -52,10 +51,16 @@ export class UcIngresoService {
                                 mcssToken: this._session.getMcssToken()
                             }
                             this._tokenService.updateClientUserContext(agrupado).subscribe(resp => {
-                                console.log("[UCIngreso] respuesta updateClientUserContext " + JSON.stringify(resp))
-                                this.respuesta.estado = "ok"
-                                this.respuesta.segmento = this._linea.obtenerTipoContratoOri()
-                                observer.next(this.respuesta)
+                                if(resp.error){
+                                    this.respuesta.estado = "nook"
+                                    this.respuesta.error = resp.tipo
+                                    observer.next(this.respuesta)
+                                }
+                                else{
+                                    this.respuesta.estado = "ok"
+                                    this.respuesta.segmento = this._linea.obtenerTipoContratoOri()
+                                    observer.next(this.respuesta)
+                                }
                                 observer.complete()
                             })
                         } else {
@@ -71,22 +76,24 @@ export class UcIngresoService {
 
     guardarRespuestas(resp) {
         console.log("[UCIngreso] f guardarRespuestas")
-        let productos = resp.responseBknd.token.cliente.productos.producto
+        let productos = resp.datos.responseBknd.token.cliente.productos.producto
         let dataSesion = {
-            tiempoVenceAccessToken: new Date().getTime() + resp.expires_in,
-            accessToken: resp.access_token,
-            refreshToken: resp.refresh_token,
-            mcssToken: resp.mcsstoken
+            expira: resp.datos.expires_in,
+            accessToken: resp.datos.access_token,
+            refreshToken: resp.datos.refresh_token,
+            mcssToken: resp.datos.mcsstoken
         }
+        console.log("[UCIngreso] dataSesion:",dataSesion)
         let dataUsuario = {
             tipoLogin: "credenciales",
-            nombre: resp.responseBknd.token.cliente.nombre,
-            apellidos: resp.responseBknd.token.cliente.apellido_paterno + " " + resp.responseBknd.token.cliente.apellido_materno,
-            correoElectronico: resp.responseBknd.token.cliente.contacto.mail,
-            sms: resp.responseBknd.token.cliente.contacto.sms,
-            rut: resp.rut + "-" + resp.dv,
+            nombre: resp.datos.responseBknd.token.cliente.nombre,
+            apellidos: resp.datos.responseBknd.token.cliente.apellido_paterno + " " + resp.datos.responseBknd.token.cliente.apellido_materno,
+            correoElectronico: resp.datos.responseBknd.token.cliente.contacto.mail,
+            sms: resp.datos.responseBknd.token.cliente.contacto.sms,
+            rut: resp.datos.rut + "-" + resp.datos.dv,
             productos: productos
         }
+        console.log("[UCIngreso] dataUsuario:",dataUsuario)
         this._contador.iniciarConteo()
         this._contador.aumentarContador()
         this._session.iniciarSesion(dataSesion)

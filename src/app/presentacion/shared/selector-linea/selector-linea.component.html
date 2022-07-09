@@ -1,3 +1,16 @@
 <StackLayout class="cuerpo">
-    <Label [text]="mensaje"></Label>
+    <Label class="greeting-text" [text]="mensaje"></Label>
+    <GridLayout (tap)="abrirSelectorDeLineas()" row="1" col="0" class="selector-line" rows="auto"
+                columns="*,auto">
+        <Label row="0" col="0" class="selector-all-text" textWrap="true" [isUserInteractionEnabled]="canOpenModal">
+            <Span [fontSize]="selectorFontSize" class="selector-text" text="Estás en tu "></Span>
+            <Span [fontSize]="selectorFontSize"
+                  [ngClass]="{'selector-text-lightGrey': !monolinea, 'selector-text': monolinea, 'selector-text-blue' : !monolinea && !openedModal}"
+                  [text]="formateoTipoDeLinea + ' '"></Span>
+            <Span [fontSize]="selectorFontSize"
+                  [ngClass]="{'selector-text-lightGrey': !monolinea, 'selector-text': monolinea, 'selector-text-blue' : !monolinea && !openedModal}"
+                  [text]="numeroLinea"></Span>
+        </Label>
+        <!--Image *ngIf="!monolinea" row="0" col="1" [src]="icn_arrow" class="icn-arrow"></Image-->
+    </GridLayout>
 </StackLayout>

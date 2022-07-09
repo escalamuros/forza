@@ -4,8 +4,9 @@ import {rutasLogin, llave, credenciales} from "../Constantes";
 import {loginPorCredenciales} from "../interfaces/login/loginRequest";
 import {respuestaLogin} from "../interfaces/login/loginResponse";
 import {Observable, of} from "rxjs";
-import {ProxyHttpclientService} from "../../aplicacion/proxy/proxy.httpclient.service";
+import {ProxyHttpclientService, respuestaHttp} from "../../aplicacion/proxy/proxy.httpclient.service";
 import {mergeMap} from "rxjs/operators";
+import {HttpHeaders} from "@angular/common/http";
 
 @Injectable({providedIn: 'root',})
 
@@ -35,14 +36,15 @@ export class ApiLoginService {
         console.log("[api-login] f loginConCredenciales")
         let respuesta$ = new Observable(observer => {
             const url = rutasLogin.loginCajetin
-            const rut = credenciales.rut.replace(".", "").replace(".", "")
+            const rut = credenciales.rut.replace(/[.]/g, "")
             const clave = credenciales.clave.replace(/\+/g, '%2B')
             const body = "username=" + rut + "&password=" + clave + "&apikey=" + llave;
-            const headers = {
+            const headers = new HttpHeaders({
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Accept': 'application/json'
-            }
-            this._http.post({url: url, body: body, headers: headers}).subscribe(resp => {
+            })
+            this._http.post({url: url, body: body,options:{ headers: headers}})
+                .subscribe(resp => {
                 console.log("[api-login]resp:" + JSON.stringify(resp))
                 let respuestaAnalizada=this.validarRespuestaLoginConCredenciales(resp)
                 observer.next(respuestaAnalizada)
@@ -52,15 +54,19 @@ export class ApiLoginService {
         return respuesta$
     }
 
-    validarRespuestaLoginConCredenciales(resp){
+    validarRespuestaLoginConCredenciales(resp):respuestaHttp{
         if (resp.error) {
             console.log("[api-login]error del tipo :" + resp.tipo)
             return (resp)
         } else {
             if (resp.hasOwnProperty('datos')) {
-                if (resp.datos.hasOwnProperty('act_token')) {
-                    console.log("[api-login]act_token:" + resp.datos.act_token)
-                    return {error:false,datos:resp.datos.act_token}
+                if (resp.datos.hasOwnProperty('datos')) {
+                    if (resp.datos.datos.hasOwnProperty('act_token')) {
+                        console.log("[api-login]act_token:" + resp.datos.datos.act_token)
+                        return {error:false,datos:resp.datos.datos.act_token}
+                    } else {
+                        return {error: true, tipo: "respuesta erronea"}
+                    }
                 } else {
                     return {error: true, tipo: "respuesta erronea"}
                 }
@@ -72,6 +78,7 @@ export class ApiLoginService {
 
     userAuthorize(activacion): Observable<any> {
         console.log("[api-login] f userAuthorize")
+        console.log("[api-login] datos:",activacion)
         if (activacion.error) {
             return of(activacion)
         } else {
@@ -80,30 +87,40 @@ export class ApiLoginService {
                 const body = "act_token=" + activacion.datos +
                     "&response_type=code" +
                     "&apikey=" + llave;
-                const headers = {
+                const headers = new HttpHeaders({
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Accept': 'application/json'
-                }
-                this._http.post({url: url, body: body, headers: headers}).subscribe(resp => {
-                    console.log("[api-login]resp:" + JSON.stringify(resp))
-                    if (resp.error) {
-                        observer.next(resp)
-                    } else {
-                        if (resp.hasOwnProperty('datos')) {
-                            if (resp.datos.hasOwnProperty('code')) {
-                                console.log("[api-login]code:" + resp.datos.code)
-                                observer.next(resp.datos.code)
-                            } else {
-                                observer.next({error: true, tipo: "respuesta erronea"})
-                            }
-                        } else {
-                            observer.next({error: true, tipo: "respuesta erronea"})
-                        }
-                    }
-                    observer.complete()
+                })
+                this._http.post({url: url, body: body, options:{headers: headers}})
+                    .subscribe(resp => {
+                        console.log("[api-login]resp:" + JSON.stringify(resp))
+                        let respuestaAnalizada=this.validarRespuestaUserAuthorize(resp)
+                        observer.next(respuestaAnalizada)
+                        observer.complete()
                 })
             })
             return respuesta$
+        }
+    }
+
+    validarRespuestaUserAuthorize(resp){
+        if (resp.error) {
+            return (resp)
+        } else {
+            if (resp.hasOwnProperty('datos')) {
+                if (resp.datos.hasOwnProperty('datos')) {
+                    if (resp.datos.datos.hasOwnProperty('code')) {
+                        console.log("[api-login]code:" + resp.datos.datos.code)
+                        return (resp.datos.datos.code)
+                    } else {
+                        return ({error: true, tipo: "respuesta erronea"})
+                    }
+                } else {
+                    return ({error: true, tipo: "respuesta erronea"})
+                }
+            } else {
+                return ({error: true, tipo: "respuesta erronea"})
+            }
         }
     }
 
@@ -119,21 +136,27 @@ export class ApiLoginService {
                     "&code=" + code +
                     "&redirect_uri=" + credenciales.redirect_uri +
                     "&grant_type=" + credenciales.grant_type
-                const headers = {
+                const headers =  new HttpHeaders( {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Accept': 'application/json'
-                }
-                this._http.post({url: url, body: body, headers: headers}).subscribe(resp => {
-                    if (resp.error) {
-                        observer.next(resp)
-                    } else {
-                        //todo:analizar que deve debolver y que no
-                        observer.next(resp)
-                    }
-                    observer.complete()
                 })
+                this._http.post({url: url, body: body, options:{headers: headers}})
+                    .subscribe(resp => {
+                        console.log("[api-login]resp:" + JSON.stringify(resp))
+                        let respuestaAnalizada=this.validarRespuestaTokenActivation(resp)
+                        observer.next(respuestaAnalizada)
+                        observer.complete()
+                    })
             })
             return respuesta$
+        }
+    }
+
+    validarRespuestaTokenActivation(resp){
+        if (resp.error) {
+            return (resp)
+        } else {
+            return ({error:false,datos:resp.datos})
         }
     }
 
@@ -152,11 +175,11 @@ export class ApiLoginService {
                     sc: 'SS',
                     time: '1544581079034'
                 }
-                const headers = {
+                const headers = new HttpHeaders({
                     'Authorization': 'Bearer ' + agrupado.accessToken,
                     'AuthorizationMCSS': agrupado.mcssToken
-                }
-                this._http.post({url: url, body: body, headers: headers}).subscribe(resp => {
+                })
+                this._http.post({url: url, body: body, options:{headers:headers}}).subscribe(resp => {
                     observer.next(resp)
                     observer.complete()
                 })
