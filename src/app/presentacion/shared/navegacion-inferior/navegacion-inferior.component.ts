@@ -5,6 +5,7 @@ import {CerrarSesionModalComponent} from "../cerrar-sesion-modal/cerrar-sesion-m
 import {ModalDialogOptions, ModalDialogService, RouterExtensions} from "@nativescript/angular";
 
 import {LineaService} from "../../../dominio/entidades/linea.service";
+import {UcLogoutService} from "../../../aplicacion/casos de uso/logout/uc-logout.service";
 
 @Component({
     selector: 'ns-navegacion-inferior',
@@ -18,6 +19,7 @@ export class NavegacionInferiorComponent implements OnInit {
 
     constructor(
         private _linea:LineaService,
+        private _logout:UcLogoutService,
         private _modalService: ModalDialogService,
         private _enrrutador: RouterExtensions,
         private _vcRef: ViewContainerRef) {
@@ -90,7 +92,7 @@ export class NavegacionInferiorComponent implements OnInit {
         if (res === "ok") {
             console.log("[NavegacionInferiorComponent] solo redireccion a ingreso ");
             //todo: limpiar linea(en contexto),usuario y sesion
-
+            this._logout.salir()
             this._enrrutador.navigate(["ingreso"])
         }
     }

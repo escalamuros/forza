@@ -69,17 +69,19 @@ export class ApiTokenService {
     }
 
     validarRefreshToken(response){
+        console.log("[api-token] respuesta a validar :",response)
         if (response.error) {
             return (response)
         } else {
             if (response.hasOwnProperty('datos')) {
-                if (response.datos.hasOwnProperty('datos')) {
-                    if(response.datos.datos.hasOwnProperty("access_token")){
+                //if (response.datos.hasOwnProperty('datos')) {
+                    //todo: agregar la vidacion de todos los campos de response
+                    if(response.datos.hasOwnProperty("access_token")){
                         let nuevoToken={
-                            accessToken:response.datos.datos.access_token,
-                            refreshToken:response.datos.datos.refresh_token,
-                            expira:response.datos.datos.expires_in,
-                            mcssToken:response.datos.datos.mcsstoken
+                            accessToken:response.datos.access_token,
+                            refreshToken:response.datos.refresh_token,
+                            expira:response.datos.expires_in,
+                            mcssToken:response.datos.mcsstoken
                         }
                         return ({error:false,datos:nuevoToken})
                     } else {
@@ -88,9 +90,9 @@ export class ApiTokenService {
                 } else {
                     return ({error: true, tipo: "respuesta erronea"})
                 }
-            } else {
+            /*} else {
                 return ({error: true, tipo: "respuesta erronea"})
-            }
+            }*/
         }
     }
 
