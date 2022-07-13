@@ -18,22 +18,22 @@ describe("proxy de httpclient service:",()=> {
     it("fn get, http ok", () => {
         httpSpy = jasmine.createSpyObj('HttpClient', ['get'])
         proxyHttp = new ProxyHttpclientService(httpSpy)
-        httpSpy.get.and.returnValue(of({datos:{campo1:"si",campo2:"no"}}))
+        httpSpy.get.and.returnValue(of({error:false,datos:{campo1:"si",campo2:"no"}}))
         let cabecera=new HttpHeaders({c:"c",d:"d"})
         let parametros=new HttpParams().set("a","a").set("b","b")
         proxyHttp.get({url:"algo",options:{params:parametros,headers:cabecera}}).subscribe(res => {
             expect(res).toEqual(jasmine.anything())
-            expect(res.datos).toEqual({campo1:"si",campo2:"no"})
+            expect(res.datos.datos).toEqual({campo1:"si",campo2:"no"})
         })
     })
     it("fn post, http ok", () => {
         httpSpy = jasmine.createSpyObj('HttpClient', ['post'])
         proxyHttp = new ProxyHttpclientService(httpSpy)
-        httpSpy.post.and.returnValue(of({datos:{campo1:"si",campo2:"no"}}))
+        httpSpy.post.and.returnValue(of({error:false,datos:{campo1:"si",campo2:"no"}}))
         let cabecera=new HttpHeaders({c:"c",d:"d"})
         proxyHttp.post({url:"algo",body:{a:"a",b:"b"},options:{headers:cabecera}}).subscribe(res => {
             expect(res).toEqual(jasmine.anything())
-            expect(res.datos).toEqual({campo1:"si",campo2:"no"})
+            expect(res.datos.datos).toEqual({campo1:"si",campo2:"no"})
         })
     })
     it("fn errorApi,timeout",() => {

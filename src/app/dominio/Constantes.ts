@@ -40,6 +40,11 @@ export const rutasMantenedor = {
     flag:"https://apix.movistar.cl/contentmanager/V1/content"
 }
 
+export const nombreIdEntidadesMantenedor={
+    unity_modals:"",
+    modales_wv: "5f0f261e5efc9c0020b68086",
+}
+
 export const parametrosFlagMantenedor = {
     apikey:"xf2oz8X7lnvFWkIDJXkfsEkUhvQaJ26g",
     consumer:"AppMovistar",

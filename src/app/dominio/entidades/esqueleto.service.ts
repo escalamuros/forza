@@ -10,7 +10,7 @@ import {entidad} from "../interfaces/esqueleto/esqueleto"
     providedIn: 'root'
 })
 export class EsqueletoService {
-    private entidades: entidad[]
+    public entidades: entidad[]
     private fechaUltimaActualizacion
 
     constructor(
@@ -21,8 +21,10 @@ export class EsqueletoService {
     }
 
     forzarEsqueletoDesdeApi(){
+        console.log("[EsqueletoService] f forzarEsqueletoDesdeApi")
         let respuesta$=new Observable(observer=>{
             this._mantenedor.obtenerFlagDeForzado().subscribe(res=>{
+                console.log("[EsqueletoService] resp:",res)
                 if(res.error===true){
                     observer.next({estado:"nook"})
                 }else{
@@ -34,17 +36,21 @@ export class EsqueletoService {
         return respuesta$
     }
 
-    rescatarEntidadesDesdeApi(){
-        let respuesta$=new Observable(observer=>{
+    rescatarEntidadesDesdeApi():Observable<respuestaEstado>{
+        console.log("[EsqueletoService] f rescatarEntidadesDesdeApi")
+        let respuesta$=new Observable<respuestaEstado>(observer=>{
             this._mantenedor.obtenerEntidades().subscribe(res=>{
-                console.log("llega entidades:"+JSON.stringify(res[0]))
+                //console.log("[EsqueletoService] llega entidades:",res)
+                let respEstado:respuestaEstado
                 if(res.error===true){
-                    observer.next({estado:"nook"})
+                    respEstado={estado:"nook"}
+                    observer.next(respEstado)
                 }else{
-                    this.entidades=res.map(elemento=>{ return {nombre:elemento.nombre,valor:elemento.caracteristicas[0].caracteristica.valor}})
-                    console.log("la entidad 0:"+JSON.stringify(this.entidades[0]))
+                    this.entidades=res.datos.map(elemento=>{ return {nombre:elemento.nombre,valor:elemento.caracteristicas[0].caracteristica.valor}})
+                    //todo:cambiar el formato de los datos de las entidades
                     this.guardarEnPersistencia()
-                    observer.next({estado:"ok"})
+                    respEstado={estado:"ok"}
+                    observer.next(respEstado)
                 }
                 observer.complete()
             })
@@ -52,14 +58,27 @@ export class EsqueletoService {
         return respuesta$
     }
 
-    obternerEntidad(nombre): entidad {
+    obternerEntidad2(nombre): entidad {
         const entidad = this.entidades.find(elemento => {
             elemento.nombre === nombre
         })
         if (typeof entidad !== "undefined") {
             return entidad
         }
-        return {nombre: 'error', valor: "entidad no encontrada"}
+        return {nombre: 'error', valor: "entidad no encontrada en mantenedor cacheado"}
+    }
+    obternerEntidad(nombre): entidad {
+        let entidad
+        this.entidades.forEach(elemento => {
+            //console.log("[EsqueletoService] forEach:",elemento.nombre )
+            if(elemento.nombre === nombre){
+                entidad=elemento
+            }
+        })
+        if (typeof entidad !== "undefined") {
+            return entidad
+        }
+        return {nombre: 'error', valor: "entidad no encontrada en mantenedor cacheado"}
     }
 
     rescatarDePersistencia() {
@@ -107,4 +126,8 @@ export class EsqueletoService {
         this.fechaUltimaActualizacion=null
     }
 
+}
+
+export interface respuestaEstado{
+    estado:string
 }

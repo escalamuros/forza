@@ -100,6 +100,7 @@ export class SplashService {
             //todo:  revisar servicio de disponibilidad (bloqueo y modal)
             //todo:  revisar mantenedor (esqueleto) (modal de error)
 
+
             // Rescatar datos desde persistencia local (usuario,linea,sesion,contador de ingreso)
             this.rescatarDePersistencia()
             let usuarioOk = this.usuarioEstaLogeado()

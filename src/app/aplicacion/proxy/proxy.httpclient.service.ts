@@ -17,9 +17,13 @@ export class ProxyHttpclientService {
             timeout(30000),
             map((obj:any)=>{
                 console.log("[ProxyHttpclientService] pipe map:",obj)
-                if((obj.hasOwnProperty("error"))&&(obj.error==true)){
-                    console.log("[ProxyHttpclientService] hay error capturado")
-                    return {error:true,datos:obj.tipo}
+                if(obj.hasOwnProperty("error")){
+                    if(obj.error){
+                        console.log("[ProxyHttpclientService] hay error capturado")
+                        return {error:true,datos:obj.tipo}
+                    }else{
+                        return {error:false,datos:obj}
+                    }
                 }else{
                     console.log("[ProxyHttpclientService] no hay error capturado")
                     return {error:false,datos:obj}

@@ -156,35 +156,11 @@ export class ApiLoginService {
         if (resp.error) {
             return (resp)
         } else {
-            return ({error:false,datos:resp.datos})
-        }
-    }
-
-    oupdateClientUserContext(agrupado): Observable<any> {
-        console.log("[api-login]f updateClientUserContext")
-        console.log("[api-login] agrupado:" + JSON.stringify(agrupado))
-        if (agrupado.error) {
-            return of(agrupado)
-        } else {
-            let respuesta$ = new Observable(observer => {
-                const url = rutasLogin.updateContext
-                const customerId = agrupado.customerId
-                const body = {
-                    customerId: customerId,
-                    lo: 'es_CL',
-                    sc: 'SS',
-                    time: '1544581079034'
-                }
-                const headers = new HttpHeaders({
-                    'Authorization': 'Bearer ' + agrupado.accessToken,
-                    'AuthorizationMCSS': agrupado.mcssToken
-                })
-                this._http.post({url: url, body: body, options:{headers:headers}}).subscribe(resp => {
-                    observer.next(resp)
-                    observer.complete()
-                })
-            })
-            return respuesta$
+            if(resp.datos.hasOwnProperty("access_token")){
+                return ({error:false,datos:resp.datos})
+            }else{
+                return ({error:true,datos:"campos no encontrados"})
+            }
         }
     }
 
