@@ -17,7 +17,7 @@ export class ApiLoginService {
     constructor(private _http: ProxyHttpclientService) {
     }
 
-    IntertarloginConCredenciales(credenciales: loginPorCredenciales): Observable<any> {
+    intertarLoginConCredenciales(credenciales: loginPorCredenciales): Observable<any> {
         console.log("[api-login] f IntertarloginConCredenciales")
         let respuesta$ = new Observable<respuestaLogin>(observer => {
             this.loginConCredenciales(credenciales).pipe(
@@ -25,6 +25,7 @@ export class ApiLoginService {
                 mergeMap(resp3 => this.tokenActivation(resp3))
             ).subscribe(resp => {
                 console.dir("[api-login] resp final:" + JSON.stringify(resp))
+                //todo: validador antes de pasar a el CU
                 observer.next(resp)
                 observer.complete()
             })
@@ -162,6 +163,10 @@ export class ApiLoginService {
                 return ({error:true,datos:"campos no encontrados"})
             }
         }
+    }
+
+    intentarLoginPorLinea(){
+        
     }
 
 }

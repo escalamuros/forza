@@ -32,7 +32,7 @@ export class UcIngresoService {
     loginPorCredenciales(credenciales: loginPorCredenciales): Observable<respuestaLogin> {
         console.log("[UCIngreso] funcion loginPorCredenciales")
         let respuesta$ = new Observable<respuestaLogin>(observer => {
-            this._loginService.IntertarloginConCredenciales(credenciales).subscribe(
+            this._loginService.intertarLoginConCredenciales(credenciales).subscribe(
                 resp => {
                     console.log("[UCIngreso] respuesta loginCredenciales ")
                     if (resp.error) {
@@ -74,6 +74,7 @@ export class UcIngresoService {
         })
         return respuesta$
     }
+
     normalizarSegmento(seg:string):string{
         if(seg=="fija"){return "fijo"}
         if(seg=="fijamig"){return "fijo"}
