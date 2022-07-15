@@ -20,16 +20,12 @@ export class EsqueletoService {
         this.entidades = []
     }
 
-    forzarEsqueletoDesdeApi(){
+    revisarFlagForzarEsqueletoDesdeApi(){
         console.log("[EsqueletoService] f forzarEsqueletoDesdeApi")
         let respuesta$=new Observable(observer=>{
             this._mantenedor.obtenerFlagDeForzado().subscribe(res=>{
                 console.log("[EsqueletoService] resp:",res)
-                if(res.error===true){
-                    observer.next({estado:"nook"})
-                }else{
-                    observer.next(res)
-                }
+                observer.next(res)
                 observer.complete()
             })
         })
@@ -99,14 +95,14 @@ export class EsqueletoService {
         return false
     }
 
-    mantenedorMuyViejo(){
+    mantenedorMuyViejo():boolean{
         let FechaHoy= new Date()
         let FechaMantenedor = new Date(this.fechaUltimaActualizacion)
         FechaMantenedor.setDate(FechaMantenedor.getDate()+1)
         console.log("fecha mantenendor + 1 :"+FechaMantenedor)
         console.log("fecha de hoy          :"+FechaHoy)
-        if(FechaMantenedor>FechaHoy){return "vivo"}
-        else{return "vencido"}
+        if(FechaMantenedor>FechaHoy){return false}
+        else{return true}
     }
 
     guardarEnPersistencia() {

@@ -15,64 +15,95 @@ describe("Api de mantenedor service:",()=> {
         console.log("[test]despues de cada IT")
         nsTestBedAfterEach(false)});
 
-    xit("fn obtenerEntidades, error en http", done => {
+    it("fn obtenerEntidades, error en http", done => {
         httpSpy = jasmine.createSpyObj('HttpClient', ['get'])
         api = new ApiMantenedorService(httpSpy)
-        httpSpy.get.and.returnValue(of({error: true, tipo: "no"}))
+        httpSpy.get.and.returnValue(of({error: true, tipo: "no hay entidades"}))
         api.obtenerEntidades().subscribe(res => {
             console.log("[api-mantenedor.spec]respuesta serv :"+JSON.stringify(res))
             expect(res.error).toBeTruthy()
+            expect(res.tipo).toEqual("no hay entidades")
             done()
         })
     })
-    xit("fn obtenerEntidades, http ok, campo data.Entity no esta presente", done => {
+    it("fn obtenerEntidades, http ok, campo data no esta presente", done => {
         httpSpy = jasmine.createSpyObj('HttpClient', ['get'])
         api = new ApiMantenedorService(httpSpy)
         httpSpy.get.and.returnValue(of({error:false,datos: {act:"token",token:"un_"}}))
         api.obtenerEntidades().subscribe(res => {
-            console.log("[api-mantenedor.spec]respuesta serv :"+JSON.stringify(res))
             expect(res.error).toBeTruthy()
+            expect(res.tipo).toEqual("respuesta erronea,no hay data")
             done()
         })
     })
-    xit("fn obtenerEntidades, http respuesta ok", done => {
+    it("fn obtenerEntidades, http ok, campo data.Entity no esta presente", done => {
+        httpSpy = jasmine.createSpyObj('HttpClient', ['get'])
+        api = new ApiMantenedorService(httpSpy)
+        httpSpy.get.and.returnValue(of({error:false,datos:{data:{act:"token",token:"un_"}}}))
+        api.obtenerEntidades().subscribe(res => {
+            expect(res.error).toBeTruthy()
+            expect(res.tipo).toEqual("respuesta erronea,no hay entidades")
+            done()
+        })
+    })
+    it("fn obtenerEntidades, http respuesta ok", done => {
         httpSpy = jasmine.createSpyObj('HttpClient', ['get'])
         api = new ApiMantenedorService(httpSpy)
         httpSpy.get.and.returnValue(of({error:false,datos:{data: {Entity:{campo1:true,campo2:false}}}}))
         api.obtenerEntidades().subscribe(res => {
-            console.log("[api-mantenedor.spec]respuesta serv :"+JSON.stringify(res))
-            expect(res).toEqual({error:false,datos:{campo1:true,campo2:false}})
+            expect(res.error).toBeFalsy()
             done()
         })
     })
 
-    xit("fn obtenerEntidad, error en http", done => {
+    it("fn obtenerEntidad, error en peticion de Entidad", done => {
         httpSpy = jasmine.createSpyObj('HttpClient', ['get'])
         api = new ApiMantenedorService(httpSpy)
-        httpSpy.get.and.returnValue(of({error: true, tipo: "no"}))
+        httpSpy.get.and.returnValue(of({error: true, tipo: "este mensaje no importa"}))
+        // la entidad "alguna" no esta en el arreglo de entidades
         api.obtenerEntidad("alguna").subscribe(res => {
-            console.log("respuesta serv :"+JSON.stringify(res))
             expect(res.error).toBeTruthy()
+            expect(res.tipo).toEqual("Entidad no esta en las constantes")
             done()
         })
     })
-    xit("fn obtenerEntidad, http ok, campo data.Entity no esta presente", done => {
+    it("fn obtenerEntidad, error en http", done => {
+        httpSpy = jasmine.createSpyObj('HttpClient', ['get'])
+        api = new ApiMantenedorService(httpSpy)
+        httpSpy.get.and.returnValue(of({error: true, tipo: "no hay entidad"}))
+        api.obtenerEntidad("modales_wv").subscribe(res => {
+            expect(res.error).toBeTruthy()
+            expect(res.tipo).toEqual("no hay entidad")
+            done()
+        })
+    })
+    it("fn obtenerEntidad, http ok, campo data no esta presente", done => {
         httpSpy = jasmine.createSpyObj('HttpClient', ['get'])
         api = new ApiMantenedorService(httpSpy)
         httpSpy.get.and.returnValue(of({error:false,datos: {act:"token",token:"un_"}}))
-        api.obtenerEntidad("alguna").subscribe(res => {
-            console.log("respuesta serv :"+JSON.stringify(res))
+        api.obtenerEntidad("modales_wv").subscribe(res => {
             expect(res.error).toBeTruthy()
+            expect(res.tipo).toEqual("respuesta erronea,no hay data")
             done()
         })
     })
-    xit("fn obtenerEntidad, http respuesta ok", done => {
+    it("fn obtenerEntidad, http ok, campo data.Entity no esta presente", done => {
         httpSpy = jasmine.createSpyObj('HttpClient', ['get'])
         api = new ApiMantenedorService(httpSpy)
-        httpSpy.get.and.returnValue(of({data: {Entity:{campo1:true,campo2:false}}}))
-        api.obtenerEntidades().subscribe(res => {
+        httpSpy.get.and.returnValue(of({error:false,datos:{data:{act:"token",token:"un_"}}}))
+        api.obtenerEntidad("modales_wv").subscribe(res => {
+            expect(res.error).toBeTruthy()
+            expect(res.tipo).toEqual("respuesta erronea,no hay entidades")
+            done()
+        })
+    })
+    it("fn obtenerEntidad, http respuesta ok", done => {
+        httpSpy = jasmine.createSpyObj('HttpClient', ['get'])
+        api = new ApiMantenedorService(httpSpy)
+        httpSpy.get.and.returnValue(of({error:false,datos:{data: {Entity:{campo1:true,campo2:false}}}}))
+        api.obtenerEntidad("modales_wv").subscribe(res => {
             console.log("respuesta serv :"+JSON.stringify(res))
-            expect(res).toEqual({error:false,datos:{campo1:true,campo2:false}})
+            expect(res.error).toBeFalsy()
             done()
         })
     })

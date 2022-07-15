@@ -7,7 +7,7 @@ import {ContadorIngresoService} from "../../../dominio/entidades/contador-ingres
 @Injectable({
   providedIn: 'root'
 })
-export class DeslogearService {
+export class UcDeslogearService {
 
   constructor(private _usuario:UsuarioService,
               private _sesion:SesionService,

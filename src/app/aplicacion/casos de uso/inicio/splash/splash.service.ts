@@ -134,10 +134,15 @@ export class SplashService {
 
     revisarTokenVencido(): Observable <string>{
         console.log("[SplashService] f revisaTokenVencido")
+        let tiempoInicio:Date
+        let tiempoFin:Date
+        tiempoInicio=new Date()
         let respuesta$ = new Observable<string>(obs=>{
             if(this._linea.obtenerTipo() !== "MOVIL"){
                 console.log("[SplashService] linea fija, no se refresca token")
                 //todo: indicar que tipo de linea esta, para redirigirlo a un resumen especifico
+                tiempoFin=new Date()
+                this.calcularTiempo(tiempoInicio,tiempoFin)
                 obs.next("resumen-fijo")
                 obs.complete()
             }
@@ -155,8 +160,6 @@ export class SplashService {
                         console.log("[SplashService] respuesta renovar token:",resp)
                         if(resp.error){
                             console.log("[SplashService] falla renovar token")
-                            //todo: enviar error y a login??
-                            //todo: reintentar 3 veces o mandar a login ???
                             obs.next("ingreso")
                             obs.complete()
                         }else{
@@ -174,14 +177,19 @@ export class SplashService {
                             this._token.updateClientUserContext(agrupado).subscribe(resp => {
                                 console.log("[SplashService] respuesta updateClientUserContext ",resp)
                                 if(resp.error){
+                                    tiempoFin=new Date()
+                                    this.calcularTiempo(tiempoInicio,tiempoFin)
                                     console.log("[SplashService] falla updateClientUserContext ")
                                     obs.next("ingreso")
                                 }else{
                                     console.log("[SplashService] exito updateClientUserContext ")
+                                    tiempoFin=new Date()
+                                    this.calcularTiempo(tiempoInicio,tiempoFin)
                                     let segmento = this._linea.obtenerTipoContratoOri()
                                     //todo: indicar que tipo de linea esta, para redirigirlo a un resumen especifico
                                     console.log("[SplashService] debe redirigir al home segmento:",segmento)
-                                    obs.next("resumen")
+                                    //obs.next("resumen-"+segmento)
+                                    obs.next("resumen-postpago")
                                 }
                                 obs.complete()
                             })
@@ -189,13 +197,20 @@ export class SplashService {
                     })
                 }else{
                     console.log("[SplashService] token vivo")
+                    tiempoFin=new Date()
+                    this.calcularTiempo(tiempoInicio,tiempoFin)
                     //todo: indicar que tipo de linea esta, para redirigirlo a un resumen especifico
-                    obs.next("resumen")
+                    obs.next("resumen-postpago")
                     obs.complete()
                 }
             }
         })
         return respuesta$
+    }
+
+    calcularTiempo(inicio,fin){
+        let temp=fin.getTime()-inicio.getTime()
+        this._contador.guardarTiempoDeValidarToken(temp)
     }
 
     activarCicloDeVida(){

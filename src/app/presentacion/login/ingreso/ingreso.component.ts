@@ -33,6 +33,7 @@ export class IngresoComponent implements OnInit {
         this.rut="17534493-4"
         this.clave="cobra123"
         this.accionBloqueada=false
+        this.respuestaLogin={estado:"na"}
     }
 
     ngOnInit(): void {
@@ -66,7 +67,6 @@ export class IngresoComponent implements OnInit {
         console.log("[IngresoComponent]funcion mensajeDespuesDeIntento")
         if(this.respuestaLogin.estado!="ok"){
             this.respuesta="Algo falló:"+this.respuestaLogin.error
-
         } else {
             let dif= this.tiempoFin.getTime() - this.tiempoInicio.getTime()
             this.respuesta="Login OK en "+dif+" milisegundos"
@@ -81,11 +81,19 @@ export class IngresoComponent implements OnInit {
             this.rut=""
             this.respuestaLogin={estado:"na"}
         } else {
-            console.log("[IngresoComponent]debe de enviar al resumen de la linea:",this.respuestaLogin.segmento)
-            //todo: deberia haber un resumen segun tipo de segmentos
-            this._enrrutador.navigate(["resumen"])
-            if(this.respuestaLogin.segmento === 'registrar_linea'){
-                //levantar modal para registrar lineas movistar this._enrrutador.navigate(["registrar_linea"])
+            console.log("[IngresoComponent]debe de enviar a :",this.respuestaLogin.segmento)
+            //para logeo automatico dejar siguient linea si comentar
+            //this._enrrutador.navigate([this.respuestaLogin.segmento])
+        }
+    }
+    saltarAResumen():void{
+        if(this.accionBloqueada){
+            console.log("[IngresoComponent] accion en curso, funcion no realiza nada")
+        }else{
+            if( this.respuestaLogin.estado=="ok"){
+                this._enrrutador.navigate([this.respuestaLogin.segmento])
+            }else{
+                console.log("[IngresoComponent] no estas identificado, funcion no realiza nada")
             }
         }
     }
@@ -95,7 +103,7 @@ export class IngresoComponent implements OnInit {
             console.log("[IngresoComponent] accion en curso, funcion no realiza nada")
         }
         if(!this.accionBloqueada) {
-            this._enrrutador.navigate(["resumen"]);
+            this._enrrutador.navigate(["resumen-postpago"]);
         }
     }
 }

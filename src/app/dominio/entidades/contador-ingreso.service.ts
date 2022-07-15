@@ -6,8 +6,10 @@ import {ProxyPersistenciaService} from "../../aplicacion/proxy/proxy.persistenci
 })
 export class ContadorIngresoService {
     private ingreso: number
+    private tiempoDeValidarToken:number
 
     constructor(private _persistencia: ProxyPersistenciaService) {
+        this.tiempoDeValidarToken=0
     }
 
     iniciarConteo() {
@@ -45,6 +47,14 @@ export class ContadorIngresoService {
 
     limpiarVariableContador() {
         this.ingreso = 0
+    }
+
+    //estas 2 funciones solo estan para calcular el tiempo de ingreso al validar token de splashService(caso de uso)
+    guardarTiempoDeValidarToken(n:number){
+        this.tiempoDeValidarToken=n
+    }
+    obtenerTiempoDeValidarToken():number{
+        return this.tiempoDeValidarToken
     }
 
 }

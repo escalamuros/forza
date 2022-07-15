@@ -41,8 +41,9 @@ export class UcIngresoService {
                         observer.next(this.respuesta)
                     } else {
                         this.respuesta.estado = "ok"
-                        this.respuesta.segmento = this._linea.obtenerTipo()
                         this.guardarRespuestas(resp)
+                        this.respuesta.segmento = "resumen-"+this.normalizarSegmento(this._linea.obtenerTipoContratoOri())
+
                         //todo: corresponde a seleccion de linea, hacer caso de uso
                         if (this._linea.obtenerTipo() === "MOVIL") {
                             const agrupado = {
@@ -58,7 +59,7 @@ export class UcIngresoService {
                                 }
                                 else{
                                     this.respuesta.estado = "ok"
-                                    this.respuesta.segmento = this._linea.obtenerTipoContratoOri()
+                                    this.respuesta.segmento = "resumen-"+this.normalizarSegmento(this._linea.obtenerTipoContratoOri())
                                     observer.next(this.respuesta)
                                 }
                                 observer.complete()
@@ -72,6 +73,12 @@ export class UcIngresoService {
             )
         })
         return respuesta$
+    }
+    normalizarSegmento(seg:string):string{
+        if(seg=="fija"){return "fijo"}
+        if(seg=="fijamig"){return "fijo"}
+        if(seg=="contrato"){return "postpago"}
+        return seg
     }
 
     guardarRespuestas(resp) {

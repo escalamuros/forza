@@ -19,7 +19,7 @@ export class LineaService {
             this.linea.numero=lineas[0].id
             this.linea.customerId=lineas[0].idclie
             this.linea.tipo=lineas[0].tipo
-            this.linea.tipoContratoOri=lineas[0].tipoContratoOri
+            this.linea.tipoContratoOri=this.normalizarTipoContratoOri(lineas[0].tipoContratoOri)
             this.linea.lineas=lineas
             this.validarActualizarContexto()
             this.guardarEnPersistencia()
@@ -27,6 +27,15 @@ export class LineaService {
         }
         this.linea={id:"0",numero:"0",customerId:"0",tipo:"na",lineas:[]};
         return false
+    }
+
+    normalizarTipoContratoOri(tipoContratoOri:string):string{
+        let temp=tipoContratoOri.toLowerCase()
+        if(temp=="contrato"){temp="postpago"}
+        if(temp=="fijo"){temp="fija"}
+        if(temp=="fijamig"){temp="fija"}
+        if(temp=="hibride"){temp="hibrido"}
+        return temp
     }
 
     seleccionarLinea(indice){

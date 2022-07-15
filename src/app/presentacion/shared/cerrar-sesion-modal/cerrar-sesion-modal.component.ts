@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import {ModalDialogParams} from "@nativescript/angular"
 
-import {DeslogearService} from "../../../aplicacion/casos de uso/deslogear/deslogear.service";
+import {UcDeslogearService} from "../../../aplicacion/casos de uso/deslogear/uc-deslogear.service";
 
 @Component({
   selector: 'ns-cerrar-sesion-modal',
@@ -11,7 +11,7 @@ import {DeslogearService} from "../../../aplicacion/casos de uso/deslogear/deslo
 export class CerrarSesionModalComponent implements OnInit {
 
   constructor(private _parametros:ModalDialogParams,
-              private _deslogear:DeslogearService) { }
+              private _deslogear:UcDeslogearService) { }
 
   ngOnInit(): void {
   }

@@ -19,11 +19,9 @@ export class ApiMantenedorService {
         let respuesta$ = new Observable<respuestaHttp>(observer => {
             let url = rutasMantenedor.mantenedor
             let headers = new HttpHeaders({'Authorization':'Basic ' + token.coliving_prod})
-
             this._http.get({url:url,options:{headers:headers}}).subscribe(resp => {
-                console.log("[api-mantenedor] repuesta:" + JSON.stringify(resp))
-                let respuesta:respuestaHttp
-                respuesta=this.validarObtenerEntidades(resp)
+                console.log("[api-mantenedor] repuesta:",resp)
+                let respuesta:respuestaHttp = this.validarObtenerEntidades(resp)
                 observer.next(respuesta)
                 observer.complete()
             })
@@ -47,42 +45,31 @@ export class ApiMantenedorService {
         }
     }
 
-    obtenerEntidad(nombreEntidad:string): Observable<respuestaHttp> {
+    obtenerEntidad(nombreEntidad:string):Observable<respuestaHttp> {
         console.log("[api-mantenedor] f obtenerEntidad")
-        let respuesta$
+        let respuesta$:Observable<respuestaHttp>
         let idEntidad:string=nombreIdEntidadesMantenedor[nombreEntidad]
-        if(typeof idEntidad !== "undefined"){
-            respuesta$ = of({error: true, tipo: "respuesta erronea"})
+        console.log("[api-mantenedor] idEntidad:",idEntidad)
+        if(typeof idEntidad == "undefined"){
+            respuesta$ = of({error: true, tipo: "Entidad no esta en las constantes"})
             return respuesta$
         }
         respuesta$ = new Observable<respuestaHttp>(observer => {
-            let url = rutasMantenedor.mantenedor
+            let url = rutasMantenedor.mantenedor+idEntidad+"/"
             let headers = new HttpHeaders({'Authorization':'Basic ' + token.coliving_prod})
-
             this._http.get({url:url,options:{headers:headers}}).subscribe(resp => {
                 console.log("[api-mantenedor] repuesta:" + JSON.stringify(resp))
-                if (resp.error) {
-                    observer.next(resp)
-                } else {
-                    if (resp.datos.hasOwnProperty('data')) {
-                        if (resp.datos.data.hasOwnProperty('Entity')) {
-                            observer.next({error: false,datos:resp.datos.data.Entity})
-                        } else {
-                            observer.next({error: true, tipo: "respuesta erronea"})
-                        }
-                    } else {
-                        observer.next({error: true, tipo: "respuesta erronea"})
-                    }
-                }
+                let validarEntidad:respuestaHttp=this.validarObtenerEntidades(resp)
+                observer.next(validarEntidad)
                 observer.complete()
             })
         })
         return respuesta$
     }
 
-    obtenerFlagDeForzado(): Observable<any> {
+    obtenerFlagDeForzado(): Observable<boolean> {
         console.log("[api-mantenedor] f obtenerFlagDeForzado")
-        let respuesta$ = new Observable(observer => {
+        let respuesta$ = new Observable<boolean>(observer => {
             let url = rutasMantenedor.flag
             let params = new HttpParams()
                 .set('apikey', parametrosFlagMantenedor.apikey)
@@ -108,7 +95,11 @@ export class ApiMantenedorService {
         } else {
             if (respuesta.hasOwnProperty("datos")) {
                 if(respuesta.datos==true||respuesta.datos==false)
-                {return respuesta.datos}else{return false}
+                {
+                    return respuesta.datos
+                }else{
+                    return false
+                }
             } else {
                 return false
             }
